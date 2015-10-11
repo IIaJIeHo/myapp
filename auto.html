@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html ng-app="sportsStoreAdmin">
+<head>
+    <title>Administration</title>
+    <script src="angular.js"></script>
+    <script src="ngmodules/angular-route.js"></script>
+    <script src="ngmodules/angular-resource.js"></script>
+    <script src="ngmodules/angular-cookie.js"></script>
+    <link href="bootstrap.css" rel="stylesheet" />
+    <link href="bootstrap-theme.css" rel="stylesheet" />
+    <script>
+        angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
+            .config(function ($routeProvider) {
+
+                $routeProvider.when("/login", {
+                    templateUrl: "views/autoLogin.html"
+                });
+
+                $routeProvider.when("/registration", {
+                    templateUrl: "views/autoRegistration.html"
+                });
+
+                $routeProvider.when("/main", {
+                    templateUrl: "views/autoMain.html"
+                });
+
+                $routeProvider.otherwise({
+                    redirectTo: "login"
+                });
+            });
+    </script>
+    <script src="controllers/autoControllers.js"></script>
+    <script src="controllers/autoProductController.js"></script>
+</head>
+<body>
+    <ng-view />
+</body>
+</html>

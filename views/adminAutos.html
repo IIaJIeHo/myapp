@@ -1,0 +1,100 @@
+﻿<style>
+    #productTable { width: auto; }
+    #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    #productTable td input { max-width: 125px; }
+</style>
+
+<div ng-controller="autoCtrl">
+    <table id="autoTable" class="table table-striped table-bordered" ng-if="allitems == 1">
+        <tr>
+            <th>Name</th>
+            <th>Mark</th>
+            <th>Model</th>
+            <th>Generation</th>
+            <th><button ng-click="viewItem(null,3)" class="btn btn-xs btn-primary">
+                    New
+                </button></th>
+        </tr>
+        <tr ng-repeat="item in autos" ng-hide="item.id == editedProduct.id">
+            <td>{{item.name}}</td>
+            <td>{{item.mark}}</td>
+            <td>{{item.model}}</td>
+            <td>{{item.generation}}</td>
+            <td>
+                <button ng-click="viewItem(item,2)" class="btn btn-xs btn-primary">
+                    View
+                </button>
+                <button ng-click="startEdit(item)" class="btn btn-xs btn-primary">
+                    Edit
+                </button>
+                <button ng-click="deleteItem(item)" class="btn btn-xs btn-primary">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </table>
+    <table id="singleTable" class="table table-striped table-bordered" ng-if="allitems == 2">
+        <tr>
+            <th>Name</th>
+            <th>Mark</th>
+            <th>Model</th>
+            <th>Generation</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>Имя: {{mainproduct.name}}</td>
+            <td>Марка: {{mainproduct.mark}}</td>
+            <td>Модель: {{mainproduct.model}}</td>
+            <td>Поколение: {{mainproduct.generation}}</td>
+            <td>
+                <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary">
+                    Back
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>Год: {{mainproduct.year}}</td>
+            <td>Engine: {{mainproduct.engine}}</td>
+            <td>Box: {{mainproduct.box}}</td>
+            <td>Body: {{mainproduct.body}}</td>
+            <td>Объем двигателя: {{mainproduct.volume}}</td>
+        </tr>  
+        <tr>
+            <td>Цвет: {{mainproduct.color}}</td>
+            <td>Drive: {{mainproduct.drive}}</td>
+            <td>Пробег: {{mainproduct.mileage}}</td>
+            <td>Vin: {{mainproduct.vin}}</td>
+        </tr>      
+    </table>
+    <table id="addTable" class="table table-striped table-bordered" ng-if="allitems == 3">
+        <tr>
+            <td>Имя: <input ng-model="mainproduct.name" /></td>
+            <td>Марка: <input ng-model="mainproduct.mark" /></td>
+            <td>Модель: <input ng-model="mainproduct.model" /></td>
+            <td>Поколение: <input ng-model="mainproduct.generation" /></td>
+            <td>
+                <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary">
+                    Back
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>Год: <input ng-model="mainproduct.year" /></td>
+            <td>Engine: <input ng-model="mainproduct.engine" /></td>
+            <td>Box: <input ng-model="mainproduct.box" /></td>
+            <td>Body: <input ng-model="mainproduct.body" /></td>
+            <td>Объем двигателя: <input ng-model="mainproduct.volume" /></td>
+        </tr>  
+        <tr>
+            <td>Цвет: <input ng-model="mainproduct.color" /></td>
+            <td>Drive: <input ng-model="mainproduct.drive" /></td>
+            <td>Пробег: <input ng-model="mainproduct.mileage" /></td>
+            <td>Vin: <input ng-model="mainproduct.vin" /></td>
+            <td>
+                <button ng-click="addItem(mainproduct)" class="btn btn-xs btn-primary">
+                    Create
+                </button>
+            </td>      
+        </tr>      
+    </table>
+</div>
