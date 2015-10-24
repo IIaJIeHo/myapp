@@ -1,312 +1,117 @@
-﻿<style>
-    #productTable { width: auto; }
-    #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-    #productTable td input { max-width: 125px; }
-</style>
-
-<div ng-controller="autoCtrl">
-    <table class="table table-striped table-bordered">
-        <tr>
-            <td>
-                <button ng-click="viewItem(null, 1)" class="btn btn-xs btn-primary">
+﻿<div ng-controller="autoCtrl">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary">
                     Заявка на ТО
                 </button>
-            </td>
-            <td>
-                <button ng-click="viewItem(null, 2)" class="btn btn-xs btn-primary">
+            </div>
+            <div class="col-md-4">
+                <button ng-click="viewItem(mainproduct, 2)" class="btn btn-xs btn-primary">
                     Заявка на Ремонт
                 </button>
-            </td>
-            <td>
-                <button ng-click="viewItem(null, 3)" class="btn btn-xs btn-primary">
+            </div>
+            <div class="col-md-4">
+                <button ng-click="viewItem(mainproduct, 3)" class="btn btn-xs btn-primary">
                     Кузовные работы
                 </button>
-            </td>
-        </tr>
-    </table>
-    <table id="request1" class="table table-striped table-bordered" ng-if="allitems == 1">
-        <tr>
-            <td><h1>Заявка на ТО</h1></td>
-            <td><select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select></td>
-        </tr>
-        <tr>
-            <td><h1>Работы в рамках ТО</h1></td>
-        </tr>
-        <tr>
-            <td>Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></td>
-            <td>Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></td>
-            <td>Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></td>
-        </tr>
-        <tr>
-            <td>Контрольный осмотр:<input type="checkbox" ng-model="mainproduct.details.work[0]" /></td>
-            <td>Замена масла в двигателе (в каждом ТО) :<input type="checkbox" ng-model="mainproduct.details.work[1]" /></td>
-            <td>Замена масляного фильтра (в каждом ТО):<input type="checkbox" ng-model="mainproduct.details.work[2]" /></td>
-        </tr>
-        <tr>
-            <td>Защита двигателя :<input type="checkbox" ng-model="mainproduct.details.work[3]" /></td>
-            <td>Замена салонного фильтра :<input type="checkbox" ng-model="mainproduct.details.work[4]" /></td>
-            <td>Замена тормозных колодок :<input type="checkbox" ng-model="mainproduct.details.work[5]" /></td>
-        </tr>
-        <tr>
-            <td>Замена тормозных дисков:<input type="checkbox" ng-model="mainproduct.details.work[6]" /></td>
-            <td>Замена свечей зажигания:<input type="checkbox" ng-model="mainproduct.details.work[7]" /></td>
-            <td>Замена тормозной жидкости:<input type="checkbox" ng-model="mainproduct.details.work[8]" /></td>
-        </tr>
-        <tr>
-            <td>Замена топливного фильтра:<input type="checkbox" ng-model="mainproduct.details.work[9]" /></td>
-            <td>Замена воздушного фильтра:<input type="checkbox" ng-model="mainproduct.details.work[10]" /></td>
-            <td>Замена масла в коробке передач:<input type="checkbox" ng-model="mainproduct.details.work[11]" /></td>
-        </tr>
-        <tr>
-            <td>Замена ремня ГРМ:<input type="checkbox" ng-model="mainproduct.details.work[12]" /></td>
-            <td>Помпа (замена):<input type="checkbox" ng-model="mainproduct.details.work[13]" /></td>
-            <td>Охлаждающая жидкость (замена):<input type="checkbox" ng-model="mainproduct.details.work[14]" /></td>
-        </tr>
-        <tr><td>
+            </div>
+        </div>
+    </div>
+    <div id="request1" class="container-fluid" ng-if="allitems == 1">
+        <div class="row">
+            <h1>Заявка на то</h1>
+            <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+        </div>
+        <div class="row">
+            <h2>Работы в рамках ТО</h2>
+            <div class="col-md-4">Название:<input type="text" ng-model="mainproduct.name" /></div>
+            <div class="col-md-4">Описание:<input type="text" ng-model="mainproduct.description" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></div>
+            <div class="col-md-4">Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></div>
+            <div class="col-md-4">Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4" ng-repeat="item in texts.work">{{item}}:<input type="checkbox" ng-model="mainproduct.details.work[$index]" /></div>
+        </div>
+        <div class="row">
             <button ng-click="addRequest(mainproduct)" class="btn btn-xs btn-primary">
                 Create
             </button>
-        </td></tr>
-    </table>
-    <table id="request2" class="table table-striped table-bordered" ng-if="allitems == 2">
-        <tr>
-            <td><h1>Заявка на Ремонт</h1></td>
-            <td><select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select></td>
-        </tr>
-        <tr>
-            <td><h1>Опишите неисправность:</h1><input type="textarea" ng-model="mainproduct.details.mainbody" /></td>
-        </tr>
-        <tr>
-            <td>Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></td>
-            <td>Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></td>
-            <td>Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></td>
-        </tr>
-        <tr>
-            <td><h1>Частые вопросы</h1></td>
-        </tr>
-        <tr>
-            <td>Масло в двигателе (замена):<input type="checkbox" ng-model="mainproduct.details.question[0]" /></td>
-            <td>Масляный фильтр (замена):<input type="checkbox" ng-model="mainproduct.details.question[1]" /></td>
-            <td>Масло в коробке передач (замена) :<input type="checkbox" ng-model="mainproduct.details.question[2]" /></td>
-        </tr>
-        <tr>
-            <td>Сход-развал :<input type="checkbox" ng-model="mainproduct.details.question[3]" /></td>
-            <td>Свечи зажигания (замена) :<input type="checkbox" ng-model="mainproduct.details.question[4]" /></td>
-            <td>Тормозные колодки (замена) :<input type="checkbox" ng-model="mainproduct.details.question[5]" /></td>
-        </tr>
-        <tr>
-            <td>Тормозные диски (замена):<input type="checkbox" ng-model="mainproduct.details.question[6]" /></td>
-            <td>Тормозные барабаны (замена) :<input type="checkbox" ng-model="mainproduct.details.question[7]" /></td>
-            <td>Топливный фильтр (замена):<input type="checkbox" ng-model="mainproduct.details.question[8]" /></td>
-        </tr>
-        <tr>
-            <td>Салонный фильтр (замена):<input type="checkbox" ng-model="mainproduct.details.question[9]" /></td>
-            <td>Заправка кондиционера:<input type="checkbox" ng-model="mainproduct.details.question[10]" /></td>
-            <td>Тормозная жидкость (замена):<input type="checkbox" ng-model="mainproduct.details.question[11]" /></td>
-        </tr>
-        <tr>
-            <td>Охлаждающая жидкость (замена):<input type="checkbox" ng-model="mainproduct.details.question[12]" /></td>
-            <td>Жидкость гидроусилителя (ГУР) (замена):<input type="checkbox" ng-model="mainproduct.details.question[13]" /></td>
-        </tr>
-        <tr>
-            <td><h1>Диагностика</h1></td>
-        </tr>
-        <tr>
-            <td>Контрольный осмотр:<input type="checkbox" ng-model="mainproduct.details.diagnos[0]" /></td>
-            <td>Диагностика двигателя:<input type="checkbox" ng-model="mainproduct.details.diagnos[1]" /></td>
-            <td>Диагностика коробки передач:<input type="checkbox" ng-model="mainproduct.details.diagnos[2]" /></td>
-        </tr>
-        <tr>
-            <td>Диагностика подвески:<input type="checkbox" ng-model="mainproduct.details.diagnos[3]" /></td>
-            <td>Диагностика электрики:<input type="checkbox" ng-model="mainproduct.details.diagnos[4]" /></td>
-        </tr>
-        <tr>
-        <td><h1>Двигатель</h1></td>
-        </tr>
-        <tr>
-            <td>Замена масла:<input type="checkbox" ng-model="mainproduct.details.engine[0]" /></td>
-            <td>Генератор:<input type="checkbox" ng-model="mainproduct.details.engine[1]" /></td>
-            <td>Инжектор:<input type="checkbox" ng-model="mainproduct.details.engine[2]" /></td>
-        </tr>
-        <tr>
-            <td>Кондиционер:<input type="checkbox" ng-model="mainproduct.details.engine[3]" /></td>
-            <td>Маслосъемные колпачки (замена):<input type="checkbox" ng-model="mainproduct.details.engine[4]" /></td>
-            <td>Насос масляный:<input type="checkbox" ng-model="mainproduct.details.engine[5]" /></td>
-        </tr>
-        <tr>
-            <td>Насос топливный:<input type="checkbox" ng-model="mainproduct.details.engine[6]" /></td>
-            <td>Помпа (замена):<input type="checkbox" ng-model="mainproduct.details.engine[7]" /></td>
-            <td>Радиатор:<input type="checkbox" ng-model="mainproduct.details.engine[8]" /></td>
-        </tr>
-        <tr>
-            <td>Ремень ГРМ (замена):<input type="checkbox" ng-model="mainproduct.details.engine[9]" /></td>
-            <td>Цепь ГРМ:<input type="checkbox" ng-model="mainproduct.details.engine[10]" /></td>
-            <td>Свечи зажигания (замена):<input type="checkbox" ng-model="mainproduct.details.engine[11]" /></td>
-        </tr>
-        <tr>
-            <td>Термостат (замена):<input type="checkbox" ng-model="mainproduct.details.engine[12]" /></td>
-            <td>Турбина:<input type="checkbox" ng-model="mainproduct.details.engine[13]" /></td>
-            <td>Фильтр воздушный (замена):<input type="checkbox" ng-model="mainproduct.details.engine[14]" /></td>
-        </tr>
-        <tr>
-            <td>Фильтр масляный (замена):<input type="checkbox" ng-model="mainproduct.details.engine[15]" /></td>
-            <td>Фильтр салона (замена):<input type="checkbox" ng-model="mainproduct.details.engine[16]" /></td>
-            <td>Фильтр топливный (замена):<input type="checkbox" ng-model="mainproduct.details.engine[17]" /></td>
-        </tr>
-        <tr>
-            <td>Форсунки:<input type="checkbox" ng-model="mainproduct.details.engine[18]" /></td>
-        </tr>
-        <tr>
-        <td><h1>Подвеска и ходовая часть</h1></td>
-        </tr>
-        <tr>
-            <td>Амортизатор (замена):<input type="checkbox" ng-model="mainproduct.details.head[0]" /></td>
-            <td>Втулка стабилизатора (замена):<input type="checkbox" ng-model="mainproduct.details.head[1]" /></td>
-            <td>Подшипник ступицы (замена):<input type="checkbox" ng-model="mainproduct.details.head[2]" /></td>
-        </tr>
-        <tr>
-            <td>Пружина(замена):<input type="checkbox" ng-model="mainproduct.details.head[3]" /></td>
-            <td>Рычаг передний(замена):<input type="checkbox" ng-model="mainproduct.details.head[4]" /></td>
-            <td>Рычаг задний (замена):<input type="checkbox" ng-model="mainproduct.details.head[5]" /></td>
-        </tr>
-        <tr>
-            <td>Сайлентблок переднего рычага (замена):<input type="checkbox" ng-model="mainproduct.details.head[6]" /></td>
-            <td>Сайлентблок заднего рычага (замена):<input type="checkbox" ng-model="mainproduct.details.head[7]" /></td>
-            <td>Стойка стабилизатора (замена):<input type="checkbox" ng-model="mainproduct.details.head[8]" /></td>
-        </tr>
-        <tr>
-            <td>Ступица (замена):<input type="checkbox" ng-model="mainproduct.details.head[9]" /></td>
-            <td>Тормозные колодки (замена):<input type="checkbox" ng-model="mainproduct.details.head[10]" /></td>
-            <td>Тормозные диски (замена):<input type="checkbox" ng-model="mainproduct.details.head[11]" /></td>
-        </tr>
-        <tr>
-            <td>Тормозные барабаны (замена):<input type="checkbox" ng-model="mainproduct.details.head[12]" /></td>
-            <td>Тормозная жидкость (замена):<input type="checkbox" ng-model="mainproduct.details.head[13]" /></td>
-            <td>Датчик ABS (замена):<input type="checkbox" ng-model="mainproduct.details.head[14]" /></td>
-        </tr>
-        <tr>
-            <td>Датчик ESP (замена):<input type="checkbox" ng-model="mainproduct.details.head[15]" /></td>
-            <td>Шаровые (замена):<input type="checkbox" ng-model="mainproduct.details.head[16]" /></td>
-        </tr>
-        <tr>
-        <td><h1>Рулевое управление и коробка передач</h1></td>
-        </tr>
-        <tr>
-            <td>Рулевая рейка:<input type="checkbox" ng-model="mainproduct.details.wheel[0]" /></td>
-            <td>Рулевая тяга (замена) :<input type="checkbox" ng-model="mainproduct.details.wheel[1]" /></td>
-            <td>Наконечник рулевой тяги (замена) :<input type="checkbox" ng-model="mainproduct.details.wheel[2]" /></td>
-        </tr>
-        <tr>
-            <td>Жидкость гидроусилителя (замена):<input type="checkbox" ng-model="mainproduct.details.wheel[3]" /></td>
-            <td>Насос гидроусилителя (замена) :<input type="checkbox" ng-model="mainproduct.details.wheel[4]" /></td>
-            <td>Сцепление :<input type="checkbox" ng-model="mainproduct.details.wheel[5]" /></td>
-        </tr>
-        <tr>
-            <td>Шрус (замена):<input type="checkbox" ng-model="mainproduct.details.wheel[6]" /></td>
-            <td>Замена масла в коробке передач:<input type="checkbox" ng-model="mainproduct.details.wheel[7]" /></td>
-        </tr>
-        <tr>
-        <td><h1>Дополнительное оборудование</h1></td>
-        </tr>
-        <tr>
-            <td>Тонировка:<input type="checkbox" ng-model="mainproduct.details.addi[0]" /></td>
-            <td>Сигнализация (название в комментарии):<input type="checkbox" ng-model="mainproduct.details.addi[1]" /></td>
-            <td>Парктроник (описать в комментарии):<input type="checkbox" ng-model="mainproduct.details.addi[2]" /></td>
-        </tr>
-        <tr>
-            <td>Химчистка салона:<input type="checkbox" ng-model="mainproduct.details.addi[3]" /></td>
-            <td>Полировка:<input type="checkbox" ng-model="mainproduct.details.addi[4]" /></td>
-            <td>Противоугонный комплекс (описать в комментарии):<input type="checkbox" ng-model="mainproduct.details.addi[5]" /></td>
-        </tr>
-        <tr>
-            <td>Иммобилайзер (описать в комментарии):<input type="checkbox" ng-model="mainproduct.details.addi[6]" /></td>
-            <td>Защита картера (установка):<input type="checkbox" ng-model="mainproduct.details.addi[7]" /></td>
-            <td>Отопитель двигателя (описать в комментарии):<input type="checkbox" ng-model="mainproduct.details.addi[8]" /></td>
-        </tr>
-        <tr>
-            <td>Шумоизоляция (описать в комментарии):<input type="checkbox" ng-model="mainproduct.details.addi[9]" /></td>
-        </tr>
-        <tr><td>
+        </div>
+    </div>
+    <div id="request2" class="container-fluid" ng-if="allitems == 2">
+        <div class="row">
+            <h1>Заявка на Ремонт</h1>
+            <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Название:<input type="text" ng-model="mainproduct.name" /></div>
+            <div class="col-md-4">Описание:<input type="text" ng-model="mainproduct.description" /></div>
+        </div>
+        <div class="row">
+            <h1>Опишите неисправность:</h1>
+            <input type="textarea" ng-model="mainproduct.details.mainbody" />
+        </div>
+        <div class="row">
+            <div class="col-md-4">Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></div>
+            <div class="col-md-4">Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></div>
+            <div class="col-md-4">Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></div>
+        </div>
+        <div class="row">
+            <h1>Частые вопросы</h1>
+            <div class="col-md-4" ng-repeat="item in texts.question">{{item}}:<input type="checkbox" ng-model="mainproduct.details.question[$index]" /></div>
+        </div>
+        <div class="row">
+            <h1>Диагностика</h1>
+            <div class="col-md-4" ng-repeat="item in texts.diagnos">{{item}}:<input type="checkbox" ng-model="mainproduct.details.diagnos[$index]" /></div>
+        </div>
+        <div class="row">
+            <h1>Двигатель</h1>
+            <div class="col-md-4" ng-repeat="item in texts.engine">{{item}}:<input type="checkbox" ng-model="mainproduct.details.engine[$index]" /></div>
+        </div>
+        <div class="row">
+            <h1>Подвеска и ходовая часть</h1>
+            <div class="col-md-4" ng-repeat="item in texts.head">{{item}}:<input type="checkbox" ng-model="mainproduct.details.head[$index]" /></div>
+        </div>
+        <div class="row">
+            <h1>Рулевое управление и коробка передач</h1>
+            <div class="col-md-4" ng-repeat="item in texts.wheel">{{item}}:<input type="checkbox" ng-model="mainproduct.details.wheel[$index]" /></div>
+        </div>
+        <div class="row">
+            <h1>Дополнительное оборудование</h1>
+            <div class="col-md-4" ng-repeat="item in texts.addi">{{item}}:<input type="checkbox" ng-model="mainproduct.details.addi[$index]" /></div>
+        </div>
+        <div class="row">
             <button ng-click="addRequest(mainproduct)" class="btn btn-xs btn-primary">
                 Create
             </button>
-        </td></tr>
-
-    </table>
-    <table id="request3" class="table table-striped table-bordered" ng-if="allitems == 3">
-        <tr>
-            <td><h1>Кузовные работы</h1></td>
-            <td><select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select></td>
-        </tr>
-        <tr>
-            <td><h1>Повреждения</h1></td>
-        </tr>
-        <tr>
-            <td>Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></td>
-            <td>Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></td>
-            <td>Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></td>
-        </tr>
-        <tr>
-            <td>Бампер</td>
-            <td>Задний :<input type="checkbox" ng-model="mainproduct.details.destructions[0]" /></td>
-            <td>Передний:<input type="checkbox" ng-model="mainproduct.details.destructions[1]" /></td>
-        </tr>
-        <tr>
-            <td>Дверь</td>
-            <td>Задняя левая :<input type="checkbox" ng-model="mainproduct.details.destructions[2]" /></td>
-            <td>Задняя правая :<input type="checkbox" ng-model="mainproduct.details.destructions[3]" /></td>
-            <td>Передняя левая :<input type="checkbox" ng-model="mainproduct.details.destructions[4]" /></td>
-            <td>Передняя правая :<input type="checkbox" ng-model="mainproduct.details.destructions[5]" /></td>
-        </tr>
-        <tr>
-            <td>Зеркало боковое</td>
-            <td>Левое :<input type="checkbox" ng-model="mainproduct.details.destructions[6]" /></td>
-            <td>Правое :<input type="checkbox" ng-model="mainproduct.details.destructions[7]" /></td>
-        </tr>
-        <tr>
-            <td>Крыло</td>
-            <td>Переднее правое :<input type="checkbox" ng-model="mainproduct.details.destructions[8]" /></td>
-            <td>Переднее левое :<input type="checkbox" ng-model="mainproduct.details.destructions[9]" /></td>
-            <td>Заднее правое :<input type="checkbox" ng-model="mainproduct.details.destructions[10]" /></td>
-            <td>Заднее левое :<input type="checkbox" ng-model="mainproduct.details.destructions[11]" /></td>
-        </tr>
-        <tr>
-            <td>Порог</td>
-            <td>Правый :<input type="checkbox" ng-model="mainproduct.details.destructions[12]" /></td>
-            <td>Левый :<input type="checkbox" ng-model="mainproduct.details.destructions[13]" /></td>
-        </tr>
-        <tr>
-            <td>Стекло</td>
-            <td>Лобовое без датчика дождя(замена) :<input type="checkbox" ng-model="mainproduct.details.destructions[14]" /></td>
-            <td>Лобовое с датчиком дождя(замена) :<input type="checkbox" ng-model="mainproduct.details.destructions[15]" /></td>
-            <td>Лобовое ремонт скола :<input type="checkbox" ng-model="mainproduct.details.destructions[16]" /></td>
-            <td>Лобовое ремонт трещины :<input type="checkbox" ng-model="mainproduct.details.destructions[17]" /></td>
-            <td>Передней правой двери :<input type="checkbox" ng-model="mainproduct.details.destructions[18]" /></td>
-            <td>Передней левой двери :<input type="checkbox" ng-model="mainproduct.details.destructions[19]" /></td>
-            <td>Задней правой двери :<input type="checkbox" ng-model="mainproduct.details.destructions[20]" /></td>
-            <td>Задней левой двери :<input type="checkbox" ng-model="mainproduct.details.destructions[21]" /></td>
-            <td>Заднее :<input type="checkbox" ng-model="mainproduct.details.destructions[22]" /></td>
-        </tr>
-        <tr>
-            <td>Фара</td>
-            <td>Передняя правая :<input type="checkbox" ng-model="mainproduct.details.destructions[23]" /></td>
-            <td>Передняя левая :<input type="checkbox" ng-model="mainproduct.details.destructions[24]" /></td>
-        </tr>
-        <tr>
-            <td>Противотуманка</td>
-            <td>Передняя правая :<input type="checkbox" ng-model="mainproduct.details.destructions[25]" /></td>
-            <td>Передняя левая :<input type="checkbox" ng-model="mainproduct.details.destructions[26]" /></td>
-            <td>Задняя :<input type="checkbox" ng-model="mainproduct.details.destructions[27]" /></td>
-        </tr>
-        <tr>
-            <td>Задний фонарь</td>
-            <td>Правый :<input type="checkbox" ng-model="mainproduct.details.destructions[28]" /></td>
-            <td>Левый :<input type="checkbox" ng-model="mainproduct.details.destructions[29]" /></td>
-        </tr>
-        <tr><td>
+        </div>
+    </div>
+    <div id="request3" class="container-fluid" ng-if="allitems == 3">
+        <div class="row">
+            <h1>Кузовные работы</h1>
+            <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Название:<input type="text" ng-model="mainproduct.name" /></div>
+            <div class="col-md-4">Описание:<input type="text" ng-model="mainproduct.description" /></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></div>
+            <div class="col-md-4">Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></div>
+            <div class="col-md-4">Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></div>
+        </div>
+        <div class="row" ng-repeat="item in texts.destructions" ng-init="parentIndex = $index">
+            <h2>{{item.title}}</h2>
+            <div class="col-md-4" ng-repeat="ite in item.data">{{ite}}:<input type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" /></div>
+        </div>
+        <div class="row">
             <button ng-click="addRequest(mainproduct)" class="btn btn-xs btn-primary">
                 Create
             </button>
-        </td></tr>
-    </table>
+        </div>
+    </div>
 </div>

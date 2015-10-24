@@ -1,0 +1,29 @@
+﻿<style>
+    #productTable { width: auto; }
+    #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    #productTable td input { max-width: 125px; }
+</style>
+
+<div ng-controller="productCtrl">
+    <table id="editTable" class="table table-striped table-bordered">  
+        <tr>
+            <td>Имя: <input ng-model="user.name" /></td>
+            <td>Фамилия: <input ng-model="user.surname" /></td>
+            <td>Телефон: <input ng-model="user.phone" /></td>
+            <td>Email: <input ng-model="user.email" /></td>
+            <td>
+                <button ng-click="editUser(user)" class="btn btn-xs btn-primary">
+                    Create
+                </button>
+            </td>      
+        </tr> 
+        <tr>
+            <td>Старый пароль: <input ng-model="user.password" /></td>
+            <td>
+                <button ng-click="editUser(user)" class="btn btn-xs btn-primary">
+                    Change
+                </button>
+            </td>      
+        </tr>        
+    </table>
+</div>

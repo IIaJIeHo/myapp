@@ -3,13 +3,16 @@
 <head>
     <title>Administration</title>
     <script src="angular.js"></script>
+    <script src="angular-base64-upload.js"></script>
     <script src="ngmodules/angular-route.js"></script>
     <script src="ngmodules/angular-resource.js"></script>
     <script src="ngmodules/angular-cookie.js"></script>
-    <link href="bootstrap.css" rel="stylesheet" />
-    <link href="bootstrap-theme.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <link href="css/yeti.min.css" rel="stylesheet" />
+    
     <script>
-        angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
+        angular.module("sportsStoreAdmin", ["ngRoute", "ngResource", "naif.base64"])
             .config(function ($routeProvider) {
 
                 $routeProvider.when("/login", {

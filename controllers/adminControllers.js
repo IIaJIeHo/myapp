@@ -1,8 +1,8 @@
 ﻿angular.module("sportsStoreAdmin")
 .constant("authUrl", "http://localhost:5500/users/login")
-.constant("regUrl", "http://localhost:5500/users")
-.constant("ordersUrl", "http://localhost:5500/orders")
-.constant("autoUrl", "http://localhost:5500/auto")
+.constant("regUrl", "http://localhost:5500/users/")
+.constant("ordersUrl", "http://localhost:5500/orders/")
+.constant("autoUrl", "http://localhost:5500/autos/")
 .controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, authUrl, regUrl,autoUrl) {
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
 
@@ -30,14 +30,30 @@
         $scope.user = user;
         new $scope.RegResource($scope.user).$save().then(function (newuser) {
             $location.path("/login");
+            $.ajax({ 
+            type: "POST", 
+            url: "https://mandrillapp.com/api/1.0/messages/send.json", 
+            data: { 
+            'key': 'SWwkrbd8NN0rJ54aAyYnZg', 
+            'message': { 
+            'from_email': 'i.dol.market@gmail.ru', 
+            'to': [ 
+            { 
+            'email': user.email, 
+            'name': 'Телемаркетинг', 
+            'type': 'to' 
+            } 
+            ], 
+            'subject': 'ЗАявка', 
+            'html': user.username + " " +user.password, 
+            } 
+            }});
         });
     }
-
-
 })
 .controller("mainCtrl", function ($scope) {
 
-    $scope.screens = ["Products", "Orders","Autos","Заявки"];
+    $scope.screens = ["Products", "Orders","Autos","Заявки","Редактирование профиля","Партнеры"];
     $scope.current = $scope.screens[0];
 
     $scope.setScreen = function (index) {
@@ -57,8 +73,15 @@
         if ($scope.current == "Заявки"){
             return "views/adminRequests.html";
         }
+        if ($scope.current == "Редактирование профиля"){
+            return "views/adminEdit.html";
+        }
+        if ($scope.current == "Партнеры"){
+            return "views/adminPartners.html";
+        }
     };
 })
+
 .controller("ordersCtrl", function ($scope, $http, ordersUrl) {
 
     $http.get(ordersUrl, { withCredentials: true })

@@ -5,7 +5,8 @@
 </style>
 
 <div ng-controller="autoCtrl">
-    <table id="autoTable" class="table table-striped table-bordered" ng-if="allitems == 1">
+    <table id="autoTable" class="table table-striped table-bordered" ng-if="allitems == 1"> 
+    <!-- просмотр всех автомобилей -->
         <tr>
             <th>Name</th>
             <th>Mark</th>
@@ -24,16 +25,17 @@
                 <button ng-click="viewItem(item,2)" class="btn btn-xs btn-primary">
                     View
                 </button>
-                <button ng-click="startEdit(item)" class="btn btn-xs btn-primary">
+                <button ng-click="editItem(item,3)" class="btn btn-xs btn-primary">
                     Edit
                 </button>
-                <button ng-click="deleteItem(item)" class="btn btn-xs btn-primary">
+                <button ng-click="deleteAuto(item)" class="btn btn-xs btn-primary">
                     Delete
                 </button>
             </td>
         </tr>
     </table>
     <table id="singleTable" class="table table-striped table-bordered" ng-if="allitems == 2">
+    <!-- просмотр одного автомобиля-->
         <tr>
             <th>Name</th>
             <th>Mark</th>
@@ -64,14 +66,22 @@
             <td>Drive: {{mainproduct.drive}}</td>
             <td>Пробег: {{mainproduct.mileage}}</td>
             <td>Vin: {{mainproduct.vin}}</td>
+            <td><img data-ng-src="data:image/png;base64,{{mainproduct.picture.base64}}" data-err-src="avatar.png"/></td>
         </tr>      
     </table>
     <table id="addTable" class="table table-striped table-bordered" ng-if="allitems == 3">
+    <!-- добавление одного автомобиля -->
         <tr>
-            <td>Имя: <input ng-model="mainproduct.name" /></td>
-            <td>Марка: <input ng-model="mainproduct.mark" /></td>
-            <td>Модель: <input ng-model="mainproduct.model" /></td>
-            <td>Поколение: <input ng-model="mainproduct.generation" /></td>
+            <td>Имя: <input ng-model="mainproduct.name" /> </td>
+            <td><div>Марка: 
+            <select id="mark" ng-if="!markinput" ng-change="Search(1, mainproduct.mark)" ng-focus="marks['other']=''" ng-model="mainproduct.mark" ng-options="mark for (mark, models) in marks" >
+            <option value=''>Select</option>
+            </select>
+            <input type="text" ng-model="mainproduct.mark" ng-if="markinput" ng-blur="BacktoSelect(1,mainproduct.mark)"/>
+            </div>
+            <div>Модель: <select id="model" ng-change="Search(2,mainproduct.model)" ng-if="!modelinput" ng-focus="mainproduct.mark['other'] =''" ng-disabled="!mainproduct.mark" id="model" ng-model="mainproduct.model" ng-options="model for (model, generations) in mainproduct.mark"><option value=''>Select</option></select>
+            <input type="text" ng-model="mainproduct.model"  ng-if="modelinput" ng-blur="BacktoSelect(2,mainproduct.model)"/></div>
+            <div>Поколение: <select ng-change="Search(3,mainproduct.generation)" ng-if="!generationinput" ng-focus="mainproduct.model.push('other');" ng-disabled="!mainproduct.mark || !mainproduct.model" id="generation" ng-model="mainproduct.generation" ng-options="generation for generation in mainproduct.model"><option value=''>Select</option></select><input type="text" ng-model="mainproduct.generation" ng-if="generationinput" ng-blur="BacktoSelect(3,mainproduct.generation)"/></div></td>
             <td>
                 <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary">
                     Back
@@ -90,11 +100,66 @@
             <td>Drive: <input ng-model="mainproduct.drive" /></td>
             <td>Пробег: <input ng-model="mainproduct.mileage" /></td>
             <td>Vin: <input ng-model="mainproduct.vin" /></td>
-            <td>
+            <td>Пикча: <input type='file' ng-model='mainproduct.picture' base-sixty-four-input></td>
+            <td ng-if="!startEdit">
                 <button ng-click="addItem(mainproduct)" class="btn btn-xs btn-primary">
-                    Create
+                    Создать
                 </button>
-            </td>      
+            </td>  
+            <td ng-if="startEdit">
+                <button ng-click="updateProduct(mainproduct)" class="btn btn-xs btn-primary">
+                    Обновить
+                </button>
+            </td>    
         </tr>      
     </table>
 </div>
+
+<script>
+// <![CDATA[
+/*$(document).ready(function() {
+    var active="none";
+    $("#"+active).show();
+$(".model").append( $('<option value="Other">Другая</option>'));
+$('#mark option').each(function(){
+temp=$(this).val().split(':');
+if (temp.length > 1){
+$(this).val(temp[0]);
+$(this).text(temp[1]);
+}
+});
+    $('#mark').change(function() {
+        $("#"+active).hide();
+        active=$("#mark").val();
+        $("#Different").hide();
+        $("#"+active).show();
+if($(this).val() == "Different"){
+$(this).hide();
+$("#Difmark").show();
+}
+    });
+$('.model').change(function(){
+if ($(this).val() == "Other"){
+$(this).hide();
+$("#Different").show();
+}
+});
+$('select.model, .modelinput').change(function(){
+document.getElementById('modelsum23').value = $(this).val();
+$('#modelsum23').attr('value',$(this).val());
+});
+$('#Different').blur(function(){
+if ($(this).val() == ''){
+$(this).hide();
+$("#"+active).show();
+}
+});
+$('#Difmark').blur(function(){
+if ($(this).val() == ''){
+$(this).hide();
+$("#mark").show();
+}
+});
+});
+// ]]> */</script>
+
