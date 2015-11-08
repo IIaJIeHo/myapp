@@ -1,20 +1,27 @@
 ﻿<div class="well" ng-controller="authCtrl">
 
     <div class="alert alert-info" ng-hide="authenticationError">
-        Enter your username and password and click Log In to authenticate
+        Введите ваше имя при регистрации и пароль чтобы войти в систему
     </div>
 
     <div class="alert alert-danger" ng-show="authenticationError">
-        Authentication Failed ({{authenticationError.status}}). Try again.
+        <span ng-if="authenticationError.status == 401">Неправильный логин или пароль. Попробуйте снова.</span>
+        <span ng-if="authenticationError.status != 401">Не вышло войти в систему ({{authenticationError.status}}). Попробуйте снова.</span>
+    </div>
+
+    <div class="alert alert-success" id="regsuccess" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы успешно прошли регистрацию, а теперь войдите в личный кабинет
     </div>
 
     <form name="authForm" novalidate>
         <div class="form-group">
-            <label>Username</label>
+            <label>Имя</label>
             <input name="username" class="form-control" ng-model="username" required />
         </div>
         <div class="form-group">
-            <label>Password</label>
+            <label>Пароль</label>
             <input name="password" type="password" class="form-control"
                    ng-model="password" required />
         </div>
@@ -22,9 +29,14 @@
             <button ng-click="authenticate(username, password)"
                     ng-disabled="authForm.$invalid"
                     class="btn btn-primary">
-                Log In
+                Войти
             </button>
-            <a href="#/registration">Registration</a>
+            <a href="#/registration" style="display:none;">Зарегистрироваться</a>
         </div>
     </form>
 </div>
+        <div class="alert alert-success" id="a-user-new" style="position:fixed;bottom:0;right:0;display:none;">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Поздравляем! </strong>
+            Вы зарегистрировались, теперь введите логин и пароль.
+        </div>

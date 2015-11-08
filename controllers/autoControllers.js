@@ -1,7 +1,7 @@
 ﻿angular.module("sportsStoreAdmin")
 .constant("authUrl", "http://localhost:5500/autoservices/login")
-.constant("regUrl", "http://localhost:5500/autoservices")
-.constant("ordersUrl", "http://localhost:5500/orders")
+.constant("regUrl", "http://localhost:5500/autoservices/")
+.constant("ordersUrl", "http://localhost:5500/orders/")
 .controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, authUrl, regUrl) {
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
 
@@ -37,7 +37,7 @@
 })
 .controller("mainCtrl", function ($scope) {
 
-    $scope.screens = ["Products", "Orders"];
+    $scope.screens = ["Заявки", "Мои ответы","Редактирование профиля"];
     $scope.current = $scope.screens[0];
 
     $scope.setScreen = function (index) {
@@ -45,8 +45,21 @@
     };
 
     $scope.getScreen = function () {
-        return $scope.current == "Products"
-            ? "views/autoProducts.html" : "views/autoOrders.html";
+        if ($scope.current == "Заявки"){
+            return "views/autoProducts.html";
+        }
+        if ($scope.current == "Мои ответы"){
+            return "views/autoResponds.html";
+        }
+        if ($scope.current == "Оставить заявку"){
+            return "views/adminRequests.html";
+        }
+        if ($scope.current == "Редактирование профиля"){
+            return "views/autoEdit.html";
+        }
+        if ($scope.current == "Партнеры"){
+            return "views/adminPartners.html";
+        }
     };
 })
 .controller("ordersCtrl", function ($scope, $http, ordersUrl) {

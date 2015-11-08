@@ -5,215 +5,365 @@
 </style>
 
 <div ng-controller="productCtrl">
+    <div class="alert alert-success" id="a-request-edit" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы обновили {{updatedRequest.name}}
+    </div>
+    <div class="alert alert-danger" id="a-request-delete" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Ого! </strong>
+        Вы удалили {{updatedRequest.name}}
+    </div>
+    <div class="alert alert-success" id="a-request-complete" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы завершили заявку {{updatedRequest.name}}!
+    </div>
+    <div class="alert alert-success" id="a-request-restore" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы возобновили заявку {{updatedRequest.name}}!
+    </div>
     <table id="productTable" class="table table-striped table-bordered" ng-if="allitems">
         <tr>
+            <th>Тип</th>
             <th>Название</th>
             <th>Описание</th>
             <th>Автомобиль</th>
-            <th>Тип</th>
-            <th></th>
+            <th>Кол-во предложений</th>
+            <th>Время</th>
+            <th><input type="text" ng-model="query" /></th>
         </tr>
-        <tr ng-repeat="item in products" ng-hide="item.id == editedProduct.id">
+        <tr ng-repeat="item in products | filter:query" ng-hide="item.id == editedProduct.id" ng-class="{'success':item.completed}">
+            <td>{{item.type}}</td>
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
             <td>{{item.auto.name}}</td>
-            <td>{{item.type}}</td>
+            <td>{{item.responds.length}}</td>
+            <td>{{formatDate(item.date)}}</td>
             <td>
-                <button ng-click="viewItem(item)" class="btn btn-xs btn-primary">
-                    View
+                <button ng-click="viewItem(item)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
+                    <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
                 </button>
-                <button ng-click="editItem(item)" ng-disabled="item.replied" class="btn btn-xs btn-primary">
-                    Edit
+                <button ng-click="editItem(item)" ng-disabled="item.responds.length > 0" class="btn btn-xs btn-success" data-toggle="tooltip" title="Изменить">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 </button>
-                <button ng-click="deleteProduct(item)" class="btn btn-xs btn-primary">
-                    Delete
+                <button ng-click="deleteProduct(item)" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Удалить">
+                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                </button>
+                <button ng-click="completeItem(item,item.type,item.auto,item.responds)" class="btn btn-xs" ng-class="{'btn-primary':!item.complete,'btn-success':item.complete}" data-toggle="tooltip" title="Завершить">
+                    <span class="glyphicon glyphicon-check" ng-if="!item.completed" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-share" ng-if="item.completed" aria-hidden="true"></span>
                 </button>
             </td>
         </tr>
     </table>
-    <table id="singleTable" class="table table-striped table-bordered" ng-if="!allitems">
-        <tr>
-            <th>Название</th>
-            <th>Описание</th>
-            <th>Автомобиль</th>
-            <th>Тип</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>{{mainproduct.name}}</td>
-            <td>{{mainproduct.description}}</td>
-            <td>{{item.auto.name}}</td>
-            <td>{{item.type}}</td>
-            <td>
-                <button ng-click="viewItem(item)" class="btn btn-xs btn-primary">
-                    Back
+    <div class="row" id="singleTable" class="table table-striped table-bordered" ng-if="!allitems">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <button ng-click="viewItem(item)" class="btn btn-xs btn-primary">
+                        Назад
+                    </button>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-if="!startEdit">
+              <div class="panel-heading">
+                <h2 class="panel-title">Данные автомобиля</h2>
+              </div>
+              <div class="row autodescription">
+                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name}}</div> </div>
+                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark}}</div> </div>
+                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model}}</div> </div>
+                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation}}</div> </div>
+                <div class="col-md-4"><label>Год</label><div>{{mainproduct.auto.year}}</div> </div>
+                <div class="col-md-4"><label>Engine</label><div>{{mainproduct.auto.engine}}</div> </div>
+                <div class="col-md-4"><label>Box</label><div>{{mainproduct.auto.box}}</div> </div>
+                <div class="col-md-4"><label>Body</label><div>{{mainproduct.auto.body}}</div> </div>
+                <div class="col-md-4"><label>Объем двигателя</label><div>{{mainproduct.auto.volume}}</div> </div>
+                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.auto.color}}</div> </div>
+                <div class="col-md-4"><label>Drive</label><div>{{mainproduct.auto.drive}}</div> </div>
+                <div class="col-md-4"><label>Пробег</label><div>{{mainproduct.auto.mileage}}</div> </div>
+                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin}}</div> </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-if="startEdit">
+                <form name="authForm" novalidate>
+                    <div class="form-group">
+                        <label>Выберите автомобиль</label>
+                        <select ng-model="mainproduct.auto" ng-options="auto.name for auto in autos"></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО'">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h2 class="panel-title">Работы в рамках ТО</h2>
+              </div>
+              <div class="panel-body">
+                    <form name="workForm" novalidate>
+                        <div class="form-group"><label>Название:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" /></div>
+                        <div class="form-group"><label>Описание:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" /></div>
+                        <div class="form-group"><label>Комментарий:</label><input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.comment" /></div>
+                        <div class="form-group row">
+                            <ul class="checkbox-grid">
+                            <li>             
+                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                                <label>Свои запчасти</label>
+                            </li>
+                            <li>
+                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                                <label>Автомобиль на гарантии</label>
+                            </li>
+                            <li ng-repeat="item in texts.work">
+                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.work[$index]" />
+                                <label>{{item}}</label>
+                            </li>
+                            </ul>
+                        </div>
+                        <div ng-if="startEdit" class="text-center">
+                            <button type="submit" ng-click="updateProduct(mainproduct)"
+                                    class="btn btn-primary">
+                                Обновить
+                            </button>
+                        </div>
+                    </form>
+              </div>
+            </div>
+        </div>
+        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт'">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Заявка на ремонт</h2>
+          </div>
+          <div class="panel-body">
+                <form name="workForm" novalidate>
+                    <div class="form-group">
+                        <label>Название:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Описание:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" />
+                    </div>
+                    <div class="form-group">
+                        <label>Опишите неисправность:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.comment" />
+                    </div>
+                    <div class="form-group row">
+                        <ul class="checkbox-grid">
+                        <li>             
+                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            <label>Свои запчасти</label>
+                        </li>
+                        <li>
+                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            <label>Автомобиль на гарантии</label>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body tabs-left">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active" role="presentation">
+                                <a ng-click="formdetails = 'question'" aria-controls="question" role="tab" data-toggle="tab" aria-expanded="true">Частые вопросы</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'diagnos'" aria-controls="diagnos" role="tab" data-toggle="tab">Диагностика</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'engine'" aria-controls="engine" role="tab" data-toggle="tab">Двигатель</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'head'" aria-controls="head" role="tab" data-toggle="tab">Подвеска и ходовая часть</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'wheel'" aria-controls="wheel" role="tab" data-toggle="tab">Рулевое управление и коробка передач</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'addi'" aria-controls="addi" role="tab" data-toggle="tab">Дополнительное оборудование</a>
+                            </li>           
+                        </ul>
+                       <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'question'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.question">
+                                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.question[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'diagnos'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.diagnos">
+                                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.diagnos[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'engine'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.engine">
+                                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.engine[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'head'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.head">
+                                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.head[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'wheel'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.wheel">
+                                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.wheel[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'addi'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.addi">
+                                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.addi[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                    <div ng-if="startEdit" class="text-center">
+                        <button type="submit" ng-click="updateProduct(mainproduct)"
+                                class="btn btn-primary">
+                            Обновить
+                        </button>
+                    </div>
+                </form>
+          </div>
+        </div>
+        </div>
+        <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы'">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Заявка на ремонт</h2>
+          </div>
+          <div class="panel-body">
+                <form name="workForm" novalidate>
+                    <div class="form-group">
+                        <label>Название:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Описание:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" />
+                    </div>
+                    <div class="form-group">
+                        <label>Опишите неисправность:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий:</label>
+                        <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.comment" />
+                    </div>
+                    <div class="form-group row">
+                        <ul class="checkbox-grid">
+                        <li>             
+                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            <label>Свои запчасти</label>
+                        </li>
+                        <li>
+                            <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            <label>Автомобиль на гарантии</label>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body tabs-left">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li ng-class="{'active': $index == 0}" ng-repeat="item in texts.destructions" role="presentation">
+                                <a ng-click="$parent.formdetail = item.eng" aria-controls="{{item.eng}}" role="tab" data-toggle="tab" aria-expanded="true">{{item.title}}</a>
+                            </li>           
+                        </ul>
+                       <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetail == item.eng" ng-repeat="item in texts.destructions" ng-init="parentIndex = $index" >
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="ite in item.data">
+                                            <input ng-disabled="!startEdit" ng-disabled="startEdit" type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" />
+                                            <label>{{ite}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Фотография</label>
+                        <img data-ng-src="data:image/png;base64,{{mainproduct.details.image.base64}}" ng-click="changepicture=true" data-err-src="avatar.png"/>
+                        <input ng-if="startEdit && changepicture" type='file' ng-model='mainproduct.details.image' base-sixty-four-input>
+                    </div>
+                    <div ng-if="startEdit" class="text-center">
+                        <button type="submit" ng-click="updateProduct(mainproduct)"
+                                class="btn btn-primary">
+                            Обновить
+                        </button>
+                    </div>
+                </form>
+          </div>
+        </div>
+        </div>
+    </div>
+        <div class="panel panel-default" ng-if="!allitems">
+          <div class="panel-heading">
+            <h2 class="panel-title">Предложения от автомастерских-</h2>
+          </div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <div class="row text-center" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
+                <div class="col-lg-2">
+                    <a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a>
+                </div>
+                <div class="col-lg-2">
+                    {{item.name}}
+                </div>
+                <div class="col-lg-2">
+                    {{item.description}}
+                </div>
+                <div class="col-lg-2">
+                    <span ng-if="item.approved && (item.autoservice.id == autoservice.id)">{{mainproduct.phone}}</span>
+                </div>
+                <div class="col-lg-1">
+                    {{item.cost | currency}}
+                </div>
+                <div class="col-lg-2">
+                    {{item.duration}}
+                </div>
+                <div class="col-lg-1">
+                    <button ng-click="approveItem(item,item.autoservice)" class="btn btn-xs btn-primary">
+                    Подтвердить
                 </button>
-            </td>
-        </tr>
-        <tr>
-            <td>Заявка на ТО (Данные автомобиля)</td>
-            <td>Имя: {{mainproduct.auto.name}}</td>
-            <td>Марка: {{mainproduct.auto.mark}}</td>
-            <td>Модель: {{mainproduct.auto.model}}</td>
-            <td>Поколение: {{mainproduct.auto.generation}}</td>
-        </tr>
-        <tr>
-            <td>Год: {{mainproduct.auto.year}}</td>
-            <td>Engine: {{mainproduct.auto.engine}}</td>
-            <td>Box: {{mainproduct.auto.box}}</td>
-            <td>Body: {{mainproduct.auto.body}}</td>
-            <td>Объем двигателя: {{mainproduct.auto.volume}}</td>
-        </tr>  
-        <tr>
-            <td>Цвет: {{mainproduct.auto.color}}</td>
-            <td>Drive: {{mainproduct.auto.drive}}</td>
-            <td>Пробег: {{mainproduct.auto.mileage}}</td>
-            <td>Vin: {{mainproduct.auto.vin}}</td>
-        </tr>
-        <tr ng-if="mainproduct.type == 1">
-            <td>
-                <table>
-                    <tr>
-                        <td><h1>Работы в рамках ТО</h1></td>
-                    </tr>
-                    <tr ng-if="!startEdit">
-                        <td>Название: {{mainproduct.name}}/></td>
-                        <td>Описание: {{mainproduct.description}}/></td>
-                    </tr>
-                    <tr ng-if="startEdit">
-                        <td>Название:<input type="text" ng-model="mainproduct.name" /></td>
-                        <td>Описание:<input type="text" ng-model="mainproduct.description" /></td>
-                    </tr>
-                    <tr>
-                        <td>Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" ng-disabled="!startEdit" /></td>
-                        <td>Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" ng-disabled="!startEdit" /></td>
-                        <td>Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.work">{{item}}:<input type="checkbox" ng-model="mainproduct.details.work[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr ng-if="startEdit"><td>
-                        <button ng-click="updateProduct(mainproduct)" class="btn btn-xs btn-primary">
-                            Обновить
-                        </button>
-                    </td></tr>
-                </table>
-            </td>
-        </tr>
-        <tr ng-if="mainproduct.type == 2">
-            <td>
-                <table>
-                    <tr>
-                        <td><h1>Заявка на Ремонт</h1></td>
-                    </tr>
-                    <tr ng-if="!startEdit">
-                        <td>Название:{{mainproduct.name}}</td>
-                        <td>Описание:{{mainproduct.description}}</td>
-                    </tr>
-                    <tr ng-if="!startEdit">
-                        <td><h1>Опишите неисправность:</h1>{{mainproduct.details.mainbody}}</td>
-                    </tr>
-                    <tr ng-if="startEdit">
-                        <td>Название:<input type="text" ng-model="mainproduct.name" /></td>
-                        <td>Описание:<input type="text" ng-model="mainproduct.description" /></td>
-                    </tr>
-                    <tr ng-if="startEdit">
-                        <td><h1>Опишите неисправность:</h1><input type="textarea" ng-model="mainproduct.details.mainbody" /></td>
-                    </tr>
-                    <tr>
-                        <td>Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" ng-disabled="!startEdit" /></td>
-                        <td>Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" ng-disabled="!startEdit" /></td>
-                        <td>Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                        <td><h1>Частые вопросы</h1></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.question">{{item}}:<input type="checkbox" ng-model="mainproduct.details.question[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                        <td><h1>Диагностика</h1></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.diagnos">{{item}}:<input type="checkbox" ng-model="mainproduct.details.diagnos[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                    <td><h1>Двигатель</h1></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.engine">{{item}}:<input type="checkbox" ng-model="mainproduct.details.engine[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                    <td><h1>Подвеска и ходовая часть</h1></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.head">{{item}}:<input type="checkbox" ng-model="mainproduct.details.head[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                    <td><h1>Рулевое управление и коробка передач</h1></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.wheel">{{item}}:<input type="checkbox" ng-model="mainproduct.details.wheel[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr>
-                    <td><h1>Дополнительное оборудование</h1></td>
-                    </tr>
-                    <tr>
-                        <td ng-repeat="item in texts.addi">{{item}}:<input type="checkbox" ng-model="mainproduct.details.addi[$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr ng-if="startEdit"><td>
-                        <button ng-click="updateProduct(mainproduct)" class="btn btn-xs btn-primary">
-                            Обновить
-                        </button>
-                    </td></tr>
-
-                </table>
-            </td>
-        </tr>
-        <tr ng-if="mainproduct.type == 3">
-            <td>
-                <table>
-                    <tr>
-                        <td><h1>Кузовные работы</h1></td>
-                    </tr>
-                    <tr ng-if="!startEdit">
-                        <td>Название:{{mainproduct.name}}</td>
-                        <td>Описание:{{mainproduct.description}}</td>
-                    </tr>
-                    <tr ng-if="startEdit">
-                        <td>Название:<input type="checkbox" ng-model="mainproduct.name" /></td>
-                        <td>Описание:<input type="checkbox" ng-model="mainproduct.description" /></td>
-                    </tr>
-                    <tr>
-                        <td><h1>Повреждения</h1></td>
-                    </tr>
-                    <tr>
-                        <td>Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" ng-disabled="!startEdit" /></td>
-                        <td>Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" ng-disabled="!startEdit" /></td>
-                        <td>Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr ng-repeat="item in texts.destructions" ng-init="parentIndex = $index">
-                        <td>{{item.title}}</td>
-                        <td ng-repeat="ite in item.data">{{ite}}:<input type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" ng-disabled="!startEdit" /></td>
-                    </tr>
-                    <tr ng-if="startEdit"><td>
-                        <button ng-click="updateProduct(mainproduct)" class="btn btn-xs btn-primary">
-                            Обновить
-                        </button>
-                    </td></tr>
-                </table>
-            </td>
-        </tr>
-        <tr ng-repeat="item in activeresponds" ng-class="{'success': item.approved}">
-            <td>{{item.name}}</td>
-            <td class="description">{{item.description}}</td>
-            <td></td>
-            <td>{{item.cost | currency}}</td>
-            <td>
-                <button ng-click="approveItem(item)" class="btn btn-xs btn-primary">
-                    Approve
-                </button>
-            </td>
-        </tr>      
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>

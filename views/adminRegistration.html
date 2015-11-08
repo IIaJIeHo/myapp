@@ -1,7 +1,7 @@
 <div class="well" ng-controller="authCtrl">
 
     <div class="alert alert-info" ng-hide="authenticationError">
-        Enter your username and password and click Log In to authenticate
+        Введите данные для регистрации
     </div>
 
     <div class="alert alert-danger" ng-show="authenticationError">
@@ -9,32 +9,46 @@
     </div>
 
     <form name="authForm" novalidate>
-        <div class="form-group">
-            <label>Username</label>
-            <input name="username" class="form-control" ng-model="user.username" required />
+        <div class="form-group" ng-class="{'has-error':error.data.errors.username == 'is already in use'}">
+            <label>Имя</label>
+            <input name="username" class="form-control" ng-model="user.username" ng-change="error.data.errors.username = 'newone'" required />
+            <div ng-show="error.data.errors.username == 'is already in use'">
+                <span class="help-block">Такой пользователь уже зарегистрирован</span>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
+        <div class="form-group" ng-class="{'has-error':(user.password != repeatpassword)&&validation.password && validation.repeatpassword}">
+            <label>Пароль</label>
             <input name="password" type="password" class="form-control"
-                   ng-model="user.password" required />
+                   ng-model="user.password" ng-blur="validation.password = true" required />
         </div>
-        <div class="form-group">
-            <label>Repeat Password</label>
-            <input name="password" type="password" class="form-control"
-                   ng-model="repeatpassword" required />
+        <div class="form-group" ng-class="{'has-error':(user.password != repeatpassword)&&validation.password && validation.repeatpassword}">
+            <label>Повторите пароль</label>
+            <input name="repeatpassword" type="password" class="form-control"
+                   ng-model="repeatpassword" ng-blur="validation.repeatpassword = true" required />
+            <div ng-show="validation.password && validation.repeatpassword">
+                <span class="help-block" ng-show="user.password != repeatpassword">Пароли не совпадают</span>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Phone</label>
-            <input name="phone" class="form-control"
-                   ng-model="user.phone" required />
+        <div class="form-group" ng-class="{'has-error':authForm.phone.$invalid && validation.phone}">
+            <label>Телефон</label>
+            <input name="phone" class="form-control" ng-minlength="11" ng-pattern="/^[0-9]{11}$/"
+                   ng-model="user.phone" ng-blur="validation.phone = true" required />
+            <div ng-show="validation.phone">
+                <span class="help-block" ng-show="authForm.phone.$error.required || authForm.phone.$error.minlength">Введите телефон</span>
+                <span class="help-block" ng-show="authForm.phone.$error.pattern && !authForm.phone.$error.required && !authForm.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-class="{'has-error':authForm.email.$invalid && validation.email}">
             <label>Email</label>
             <input type="email" name="email"  class="form-control"
-                   ng-model="user.email" required />
+                   ng-model="user.email" ng-blur="validation.email = true" required />
+            <div ng-show="validation.email">
+                <span class="help-block" ng-show="authForm.email.$error.required">Дайте нам свой Email</span>
+                <span class="help-block" ng-show="authForm.email.$error.email">Email должен быть другим</span>
+            </div>
         </div>
         <div class="text-center">
-            <button ng-click="registration(user)"
+            <button type="submit" ng-click="registration(user)"
                     ng-disabled="authForm.$invalid || user.password != repeatpassword"
                     class="btn btn-primary">
                 Log In

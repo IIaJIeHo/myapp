@@ -2,78 +2,75 @@
     #productTable { width: auto; }
     #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
     #productTable td input { max-width: 125px; }
-    .sortOrder:after{
-        content: "\25b2";
-    }
-    .sortOrder.reverse:after{
-        content: "\25bc";
-    }
 </style>
-    <div class="alert alert-success" id="a-respond-new" style="position:fixed;bottom:0;right:0;display:none;">
+
+<div ng-controller="productCtrl">
+    <div class="alert alert-success" id="a-respond-edit" style="position:fixed;bottom:0;right:0;display:none;">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Поздравляем! </strong>
-        Вы добавили новую заявку!
+        Вы обновили {{updatedRespond.name}}
     </div>
-<div ng-controller="productCtrl">
-    <table id="productTable" class="table table-striped table-bordered" ng-if="allitems" ng-init="check_complete = false;">
+    <div class="alert alert-danger" id="a-respond-delete" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Ого! </strong>
+        Вы удалили {{updatedRespond.name}}
+    </div>
+    <table id="autoTable" class="table table-striped table-bordered" ng-if="respondview == 1"> 
+    <!-- просмотр всех ответов -->
         <tr>
-            <th><a href="" ng-click="order('type')">Тип</a><span class="sortOrder" ng-show="predicate === 'type'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('name')">Название</a><span class="sortOrder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('description')">Описание</a><span class="sortOrder" ng-show="predicate === 'description'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('auto.name')">Автомобиль</a><span class="sortOrder" ng-show="predicate === 'auto.name'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('responds.length')">Кол-во предложений</a><span class="sortOrder" ng-show="predicate === 'responds.length'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('date')">Время</a><span class="sortOrder" ng-show="predicate === 'date'" ng-class="{reverse:reverse}"></span></th>
-            <th><input type="text" ng-model="query" /><input type="checkbox" ng-model="check_complete" /></th>
+            <th>Имя</th>
+            <th>Описание</th>
+            <th>Цена</th>
+            <th>Длительность</th>
+            <th>Дата</th>
+            <th>Телефон</th>
+            <th><input type="text" ng-model="query" /></th>
         </tr>
-        <tr ng-repeat="item in products | filter:query | filter:{completed:check_complete} |orderBy:predicate:reverse" ng-hide="item.id == editedProduct.id" ng-class="{'success':item.completed}">
-            <td>{{item.type}}</td>
+        <tr ng-repeat="item in myresponds | filter:query" ng-class="{'success' : item.approved }">
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
-            <td>{{item.auto.name}}</td>
-            <td>{{item.responds.length}}</td>
+            <td>{{item.cost | currency}}</td>
+            <td>{{item.duration}}</td>
             <td>{{formatDate(item.date)}}</td>
+            <td><span ng-if="item.approved">{{item.phone}}</span></td>
             <td>
-                <button ng-click="viewItem(item)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
+                <button ng-click="viewRespond(item,2)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
                     <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+                </button>
+                <button ng-click="editRespond(item,3)" ng-disabled="item.replied" class="btn btn-xs btn-success" data-toggle="tooltip" title="Изменить">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteRespond(item)" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Удалить">
+                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                 </button>
             </td>
         </tr>
     </table>
-    <table id="singleTable" class="table table-striped table-bordered" ng-if="!allitems">
-    <div class="row" id="singleTable" class="table table-striped table-bordered" ng-if="!allitems">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4">
-                    <button ng-click="viewItem(item)" class="btn btn-xs btn-primary">
-                        Назад
-                    </button>
-                </div>
-                <div class="col-md-4" ng-if="mainproduct.completed">
-                    Заявка заверщена
-                </div>
-            </div>
-            <div class="panel panel-default" ng-if="!startEdit">
-              <div class="panel-heading">
-                <h2 class="panel-title">Данные автомобиля</h2>
-              </div>
-              <div class="row autodescription">
-                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name}}</div> </div>
-                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark}}</div> </div>
-                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model}}</div> </div>
-                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation}}</div> </div>
-                <div class="col-md-4"><label>Год</label><div>{{mainproduct.auto.year}}</div> </div>
-                <div class="col-md-4"><label>Engine</label><div>{{mainproduct.auto.engine}}</div> </div>
-                <div class="col-md-4"><label>Box</label><div>{{mainproduct.auto.box}}</div> </div>
-                <div class="col-md-4"><label>Body</label><div>{{mainproduct.auto.body}}</div> </div>
-                <div class="col-md-4"><label>Объем двигателя</label><div>{{mainproduct.auto.volume}}</div> </div>
-                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.auto.color}}</div> </div>
-                <div class="col-md-4"><label>Drive</label><div>{{mainproduct.auto.drive}}</div> </div>
-                <div class="col-md-4"><label>Пробег</label><div>{{mainproduct.auto.mileage}}</div> </div>
-                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin}}</div> </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО'">
+    <table id="singleTable" class="table table-striped table-bordered" ng-if="respondview == 2">
+        <tr>
+            <td><button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary">
+                    Назад
+                </button></td>
+        </tr>
+    <!-- просмотр одного ответа-->
+        <tr>
+            <th>Имя</th>
+            <th>Описание</th>
+            <th>Цена</th>
+            <th>Длительность</th>
+            <th>Дата</th>
+            <th>Телефон</th>
+        </tr>
+        <tr>
+            <td>{{mainrespond.name}}</td>
+            <td>{{mainrespond.description}}</td>
+            <td>{{mainrespond.cost | currency}}</td>
+            <td>{{mainrespond.duration}}</td>
+            <td>{{formatDate(mainrespond.date)}}</td>
+            <td><span ng-if="item.approved">{{mainrespond.phone}}</span></td>
+        </tr>  
+    </table>
+        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО' && respondview == 2">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h2 class="panel-title">Работы в рамках ТО</h2>
@@ -103,7 +100,7 @@
               </div>
             </div>
         </div>
-        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт'">
+        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт' && respondview == 2">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h2 class="panel-title">Заявка на ремонт</h2>
@@ -226,7 +223,7 @@
               </div>
             </div>
         </div>
-        <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы'">
+        <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы' && respondview == 2">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h2 class="panel-title">Заявка на ремонт</h2>
@@ -288,84 +285,31 @@
               </div>
             </div>
         </div>
-    </div> 
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" ng-if="!allitems">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" ng-disabled="mainproduct.completed">
-          Ответить на заявку
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-        <form name="authForm" novalidate>
-            <div class="form-group">
-                <label>Название</label>
-                <input name="name" class="form-control" ng-model="editedRespond.name"/>
-            </div>
-            <div class="form-group">
-                <label>Описание</label>
-                <input name="description" class="form-control" ng-model="editedRespond.description"/>
-            </div>
-            <div class="form-group">
-                <label>Цена</label>
-                <input name="cost" class="form-control" ng-model="editedRespond.cost"/>
-            </div>
-            <div class="form-group">
-                <label>Длительность</label>
-                <input name="duration" class="form-control" ng-model="editedRespond.duration"/>
-            </div>
-            <div class="text-center">
-                <button type="submit" ng-click="createRespond(editedRespond)"
-                        ng-disabled="authForm.$invalid"
-                        class="btn btn-primary">
-                    Добавить
+    <div id="addTable"  ng-if="respondview == 3">
+    <!-- добавление одного автомобиля -->
+        <div class="panel-body">
+        <button ng-click="viewItem(mainrespond, 1)" class="btn btn-xs btn-primary">Назад</button>
+            <form name="autoadd" novalidate>
+                <div class="form-group">
+                    <label>Название</label>
+                    <input name="name" class="form-control" ng-model="mainrespond.name"/>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>
+                    <input name="name" class="form-control" ng-model="mainrespond.description"/>
+                </div>
+                <div class="form-group">
+                    <label>Цена</label>
+                    <input name="name" class="form-control" ng-model="mainrespond.cost"/>
+                </div>
+                <div class="form-group">
+                    <label>Длительность</label>
+                    <input name="name" class="form-control" ng-model="mainrespond.duration"/>
+                </div>
+                <button ng-click="updateRespond(mainrespond)" class="btn btn-xs btn-primary">
+                    Обновить
                 </button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Ответы
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-        <div class="container-fluid">
-            <div class="row text-center" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
-                <div class="col-lg-2">
-                    <a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a>
-                </div>
-                <div class="col-lg-2">
-                    {{item.name}}
-                </div>
-                <div class="col-lg-2">
-                    {{item.description}}
-                </div>
-                <div class="col-lg-2">
-                    <span ng-if="item.approved && (item.autoservice.id == autoservice.id)">{{mainproduct.phone}}</span>
-                </div>
-                <div class="col-lg-1">
-                    {{item.cost | currency}}
-                </div>
-                <div class="col-lg-2">
-                    {{item.duration}}
-                </div>
-                <div class="col-lg-1">
-                    <button ng-click="viewItem(item)" ng-if="(item.autoservice.id == autoservice.id)" class="btn btn-xs btn-primary">
-                            Удалить
-                        </button>
-                </div>
-            </div>
+            </form>
         </div>
-  </div>
-</div>
-
-</div>
+    </div>
 </div>

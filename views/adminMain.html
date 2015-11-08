@@ -1,11 +1,164 @@
-﻿<div class="panel panel-default row" ng-controller="mainCtrl">
-    <div class="col-xs-3 panel-body">
-        <a ng-repeat="item in screens" class="btn btn-block btn-default"
-           ng-class="{'btn-primary': item == current }" ng-click="setScreen($index)">
-            {{item}}
-        </a>
-    </div>
-    <div class="col-xs-8 panel-body">
-        <div ng-include="getScreen()" />
+﻿<div class="container-fluid" ng-controller="mainCtrl">
+  <div class="row header" ng-controller="productCtrl">
+      <div class="col-md-4">Привет, <span class="btn-link" ng-click="setScreen(3);">{{user.name}}!</span></div>
+      <div class="col-md-4 text-center"><img src="images/logo.png"></div>
+      <div class="col-md-4"><span class="btn-link" ng-click="logout();">Выход</span></div>
+  </div>
+<div class="panel panel-default row">
+    <div class="panel-body">
+        <ul class="nav nav-tabs" id="navigation" role="tablist">
+	    <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)">{{item}}</a></li>
+	  	</ul>
+	   <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="home"><div ng-include="getScreen()" /></div>
+	  </div>
     </div>
 </div>
+    <div class="alert alert-success" id="a-user-new" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы зарегистрировались, теперь введите логин и пароль.
+    </div>
+  </div>
+  </div>
+<style>
+*{
+  font-family:'Roboto';
+  font-weight: 300;
+}
+.header{
+  padding:40px 0;
+}
+.autodescription .col-md-4{
+  border-right:1px solid #ddd;
+  border-bottom:1px solid #ddd;
+}
+.autodescription{
+  border-top:1px solid #ddd;
+  border-left:1px solid #ddd;
+}
+.autodescription .col-md-4 label{
+  color: #c1c1c1;
+}
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 25%;
+    position: relative;
+}
+.checkbox-grid li input{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 14px;
+}
+.checkbox-grid li label{
+	padding-left: 18px;
+	vertical-align: top;
+	margin-top: -0.5px;
+}
+.tabs-below > .nav-tabs,
+.tabs-right > .nav-tabs,
+.tabs-left > .nav-tabs {
+  border-bottom: 0;
+}
+
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: none;
+}
+
+.tab-content > .active,
+.pill-content > .active {
+  display: block;
+}
+
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+
+.tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+
+.tabs-below > .nav-tabs > li > a {
+  -webkit-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+}
+
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #ddd;
+  border-bottom-color: transparent;
+}
+
+.tabs-below > .nav-tabs > .active > a,
+.tabs-below > .nav-tabs > .active > a:hover,
+.tabs-below > .nav-tabs > .active > a:focus {
+  border-color: transparent #ddd #ddd #ddd;
+}
+
+.tabs-left > .nav-tabs > li,
+.tabs-right > .nav-tabs > li {
+  float: none;
+}
+
+.tabs-left > .nav-tabs > li > a,
+.tabs-right > .nav-tabs > li > a {
+  min-width: 74px;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+
+.tabs-left > .nav-tabs {
+  float: left;
+  margin-right: 19px;
+  border-right: 1px solid #ddd;
+}
+
+.tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+  -webkit-border-radius: 4px 0 0 4px;
+     -moz-border-radius: 4px 0 0 4px;
+          border-radius: 4px 0 0 4px;
+}
+
+.tabs-left > .nav-tabs > li > a:hover,
+.tabs-left > .nav-tabs > li > a:focus {
+  border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+}
+
+.tabs-left > .nav-tabs .active > a,
+.tabs-left > .nav-tabs .active > a:hover,
+.tabs-left > .nav-tabs .active > a:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  border-right-color: #ffffff;
+}
+
+.tabs-right > .nav-tabs {
+  float: right;
+  margin-left: 19px;
+  border-left: 1px solid #ddd;
+}
+
+.tabs-right > .nav-tabs > li > a {
+  margin-left: -1px;
+  -webkit-border-radius: 0 4px 4px 0;
+     -moz-border-radius: 0 4px 4px 0;
+          border-radius: 0 4px 4px 0;
+}
+
+.tabs-right > .nav-tabs > li > a:hover,
+.tabs-right > .nav-tabs > li > a:focus {
+  border-color: #eeeeee #eeeeee #eeeeee #dddddd;
+}
+
+.tabs-right > .nav-tabs .active > a,
+.tabs-right > .nav-tabs .active > a:hover,
+.tabs-right > .nav-tabs .active > a:focus {
+  border-color: #ddd #ddd #ddd transparent;
+ border-left-color: #ffffff;
+}
+</style>

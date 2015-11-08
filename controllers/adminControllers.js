@@ -5,6 +5,7 @@
 .constant("autoUrl", "http://localhost:5500/autos/")
 .controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, authUrl, regUrl,autoUrl) {
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
+    $scope.error = null;
 
     $scope.authenticate = function (user, pass) {
         $http.post(authUrl, {
@@ -26,34 +27,42 @@
         username: null,
         password: null,
     };
+    if ($location.search()['user'] == 'new'){
+            $("#a-user-new").show();
+            $("#a-user-new").fadeTo(5000, 500).slideUp(500, function(){
+               $("#a-user-new").hide();
+            }); 
+    }
     $scope.registration = function (user) {
         $scope.user = user;
         new $scope.RegResource($scope.user).$save().then(function (newuser) {
-            $location.path("/login");
+            $location.url("/login?user=new");
             $.ajax({ 
             type: "POST", 
             url: "https://mandrillapp.com/api/1.0/messages/send.json", 
             data: { 
             'key': 'SWwkrbd8NN0rJ54aAyYnZg', 
             'message': { 
-            'from_email': 'i.dol.market@gmail.ru', 
+            'from_email': 'info@carsbir.ru', 
             'to': [ 
             { 
             'email': user.email, 
-            'name': 'Телемаркетинг', 
+            'name': user.username, 
             'type': 'to' 
             } 
             ], 
-            'subject': 'ЗАявка', 
-            'html': user.username + " " +user.password, 
+            'subject': 'Добро пожаловать в Carsbir', 
+            'html': "Добро пожаловать в Carsbir. Ваш логин: " + user.username + "Ваш пароль: " + user.password, 
             } 
             }});
+        }, function(error){
+            $scope.error = error;
         });
     }
 })
 .controller("mainCtrl", function ($scope) {
 
-    $scope.screens = ["Products", "Orders","Autos","Заявки","Редактирование профиля","Партнеры"];
+    $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля","Партнеры"];
     $scope.current = $scope.screens[0];
 
     $scope.setScreen = function (index) {
@@ -61,16 +70,13 @@
     };
 
     $scope.getScreen = function () {
-        if ($scope.current == "Products"){
+        if ($scope.current == "Мои заявки"){
             return "views/adminProducts.html";
         }
-        if ($scope.current == "Orders"){
-            return "views/adminOrders.html";
-        }
-        if ($scope.current == "Autos"){
+        if ($scope.current == "Автомобили"){
             return "views/adminAutos.html";
         }
-        if ($scope.current == "Заявки"){
+        if ($scope.current == "Оставить заявку"){
             return "views/adminRequests.html";
         }
         if ($scope.current == "Редактирование профиля"){

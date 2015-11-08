@@ -1,117 +1,298 @@
-﻿<div ng-controller="autoCtrl">
+﻿    <div class="alert alert-success" id="a-request-new" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы добавили новую заявку
+    </div>
+
+<div ng-controller="autoCtrl" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
-                <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary">
-                    Заявка на ТО
-                </button>
-            </div>
-            <div class="col-md-4">
-                <button ng-click="viewItem(mainproduct, 2)" class="btn btn-xs btn-primary">
-                    Заявка на Ремонт
-                </button>
-            </div>
-            <div class="col-md-4">
-                <button ng-click="viewItem(mainproduct, 3)" class="btn btn-xs btn-primary">
-                    Кузовные работы
-                </button>
+            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" ng-click="viewItem(mainproduct, 1)">Заявка на ТО</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" ng-click="viewItem(mainproduct, 2)">Заявка на Ремонт</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" ng-click="viewItem(mainproduct, 3)">Кузовные работы</button>
+              </div>
             </div>
         </div>
+
     </div>
     <div id="request1" class="container-fluid" ng-if="allitems == 1">
-        <div class="row">
-            <h1>Заявка на то</h1>
-            <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Заявка на то</h2>
+          </div>
+          <div class="panel-body">
+                <form name="authForm" novalidate>
+                    <div class="form-group">
+                        <label>Выберите автомобиль</label>
+                        <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+                    </div>
+                </form>
+          </div>
         </div>
-        <div class="row">
-            <h2>Работы в рамках ТО</h2>
-            <div class="col-md-4">Название:<input type="text" ng-model="mainproduct.name" /></div>
-            <div class="col-md-4">Описание:<input type="text" ng-model="mainproduct.description" /></div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></div>
-            <div class="col-md-4">Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></div>
-            <div class="col-md-4">Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></div>
-        </div>
-        <div class="row">
-            <div class="col-md-4" ng-repeat="item in texts.work">{{item}}:<input type="checkbox" ng-model="mainproduct.details.work[$index]" /></div>
-        </div>
-        <div class="row">
-            <button ng-click="addRequest(mainproduct)" class="btn btn-xs btn-primary">
-                Create
-            </button>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Работы в рамках ТО</h2>
+          </div>
+          <div class="panel-body">
+                <form name="workForm" novalidate>
+                    <div class="form-group"><label>Название:</label><input class="form-control" type="text" ng-model="mainproduct.name" /></div>
+                    <div class="form-group"><label>Описание:</label><input  class="form-control" type="text" ng-model="mainproduct.description" /></div>
+                    <div class="form-group"><label>Комментарий:</label><input  class="form-control" type="textarea" ng-model="mainproduct.details.comment" /></div>
+                    <div class="form-group row">
+                        <ul class="checkbox-grid">
+                        <li>             
+                            <input type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            <label>Свои запчасти</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            <label>Автомобиль на гарантии</label>
+                        </li>
+                        <li ng-repeat="item in texts.work">
+                            <input type="checkbox" ng-model="mainproduct.details.work[$index]" />
+                            <label>{{item}}</label>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" ng-click="addRequest(mainproduct)"
+                                class="btn btn-primary">
+                            Создать
+                        </button>
+                    </div>
+                </form>
+          </div>
         </div>
     </div>
+
     <div id="request2" class="container-fluid" ng-if="allitems == 2">
-        <div class="row">
-            <h1>Заявка на Ремонт</h1>
-            <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Выберите автомобиль</h2>
+          </div>
+          <div class="panel-body">
+                <form name="authForm" novalidate>
+                    <div class="form-group">
+                        <label>Выберите автомобиль</label>
+                        <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+                    </div>
+                </form>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">Название:<input type="text" ng-model="mainproduct.name" /></div>
-            <div class="col-md-4">Описание:<input type="text" ng-model="mainproduct.description" /></div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Заявка на ремонт</h2>
+          </div>
+          <div class="panel-body">
+                <form name="workForm" novalidate>
+                    <div class="form-group">
+                        <label>Название:</label>
+                        <input class="form-control" type="text" ng-model="mainproduct.name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Описание:</label>
+                        <input class="form-control" type="text" ng-model="mainproduct.description" />
+                    </div>
+                    <div class="form-group">
+                        <label>Опишите неисправность:</label>
+                        <input class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий:</label>
+                        <input class="form-control" type="textarea" ng-model="mainproduct.details.comment" />
+                    </div>
+                    <div class="form-group row">
+                        <ul class="checkbox-grid">
+                        <li>             
+                            <input type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            <label>Свои запчасти</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            <label>Автомобиль на гарантии</label>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body tabs-left">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active" role="presentation">
+                                <a ng-click="formdetails = 'question'" aria-controls="question" role="tab" data-toggle="tab" aria-expanded="true">Частые вопросы</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'diagnos'" aria-controls="diagnos" role="tab" data-toggle="tab">Диагностика</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'engine'" aria-controls="engine" role="tab" data-toggle="tab">Двигатель</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'head'" aria-controls="head" role="tab" data-toggle="tab">Подвеска и ходовая часть</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'wheel'" aria-controls="wheel" role="tab" data-toggle="tab">Рулевое управление и коробка передач</a>
+                            </li>
+                            <li role="presentation">
+                                <a ng-click="formdetails = 'addi'" aria-controls="addi" role="tab" data-toggle="tab">Дополнительное оборудование</a>
+                            </li>           
+                        </ul>
+                       <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'question'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.question">
+                                            <input type="checkbox" ng-model="mainproduct.details.question[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'diagnos'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.diagnos">
+                                            <input type="checkbox" ng-model="mainproduct.details.diagnos[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'engine'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.engine">
+                                            <input type="checkbox" ng-model="mainproduct.details.engine[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'head'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.head">
+                                            <input type="checkbox" ng-model="mainproduct.details.head[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'wheel'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.wheel">
+                                            <input type="checkbox" ng-model="mainproduct.details.wheel[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'addi'">
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="item in texts.addi">
+                                            <input type="checkbox" ng-model="mainproduct.details.addi[$index]" />
+                                            <label>{{item}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" ng-click="addRequest(mainproduct)"
+                                class="btn btn-primary">
+                            Создать
+                        </button>
+                    </div>
+                </form>
+          </div>
         </div>
-        <div class="row">
-            <h1>Опишите неисправность:</h1>
-            <input type="textarea" ng-model="mainproduct.details.mainbody" />
-        </div>
-        <div class="row">
-            <div class="col-md-4">Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></div>
-            <div class="col-md-4">Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></div>
-            <div class="col-md-4">Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></div>
-        </div>
-        <div class="row">
-            <h1>Частые вопросы</h1>
-            <div class="col-md-4" ng-repeat="item in texts.question">{{item}}:<input type="checkbox" ng-model="mainproduct.details.question[$index]" /></div>
-        </div>
-        <div class="row">
-            <h1>Диагностика</h1>
-            <div class="col-md-4" ng-repeat="item in texts.diagnos">{{item}}:<input type="checkbox" ng-model="mainproduct.details.diagnos[$index]" /></div>
-        </div>
-        <div class="row">
-            <h1>Двигатель</h1>
-            <div class="col-md-4" ng-repeat="item in texts.engine">{{item}}:<input type="checkbox" ng-model="mainproduct.details.engine[$index]" /></div>
-        </div>
-        <div class="row">
-            <h1>Подвеска и ходовая часть</h1>
-            <div class="col-md-4" ng-repeat="item in texts.head">{{item}}:<input type="checkbox" ng-model="mainproduct.details.head[$index]" /></div>
-        </div>
-        <div class="row">
-            <h1>Рулевое управление и коробка передач</h1>
-            <div class="col-md-4" ng-repeat="item in texts.wheel">{{item}}:<input type="checkbox" ng-model="mainproduct.details.wheel[$index]" /></div>
-        </div>
-        <div class="row">
-            <h1>Дополнительное оборудование</h1>
-            <div class="col-md-4" ng-repeat="item in texts.addi">{{item}}:<input type="checkbox" ng-model="mainproduct.details.addi[$index]" /></div>
-        </div>
-        <div class="row">
-            <button ng-click="addRequest(mainproduct)" class="btn btn-xs btn-primary">
-                Create
-            </button>
-        </div>
+
     </div>
     <div id="request3" class="container-fluid" ng-if="allitems == 3">
-        <div class="row">
-            <h1>Кузовные работы</h1>
-            <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Кузовные работы</h2>
+          </div>
+          <div class="panel-body">
+                <form name="authForm" novalidate>
+                    <div class="form-group">
+                        <label>Выберите автомобиль</label>
+                        <select ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+                    </div>
+                </form>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">Название:<input type="text" ng-model="mainproduct.name" /></div>
-            <div class="col-md-4">Описание:<input type="text" ng-model="mainproduct.description" /></div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">Свои запчасти:<input type="checkbox" ng-model="mainproduct.details.ownparts" /></div>
-            <div class="col-md-4">Автомобиль на гарантии:<input type="checkbox" ng-model="mainproduct.details.onguaranty" /></div>
-            <div class="col-md-4">Комментарий:<input type="textarea" ng-model="mainproduct.details.comment" /></div>
-        </div>
-        <div class="row" ng-repeat="item in texts.destructions" ng-init="parentIndex = $index">
-            <h2>{{item.title}}</h2>
-            <div class="col-md-4" ng-repeat="ite in item.data">{{ite}}:<input type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" /></div>
-        </div>
-        <div class="row">
-            <button ng-click="addRequest(mainproduct)" class="btn btn-xs btn-primary">
-                Create
-            </button>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h2 class="panel-title">Заявка на ремонт</h2>
+          </div>
+          <div class="panel-body">
+                <form name="workForm" novalidate>
+                    <div class="form-group">
+                        <label>Название:</label>
+                        <input class="form-control" type="text" ng-model="mainproduct.name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Описание:</label>
+                        <input class="form-control" type="text" ng-model="mainproduct.description" />
+                    </div>
+                    <div class="form-group">
+                        <label>Опишите неисправность:</label>
+                        <input class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
+                    </div>
+                    <div class="form-group">
+                        <label>Комментарий:</label>
+                        <input class="form-control" type="textarea" ng-model="mainproduct.details.comment" />
+                    </div>
+                    <div class="form-group row">
+                        <ul class="checkbox-grid">
+                        <li>             
+                            <input type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            <label>Свои запчасти</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            <label>Автомобиль на гарантии</label>
+                        </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body tabs-left">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li ng-class="{'active': $index == 0}" ng-repeat="item in texts.destructions" role="presentation">
+                                <a ng-click="$parent.formdetail = item.eng" aria-controls="{{item.eng}}" role="tab" data-toggle="tab" aria-expanded="true">{{item.title}}</a>
+                            </li>           
+                        </ul>
+                       <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetail == item.eng" ng-repeat="item in texts.destructions" ng-init="parentIndex = $index" >
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="ite in item.data">
+                                            <input type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" />
+                                            <label>{{ite}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Фотография</label>
+                        <input type='file' ng-model='mainproduct.details.image' base-sixty-four-input>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" ng-click="addRequest(mainproduct)"
+                                class="btn btn-primary">
+                            Создать
+                        </button>
+                    </div>
+                </form>
+          </div>
         </div>
     </div>
 </div>
