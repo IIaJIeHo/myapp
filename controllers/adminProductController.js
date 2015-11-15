@@ -23,7 +23,7 @@
                 }
             };
 }])
-.controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, regUrl, respondUrl, meUrl, serviceUrl, autoUrl) {
+.controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, regUrl, respondUrl, meUrl, serviceUrl, autoUrl, Autos, Users) {
 
     $scope.productsResource = $resource(productUrl + ":id", { id: "@id" });
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
@@ -223,8 +223,13 @@
             }); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
         });       
         });
+        /*
         $scope.user = $scope.MeResource.get({ id: $rootScope.userid },function(data){
             console.log(data);
+        });*/
+
+        Users.getById($rootScope.userid).then(function(user){
+            $scope.user = user;
         });
         
         $scope.partners = $scope.ServiceResource.query();
@@ -263,6 +268,31 @@
 
     $scope.editUser = function(user){
         var temp = user.password;
+        $scope.user.$saveOrUpdate().then(function(editeduser){
+            $.ajax({ 
+            type: "POST", 
+            url: "https://mandrillapp.com/api/1.0/messages/send.json", 
+            data: { 
+            'key': 'SWwkrbd8NN0rJ54aAyYnZg', 
+            'message': { 
+            'from_email': 'info@carsbir.ru', 
+            'to': [ 
+            { 
+            'email': user.email, 
+            'name': user.username, 
+            'type': 'to' 
+            } 
+            ], 
+            'subject': 'Данные пользователя изменена', 
+            'html': "Имя = " + user.name + "Фамилия = " + user.surname + "Телефон = "+user.phone+"Пароль = " + temp, 
+            } 
+            }});
+            $("#a-user-edit-profile").show();
+            $("#a-user-edit-profile").fadeTo(5000, 500).slideUp(500, function(){
+               $("#a-user-edit-profile").hide();
+            }); 
+        });
+        /*
         user.$save().then(function(editeduser){
             $.ajax({ 
             type: "POST", 
@@ -287,6 +317,7 @@
                $("#a-user-edit-profile").hide();
             }); 
         });
+*/
     }
 
     $scope.deleteProduct = function (product) {
@@ -439,13 +470,15 @@
 
     $scope.listProducts();
 })
-.controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl) {
+.controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl, Autos) {
 
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
     $scope.AutoResource = $resource(autoUrl + ":id", { id: "@id" });
     $scope.ProductsResource = $resource(productUrl + ":id", { id: "@id" });
     $scope.allitems = true;
     $scope.texts = {};
+    $scope.autos = null;
+
     /*$scope.marks={
             "Opel":{
                 "Astra" : ["1.4","1.6","Xsite"],
@@ -707,7 +740,11 @@
         if ($rootScope.userid == undefined){
             $rootScope.userid = getCookie('userid');
         }
-        $scope.autos = $scope.AutoResource.query({userid: $rootScope.userid});
+        Autos.query({userid: $rootScope.userid}).then(function(autos){
+            $scope.autos = autos;
+            console.log($scope.autos);
+        });
+        /*$scope.autos = $scope.AutoResource.query({userid: $rootScope.userid});*/
     }
     $scope.base = -1;
     $scope.nice = function(){
@@ -719,10 +756,27 @@
 
     $scope.addItem = function (auto) {
         auto.userid=$rootScope.userid;
-        console.log(document.getElementById("mark").value);
-        auto.mark = document.getElementById("mark").value;
-        auto.model = document.getElementById("model").value;
-        console.log(auto.picture);
+        if (!markinput){
+            auto.mark = document.getElementById("mark").value;
+        }
+        if (!modelinput){
+            auto.model = document.getElementById("model").value;
+        }
+        if (!generationinput){
+            auto.generation = document.getElementById("generation").value;
+        }      
+        newauto = new Autos(auto);
+        console.log(newauto);
+        newauto.$saveOrUpdate().then(function (newAuto) {
+            $scope.autos.push(newAuto);
+            requesttonull();
+            $scope.allitems = 1;
+            $("#alert").show();
+            $("#alert").fadeTo(5000, 500).slideUp(500, function(){
+               $("#alert").hide();
+            });
+        });
+        /*
         new $scope.AutoResource(auto).$save().then(function (newAuto) {
             $scope.autos.push(newAuto);
             requesttonull();
@@ -731,7 +785,7 @@
             $("#alert").fadeTo(5000, 500).slideUp(500, function(){
                $("#alert").hide();
             });
-        });       
+        });  */     
     }
 
     $scope.addRequest = function (request) {
@@ -753,15 +807,22 @@
     
     $scope.updateProduct = function (auto) {
         $scope.updatedAuto = $scope.mainproduct;
-        auto.mark = document.getElementById("mark").value;
-        auto.model = document.getElementById("model").value;
-        auto.$save().then(function(){
+        $scope.mainproduct.mark = document.getElementById("mark").value;
+        $scope.mainproduct.model = document.getElementById("model").value;
+        $scope.mainproduct.$update().then(function(){
             $scope.allitems = 1;
             $("#a-auto-edit").show();
             $("#a-auto-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-auto-edit").hide();
             });        
         });
+        /*auto.$save().then(function(){
+            $scope.allitems = 1;
+            $("#a-auto-edit").show();
+            $("#a-auto-edit").fadeTo(5000, 500).slideUp(500, function(){
+               $("#a-auto-edit").hide();
+            });        
+        });*/
         $scope.editedProduct = null;
         $scope.mainproduct = null;
         $scope.startEdit = false;
@@ -769,7 +830,14 @@
 
     $scope.deleteAuto = function (auto) {
         $scope.updatedAuto = auto;
-        auto.$delete().then(function () {
+        /*auto.$delete().then(function () {
+            $scope.autos.splice($scope.autos.indexOf(auto), 1);
+            $("#a-auto-delete").show();
+            $("#a-auto-delete").fadeTo(5000, 500).slideUp(500, function(){
+               $("#a-auto-delete").hide();
+            }); 
+        });*/
+        auto.$remove().then(function () {
             $scope.autos.splice($scope.autos.indexOf(auto), 1);
             $("#a-auto-delete").show();
             $("#a-auto-delete").fadeTo(5000, 500).slideUp(500, function(){

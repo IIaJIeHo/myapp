@@ -9,10 +9,10 @@
     </div>
 
     <form name="authForm" novalidate>
-        <div class="form-group" ng-class="{'has-error':error.data.errors.username == 'is already in use'}">
+        <div class="form-group" ng-class="{'has-error':isused}">
             <label>Имя</label>
-            <input name="username" class="form-control" ng-model="user.username" ng-change="error.data.errors.username = 'newone'" required />
-            <div ng-show="error.data.errors.username == 'is already in use'">
+            <input name="username" class="form-control" ng-model="user.username" ng-change="isused = false;" required />
+            <div ng-show="isused">
                 <span class="help-block">Такой пользователь уже зарегистрирован</span>
             </div>
         </div>
