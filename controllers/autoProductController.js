@@ -8,6 +8,20 @@
 .config(function($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
 })
+.directive('ngConfirmClick', [
+        function(){
+            return {
+                link: function (scope, element, attr) {
+                    var msg = attr.ngConfirmClick || "Are you sure?";
+                    var clickAction = attr.confirmedClick;
+                    element.bind('click',function (event) {
+                        if ( window.confirm(msg) ) {
+                            scope.$eval(clickAction)
+                        }
+                    });
+                }
+            };
+}])
 .controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, regUrl, respondUrl, userUrl, autoUrl) {
 
     $scope.productsResource = $resource(productUrl + ":id", { id: "@id" });
@@ -162,6 +176,11 @@
         $rootScope.userid = null;
         $location.path("/login");
     } */
+    $scope.logout = function(){
+        $rootScope.userid = undefined;
+        document.cookie = "userid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        $scope.listProducts();
+    }
         $scope.formatDate = function(date) {
             if (date != undefined){
                  date = new Date(date);

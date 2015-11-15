@@ -27,6 +27,8 @@
         username: null,
         password: null,
     };
+
+
     if ($location.search()['user'] == 'new'){
             $("#a-user-new").show();
             $("#a-user-new").fadeTo(5000, 500).slideUp(500, function(){
@@ -62,7 +64,7 @@
 })
 .controller("mainCtrl", function ($scope) {
 
-    $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля","Партнеры"];
+    $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
     $scope.current = $scope.screens[0];
 
     $scope.setScreen = function (index) {

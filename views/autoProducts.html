@@ -25,7 +25,7 @@
             <th><a href="" ng-click="order('date')">Время</a><span class="sortOrder" ng-show="predicate === 'date'" ng-class="{reverse:reverse}"></span></th>
             <th><input type="text" ng-model="query" /><input type="checkbox" ng-model="check_complete" /></th>
         </tr>
-        <tr ng-repeat="item in products | filter:query | filter:{completed:check_complete} |orderBy:predicate:reverse" ng-hide="item.id == editedProduct.id" ng-class="{'success':item.completed}">
+        <tr ng-repeat="item in products | filter:query | filter:{completed:check_complete} |orderBy:predicate:reverse" ng-hide="item.id == editedProduct.id" ng-class="{'success':item.completed}" ng-click="viewItem(item)">
             <td>{{item.type}}</td>
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
@@ -76,7 +76,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО'">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2 class="panel-title">Работы в рамках ТО</h2>
+                <h2 class="panel-title">Заявка на ТО</h2>
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
@@ -229,7 +229,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы'">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2 class="panel-title">Заявка на ремонт</h2>
+                <h2 class="panel-title">Кузовные работы</h2>
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
