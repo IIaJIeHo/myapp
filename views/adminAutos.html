@@ -21,14 +21,12 @@
         Вы удалили {{updatedAuto.name}}
     </div>
     <table id="autoTable" class="table table-hover" ng-if="allitems == 1"> 
-    <!-- просмотр всех автомобилей -->
-
-                
+    <!-- просмотр всех автомобилей -->                
         <tr>
-            <th>Имя</th>
-            <th>Марка</th>
-            <th>Модель</th>
-            <th>Поколение</th>
+            <th><a href="" ng-click="order('name')">Имя</a><span class="sortOrder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
+            <th><a href="" ng-click="order('mark')">Марка</a><span class="sortOrder" ng-show="predicate === 'mark'" ng-class="{reverse:reverse}"></span></th>
+            <th><a href="" ng-click="order('model')">Модель</a><span class="sortOrder" ng-show="predicate === 'model'" ng-class="{reverse:reverse}"></span></th>
+            <th><a href="" ng-click="order('generation')">Поколение</a><span class="sortOrder" ng-show="predicate === 'generation'" ng-class="{reverse:reverse}"></span></th>
             <th>
              <button ng-click="viewItem(null,3)" class="btn btn-xs btn-primary btn-icons">
                     <i class="fa fa-plus"></i>
@@ -40,7 +38,7 @@
             </div>
             </th>
         </tr>
-        <tr ng-repeat="item in autos | filter:query" >
+        <tr ng-repeat="item in autos | filter:query |orderBy:predicate:reverse" >
             <td ng-click="viewItem(item,2)">{{item.name}}</td>
             <td ng-click="viewItem(item,2)">{{item.mark}}</td>
             <td ng-click="viewItem(item,2)">{{item.model}}</td>
@@ -50,7 +48,7 @@
                     <i class="fa fa-link"></i>
                 </button>
                 <button ng-click="editItem(item,3)" ng-disabled="item.replied" class="btn btn-xs btn-success" data-toggle="tooltip" title="Изменить">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    <i class="fa fa-edit"></i>
                 </button>
                 <button ng-click="isdeleteAuto(item)" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Удалить">
                     <i class="fa fa-remove"></i>
@@ -59,32 +57,32 @@
         </tr>
     </table>
         <div class="wrapper-part" ng-if="allitems == 2">
-        <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
+        <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
             <div class="panel panel-info">
               <div class="panel-heading">
                 <h2 class="panel-title">Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
-                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.name}}</div> </div>
-                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.mark}}</div> </div>
-                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.model}}</div> </div>
-                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.generation}}</div> </div>
-                <div class="col-md-4"><label>Год</label><div>{{mainproduct.year}}</div> </div>
-                <div class="col-md-4"><label>Тип двигателя</label><div>{{mainproduct.engine}}</div> </div>
-                <div class="col-md-4"><label>Коробка</label><div>{{mainproduct.box}}</div> </div>
-                <div class="col-md-4"><label>Мощность</label><div>{{mainproduct.body}}</div> </div>
-                <div class="col-md-4"><label>Объем двигателя</label><div>{{mainproduct.volume}}</div> </div>
-                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.color}}</div> </div>
-                <div class="col-md-4"><label>Привод</label><div>{{mainproduct.drive}}</div> </div>
-                <div class="col-md-4"><label>Пробег</label><div>{{mainproduct.mileage}}</div> </div>
-                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.vin}}</div> </div>
-                <div class="col-md-12 text-center"><img data-ng-src="data:image/png;base64,{{mainproduct.picture.base64}}" data-err-src="avatar.png"/></div>
+                <div class="col-md-4"><label>Имя</label><div>{{$parent.mainproduct.name || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Марка</label><div>{{$parent.mainproduct.mark || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Модель</label><div>{{$parent.mainproduct.model || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Поколение</label><div>{{$parent.mainproduct.generation || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Год</label><div>{{$parent.mainproduct.year || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Тип двигателя</label><div>{{$parent.mainproduct.engine || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Коробка</label><div>{{$parent.mainproduct.box || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Мощность</label><div>{{$parent.mainproduct.body || '0'}} л.с.</div> </div>
+                <div class="col-md-4"><label>Объем двигателя</label><div>{{$parent.mainproduct.volume || '0'}} л.</div> </div>
+                <div class="col-md-4"><label>Цвет</label><div>{{$parent.mainproduct.color || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Привод</label><div>{{$parent.mainproduct.drive || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Пробег</label><div>{{$parent.mainproduct.mileage || '0'}} км</div> </div>
+                <div class="col-md-4"><label>Vin</label><div>{{$parent.mainproduct.vin || 'нету'}}</div> </div>
+                <div class="col-md-12 text-center"><img data-ng-src="data:image/png;base64,{{$parent.mainproduct.picture.base64}}" data-err-src="avatar.png"/></div>
                 </div>
             </div>
             </div>
     <div id="addTable"  class="wrapper-part" ng-if="allitems == 3">
     <!-- добавление одного автомобиля -->
-    <button ng-click="viewItem(mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
+    <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h2 class="panel-title">Данные автомобиля</h2>
@@ -94,23 +92,24 @@
                 <form name="autoadd" novalidate>
                     <div class="form-group">
                         <label>Название</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.name"/>
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.name"/>
                     </div>
                     <div class="form-group">
                         <label>Марка</label>
-                        <select id="mark" class="form-control" ng-if="!markinput" ng-change="Search(1, mainproduct.mark)" ng-focus="marks['other']=''" ng-model="mainproduct.mark" ng-options="mark for (mark, models) in marks" >
-                        <option value=''>Select</option>
+                        <select id="mark" class="form-control" ng-if="!markinput && !$parent.mainproduct.ismark" ng-change="$parent.Search(1, $parent.mainproduct.mark)" ng-focus="marks['Другая']='dif'" ng-model="$parent.mainproduct.mark" ng-options="mark for (mark, models) in marks" >
+                        <option value=''>Выбрать</option>
                         </select>
-                        <input type="text" class="form-control" ng-model="mainproduct.mark" ng-if="markinput" ng-blur="BacktoSelect(1,mainproduct.mark)"/>
+                        <input type="text" class="form-control" ng-model="$parent.mainproduct.mark" ng-if="markinput && $parent.mainproduct.ismark" ng-blur="BacktoSelect(1,$parent.mainproduct.mark)"/>
                     </div>
                     <div class="form-group">
                         <label>Модель</label>
-                        <select id="model" class="form-control" ng-change="Search(2,mainproduct.model)" ng-if="!modelinput" ng-focus="mainproduct.mark['other'] =''" ng-disabled="!mainproduct.mark" id="model" ng-model="mainproduct.model" ng-options="model for (model, generations) in mainproduct.mark"><option value=''>Select</option></select>
-                        <input type="text" class="form-control" ng-model="mainproduct.model"  ng-if="modelinput" ng-blur="BacktoSelect(2,mainproduct.model)"/>
+                        <select id="model" class="form-control" ng-change="$parent.Search(2,$parent.mainproduct.model)" ng-if="!modelinput && !$parent.mainproduct.ismodel" ng-focus="$parent.mainproduct.mark['Другая'] ='dif'" ng-disabled="!$parent.mainproduct.mark" id="model" ng-model="$parent.mainproduct.model" ng-options="model for (model, generations) in $parent.mainproduct.mark"><option value=''>Выбрать</option></select>
+                        <input type="text" class="form-control" ng-model="$parent.mainproduct.model"  ng-if="modelinput && $parent.mainproduct.ismodel" ng-blur="BacktoSelect(2,$parent.mainproduct.model)"/>
                     </div>
                     <div class="form-group">
                         <label>Поколение</label>
-                        <select class="form-control" ng-change="Search(3,mainproduct.generation)" ng-if="!generationinput" ng-focus="mainproduct.model.push('other');" ng-disabled="!mainproduct.mark || !mainproduct.model" id="generation" ng-model="mainproduct.generation" ng-options="generation for generation in mainproduct.model"><option value=''>Select</option></select><input type="text" class="form-control" ng-model="mainproduct.generation" ng-if="generationinput" ng-blur="BacktoSelect(3,mainproduct.generation)"/>
+                        <select class="form-control" ng-change="Search(3,$parent.mainproduct.generation)" ng-if="!generationinput && !$parent.mainproduct.isgeneration" ng-focus="$parent.mainproduct.model.push('Другая');" ng-disabled="!$parent.mainproduct.mark || !$parent.mainproduct.model" id="generation" ng-model="$parent.mainproduct.generation" ng-options="generation for generation in $parent.mainproduct.model"><option value=''>Выбрать</option></select>
+                        <input type="text" class="form-control" ng-model="$parent.mainproduct.generation" ng-if="generationinput && $parent.mainproduct.isgeneration" ng-blur="BacktoSelect(3,$parent.mainproduct.generation)"/>
                     </div>
                     <div class="form-group">
                         <label>Год</label>
@@ -118,46 +117,57 @@
                     </div>
                     <div class="form-group">
                         <label>Тип двигателя</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.engine"/>
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.engine"/>
                     </div>
                     <div class="form-group">
                         <label>Коробка передач</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.box"/>
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.box"/>
                     </div>
                     <div class="form-group">
                         <label>Мощность</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.body"/>
+                        <div class="input-group">
+                            <input name="name" class="form-control" ng-model="$parent.mainproduct.body"/>
+                            <div class="input-group-addon">л.с.</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Объем двигателя</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.volume"/>
+                        <div class="input-group">
+                            <input name="name" class="form-control" ng-model="$parent.mainproduct.volume"/>
+                            <div class="input-group-addon">л.</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Цвет</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.color"/>
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.color"/>
                     </div>
                     <div class="form-group">
                         <label>Привод</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.drive"/>
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.drive"/>
                     </div>
                     <div class="form-group">
                         <label>Пробег</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.mileage"/>
+                        <div class="input-group">
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.mileage"/>
+                            <div class="input-group-addon">км</div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Vin</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.vin"/>
+                        <input name="name" class="form-control" ng-model="$parent.mainproduct.vin"/>
                     </div>
                     <div class="form-group">
                         <label>Фото</label>
-                        <img style="max-width:100px;" data-ng-src="data:image/png;base64,{{mainproduct.picture.base64}}" data-err-src="avatar.png"/>
-                        <input name="name" type='file' ng-model='mainproduct.picture' base-sixty-four-input />
+                        <img style="max-width:100px;" ng-if="startEdit && $parent.mainproduct.newpicture == null" data-ng-src="data:image/png;base64,{{$parent.mainproduct.picture.base64}}" data-err-src="avatar.png"/>
+                        <img style="max-width:100px;" ng-if="startEdit && $parent.mainproduct.newpicture != null" data-ng-src="data:image/png;base64,{{$parent.mainproduct.newpicture.base64}}" data-err-src="avatar.png"/>
+                        <input ng-if="startEdit" name="name" type='file' ng-model='$parent.mainproduct.newpicture' base-sixty-four-input />
+                        <input ng-if="!startEdit" name="name" type='file' ng-model='$parent.mainproduct.picture' base-sixty-four-input />
                     </div>
                      <div class="text-center bottom-button">
-                    <button ng-if="!startEdit" ng-click="addItem(mainproduct)" class="btn btn-primary">
+                    <button ng-if="!startEdit" ng-click="addItem($parent.mainproduct)" class="btn btn-primary">
                         Создать
                     </button>
-                    <button ng-if="startEdit" ng-click="updateProduct(mainproduct)" class="btn btn-primary">
+                    <button ng-if="startEdit" ng-click="updateProduct($parent.mainproduct)" class="btn btn-primary">
                         Обновить
                     </button>
                     </div>

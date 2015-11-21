@@ -1,4 +1,4 @@
-﻿<nav class="navbar mynav" ng-controller="productCtrl">
+﻿<nav class="navbar mynav" ng-controller="mainCtrl">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -9,7 +9,7 @@
           </button>
           <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        <div id="navbar" class="collapse navbar-collapse" ng-controller="productCtrl">
           <ul class="nav navbar-nav navbar-right">
             <li>Привет, <span class="btn-link" ng-click="setScreen(3);">{{user.name}}!</span></li>
             <li><span class="btn-link" ng-click="logout();" style="cursor:pointer;">Выход</span></li>
@@ -34,6 +34,12 @@
   </div>
   </div>
 <style>
+    .sortOrder:after{
+        content: "\25b2";
+    }
+    .sortOrder.reverse:after{
+        content: "\25bc";
+    }
 .main-panel.panel{
   border:none;
 }

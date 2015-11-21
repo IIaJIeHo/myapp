@@ -39,7 +39,7 @@
         });*/
         $scope.candidat = Autoservices.query({username: user}).then(function(user){
             if (user[0] != undefined){
-                if (user[0].password == pass){
+                if (user[0].password == window.md5(pass)){
                     console.log(user[0]._id.$oid);
                     $location.path("/main");
                     $rootScope.userid = user[0]._id.$oid;
@@ -47,11 +47,17 @@
                     document.cookie = "autoid="+user[0]._id.$oid+"; path=/; expires=" + date.toUTCString();                
                 }
                 else{
-                    console.log("неправильный пароль");
+                    $("#a-user-password").show();
+                    $("#a-user-password").fadeTo(5000, 500).slideUp(500, function(){
+                       $("#a-user-password").hide();
+                    });
                 }               
             }
             else{
-                console.log("Нет такого пользователя");
+                    $("#a-user-user").show();
+                    $("#a-user-user").fadeTo(5000, 500).slideUp(500, function(){
+                       $("#a-user-user").hide();
+                    });
             }
 
         });
@@ -82,6 +88,7 @@
             }
             else{
                 console.log("saved");
+                $scope.user.password = window.md5($scope.user.password);
                 $scope.user.$save().then(function (newuser) {
                     $location.url("/login?user=new");
                     $.ajax({ 

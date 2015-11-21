@@ -304,6 +304,13 @@
         $scope.Allpartners = !$scope.Allpartners;
     }
 
+    $scope.predicate='date';
+    $scope.reverse = true;
+    $scope.order = function(predicate){
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+    }
+
     $scope.editUser = function(user,passchange){
         var temp = $scope.user.password;
         if (passchange){
@@ -547,6 +554,7 @@
     $scope.allitems = true;
     $scope.texts = {};
     $scope.autos = null;
+    $scope.mainproduct = {};
 
     /*$scope.marks={
             "Opel":{
@@ -754,7 +762,10 @@
         $scope.mainproduct.details.diagnos = [];
         $scope.mainproduct.details.work = [];
         $scope.mainproduct.details.destructions = [[],[],[],[],[],[],[],[],[]];
-        $scope.mainproduct.details.image = {};       
+        $scope.mainproduct.details.image = {};
+        $scope.modelinput = false;
+        $scope.markinput = false;
+        $scope.generationinput = false;   
     }
 
     requesttonull();
@@ -765,23 +776,43 @@
         $scope.listProducts();
     }
 
+    $scope.predicate='';
+    $scope.reverse = true;
+    $scope.order = function(predicate){
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+    }
+
     $scope.Search = function(number,object){
+        console.log(object);
         if (number == 1){
             console.log(object);
-            if (object == ''){
+            if (object == 'dif'){
                 $scope.markinput = true;
+                $scope.mainproduct.ismark = true;
+                $scope.modelinput = true;
+                $scope.mainproduct.ismodel = true;
+                $scope.generationinput = true;
+                $scope.mainproduct.isgeneration = true;
+                $scope.mainproduct.mark = '';
             }
         }
         if (number == 2){
             console.log(object);
-            if (object == ''){
+            if (object == 'dif'){
+                console.log("model = null");
                 $scope.modelinput = true;
+                $scope.mainproduct.ismodel = true;
+                $scope.generationinput = true;
+                $scope.mainproduct.isgeneration = true;
+                $scope.mainproduct.model = '';
             }
         }
         if (number == 3){
             console.log(object);
-            if (object == 'other'){
+            if (object == 'Другая'){
                 $scope.generationinput = true;
+                $scope.mainproduct.isgeneration = true;
                 $scope.mainproduct.generation = '';
             }
         }
@@ -791,16 +822,25 @@
             console.log(object);
             if (object == ''){
                 $scope.markinput = false;
+                $scope.mainproduct.ismark = false;
+                $scope.modelinput = false;
+                $scope.mainproduct.ismodel = false;
+                $scope.generationinput = false;
+                $scope.mainproduct.isgeneration = false;
             }
         }
         if (number == 2){
             if (object == ''){
                 $scope.modelinput = false;
+                $scope.mainproduct.ismodel = false;
+                $scope.generationinput = false;
+                $scope.mainproduct.isgeneration = false;
             }
         }
         if (number == 3){
             if (object == ''){
                 $scope.generationinput = false;
+                $scope.mainproduct.isgeneration = false;
             }
         }
     }
@@ -811,12 +851,13 @@
         }
         if ($rootScope.autos != null){
             $scope.autos = $rootScope.autos;
+            console.log($scope.autos);
             console.log("from cache");
         }
         else{
             Autos.query({userid: $rootScope.userid}).then(function(autos){
                 $scope.autos = autos;
-                $scope.autos = autos;
+                $rootScope.autos = autos;
                 console.log($scope.autos);
             });        
         }
@@ -833,15 +874,25 @@
 
     $scope.addItem = function (auto) {
         auto.userid=$rootScope.userid;
-        if (!markinput){
+        if (!$scope.markinput){
             auto.mark = document.getElementById("mark").value;
         }
-        if (!modelinput){
+        else{
+            auto.ismark = true;
+        }
+        if (!$scope.modelinput){
             auto.model = document.getElementById("model").value;
         }
-        if (!generationinput){
+        else{
+            auto.ismodel = true;
+        }
+        if (!$scope.generationinput){
             auto.generation = document.getElementById("generation").value;
-        }      
+        }
+        else{
+            auto.isgeneration = true;
+        }
+        console.log(auto);
         newauto = new Autos(auto);
         console.log(newauto);
         newauto.$saveOrUpdate().then(function (newAuto) {
@@ -887,8 +938,28 @@
     
     $scope.updateProduct = function (auto) {
         $scope.updatedAuto = $scope.mainproduct;
-        auto.mark = document.getElementById("mark").value;
-        auto.model = document.getElementById("model").value;
+        if (!$scope.markinput){
+            auto.mark = document.getElementById("mark").value;
+        }
+        else{
+            auto.ismark = true;
+        }
+        if (!$scope.modelinput){
+            auto.model = document.getElementById("model").value;
+        }
+        else{
+            auto.ismodel = true;
+        }
+        if (!$scope.generationinput){
+            auto.generation = document.getElementById("generation").value;
+        }
+        else{
+            auto.isgeneration = true;
+        } 
+        if (auto.newpicture != null){
+            auto.picture = auto.newpicture;
+            auto.newpicture = null;
+        }
         auto.$update().then(function(){
             $scope.allitems = 1;
             $rootScope.autos = $scope.autos;
@@ -954,8 +1025,15 @@
     $scope.editItem = function (auto,number) {
         console.log(auto.model);
         $scope.mainproduct = auto;
-        $scope.mainproduct.model = $scope.marks[$scope.mainproduct.mark][$scope.mainproduct.model];
-        $scope.mainproduct.mark = $scope.marks[$scope.mainproduct.mark];
+        if (!$scope.mainproduct.ismodel && ($scope.mainproduct.mark != '') && ($scope.mainproduct.model != '')){
+            $scope.mainproduct.model = $scope.marks[$scope.mainproduct.mark][$scope.mainproduct.model];
+        }
+        if (!$scope.mainproduct.ismark && ($scope.mainproduct.model != '')){
+            $scope.mainproduct.mark = $scope.marks[$scope.mainproduct.mark];
+        }
+        $scope.markinput = $scope.mainproduct.ismark;
+        $scope.modelinput = $scope.mainproduct.ismodel;
+        $scope.generationinput = $scope.mainproduct.isgeneration;
         $scope.startEdit = true;
         $scope.allitems = number;
     }
@@ -963,10 +1041,30 @@
     $scope.viewItem = function (auto,number) {
         $scope.allitems = number;
         $scope.mainproduct = auto;
+        if (auto == null){
+            $scope.mainproduct = {
+                mark : '',
+                model : '',
+                name : '',
+                generation : '',
+                year : '',
+                engine : '',
+                box : '',
+                body : '',
+                volume : '',
+                color : '',
+                drive : '',
+                mileage : '',
+                vin : '',
+            };
+        }
+        $scope.markinput = $scope.mainproduct.ismark;
+        $scope.modelinput = $scope.mainproduct.ismodel;
+        $scope.generationinput = $scope.mainproduct.isgeneration;
         if (number == 1){
             if (document.getElementById("mark")){
-            auto.mark = document.getElementById("mark").value;
-            auto.model = document.getElementById("model").value;              
+                auto.mark = document.getElementById("mark").value;
+                auto.model = document.getElementById("model").value;              
             }    
         }
     }

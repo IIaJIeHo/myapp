@@ -233,9 +233,19 @@
                 });
             });       
             });*/
-            Requests.query().then(function(data){
+            if ($rootScope.products != null){
+                $scope.autos = $rootScope.autos
+                $scope.products = $rootScope.products; 
+                $scope.responds = $rootScope.responds;
+                $scope.myresponds = $rootScope.myresponds;
+                $scope.users = $rootScope.users;
+                $scope.autoservice = $rootScope.autoservice; 
+                $scope.autoservices = $rootScope.autoservices;              
+                console.log("from cache");
+            }
+            else{
+                Requests.query().then(function(data){
                 $scope.products = data;
-
                 Autos.query().then(function(auto_data){
                     $scope.autos = auto_data;
                     angular.forEach($scope.products, function(value, key) {
@@ -246,6 +256,7 @@
                         }
                     });
                     });
+                    $rootScope.autos = $scope.autos;
                 });
                 Responds.query().then(function(responds_data){
                     $scope.responds = responds_data;
@@ -258,31 +269,34 @@
                         });               
                 });
                     console.log($scope.products);
-            });       
+                    $rootScope.responds = $scope.responds;
             });
-            Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ $scope.myresponds = responds_data;}); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
-            Users.query(function(users_data){ $scope.users = user_data;}); 
-            /*$scope.responds = $scope.RespondResource.query({autoserviceid: $rootScope.userid});*/
-            /*$scope.autoservice = $scope.RegResource.get({ id: $rootScope.userid },function(data){
-            });*/
+            $rootScope.products = $scope.products;    
+            });
+            Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ $scope.myresponds = responds_data; $rootScope.myresponds = $scope.myresponds;}); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
+            Users.query(function(users_data){ $scope.users = user_data; $rootScope.users = $scope.users;}); 
 
             Autoservices.getById($rootScope.userid).then(function(autoservice){
                 console.log(autoservice);
                 $scope.autoservice = autoservice;
                 console.log($scope.autoservice);
+                $rootScope.autoservice = $scope.autoservice;
             });
 
             Autoservices.query().then(function(autoservices){
                 $scope.autoservices = autoservices;
+                $rootScope.autoservices = $scope.autoservices;
                 console.log($scope.autoservices);
-                angular.forEach($scope.autoservices, function(value_auto, key_auto) {
+                /*angular.forEach($scope.autoservices, function(value_auto, key_auto) {
                         console.log(value_auto);
                         if ($rootScope.userid == value_auto._id.$oid){
                             $scope.autoservice = value_auto;
                         }
-                });
+                });*/
             });  
-            console.log($rootScope.userid);            
+            console.log($rootScope.userid);    
+            }
+                      
         }
 
     }
@@ -311,8 +325,11 @@
         });
     }
 
-    $scope.editUser = function(user){
+    $scope.editUser = function(user,passchange){
         var temp = user.password;
+        if (passchange){
+            $scope.autoservice.password = window.md5($scope.autoservice.password);
+        }
         $scope.autoservice.$update().then(function(editeduser){
             $.ajax({ 
             type: "POST", 
