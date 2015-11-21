@@ -21,7 +21,7 @@
         <strong>Ого! </strong>
         Вы удалили {{updatedRespond.name}}
     </div>
-    <table id="autoTable" class="table table-striped table-bordered" ng-if="respondview == 1"> 
+    <table id="autoTable" class="table table-striped table-bordered table-hover" ng-if="respondview == 1"> 
     <!-- просмотр всех ответов -->
         <tr>
             <th><a href="" ng-click="order('name')">Имя</a><span class="sortOrder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
@@ -52,7 +52,7 @@
             </td>
         </tr>
     </table>
-    <table id="singleTable" class="table table-striped table-bordered" ng-if="respondview == 2">
+    <table id="singleTable" class="table table-striped table-bordered table-hover" ng-if="respondview == 2">
         <tr>
             <td><button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary">
                     Назад

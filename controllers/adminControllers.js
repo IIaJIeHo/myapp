@@ -10,6 +10,15 @@
         .factory('Autos', ['$mongolabResourceHttp' ,function ($mongolabResourceHttp) {
             return $mongolabResourceHttp('Autos');
         }])
+        .factory('Autoservices', ['$mongolabResourceHttp' ,function ($mongolabResourceHttp) {
+            return $mongolabResourceHttp('Autoservices');
+        }])
+        .factory('Requests', ['$mongolabResourceHttp' ,function ($mongolabResourceHttp) {
+            return $mongolabResourceHttp('Requests');
+        }])
+        .factory('Responds', ['$mongolabResourceHttp' ,function ($mongolabResourceHttp) {
+            return $mongolabResourceHttp('Responds');
+        }])
 .controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, authUrl, regUrl,autoUrl, Users) {
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
     $scope.error = null;
@@ -33,7 +42,8 @@
         });*/
         $scope.candidat = Users.query({username: user}).then(function(user){
             if (user[0] != undefined){
-                if (user[0].password == pass){
+              console.log(window.md5(pass));
+                if (user[0].password == window.md5(pass)){
                     console.log(user[0]._id.$oid);
                     $location.path("/main");
                     $rootScope.userid = user[0]._id.$oid;
@@ -41,11 +51,17 @@
                     document.cookie = "userid="+user[0]._id.$oid+"; path=/; expires=" + date.toUTCString();                
                 }
                 else{
-                    console.log("неправильный пароль");
+                    $("#a-user-password").show();
+                    $("#a-user-password").fadeTo(5000, 500).slideUp(500, function(){
+                       $("#a-user-password").hide();
+                    });
                 }               
             }
             else{
-                console.log("Нет такого пользователя");
+                    $("#a-user-user").show();
+                    $("#a-user-user").fadeTo(5000, 500).slideUp(500, function(){
+                       $("#a-user-user").hide();
+                    });
             }
 
         });
@@ -79,6 +95,7 @@
             }
         });
         if (!isused){
+            $scope.user.password = window.md5($scope.user.password);
             $scope.user.$saveOrUpdate().then(function (newuser) {
                 $location.url("/login?user=new");
                 $.ajax({ 

@@ -4,27 +4,27 @@
         Вы добавили новую заявку
     </div>
 
-<div ng-controller="autoCtrl" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
+<div ng-controller="autoCtrl" class="partial-view wrapper-part" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
     <div class="container-fluid">
         <div class="row">
-            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group btn-group-justified condensted" role="group" aria-label="...">
               <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" ng-click="viewItem(mainproduct, 1)">Заявка на ТО</button>
+                <button type="button" class="btn btn-success" ng-click="viewItem(mainproduct, 1)"><i class="fa fa__text fa-tachometer"></i>Заявка на ТО</button>
               </div>
               <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" ng-click="viewItem(mainproduct, 2)">Заявка на Ремонт</button>
+                <button type="button" class="btn btn-warning" ng-click="viewItem(mainproduct, 2)"><i class="fa fa__text fa-wrench"></i>Заявка на Ремонт</button>
               </div>
               <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" ng-click="viewItem(mainproduct, 3)">Кузовные работы</button>
+                <button type="button" class="btn btn-danger" ng-click="viewItem(mainproduct, 3)"><i class="fa fa__text fa-truck"></i>Кузовные работы</button>
               </div>
             </div>
         </div>
 
     </div>
     <div id="request1" class="container-fluid" ng-if="allitems == 1">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Заявка на то</h2>
+            <h2 class="panel-title">Автомобиль</h2>
           </div>
           <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -35,9 +35,9 @@
                 </form>
           </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Работы в рамках ТО</h2>
+            <h2 class="panel-title">Заявка на ТО</h2>
           </div>
           <div class="panel-body">
                 <form name="workForm" novalidate>
@@ -72,9 +72,9 @@
     </div>
 
     <div id="request2" class="container-fluid" ng-if="allitems == 2">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Выберите автомобиль</h2>
+            <h2 class="panel-title">Автомобиль</h2>
           </div>
           <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -85,7 +85,7 @@
                 </form>
           </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
             <h2 class="panel-title">Заявка на ремонт</h2>
           </div>
@@ -119,7 +119,7 @@
                         </li>
                         </ul>
                     </div>
-                    <div class="panel-body tabs-left">
+                    <div class="panel-body tabs-left panel-info">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="active" role="presentation">
                                 <a ng-click="formdetails = 'question'" aria-controls="question" role="tab" data-toggle="tab" aria-expanded="true">Частые вопросы</a>
@@ -203,7 +203,7 @@
                             </div>
                       </div>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center bottom-button">
                         <button type="submit" ng-click="addRequest(mainproduct)"
                                 class="btn btn-primary">
                             Создать
@@ -215,9 +215,9 @@
 
     </div>
     <div id="request3" class="container-fluid" ng-if="allitems == 3">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Кузовные работы</h2>
+            <h2 class="panel-title">Автомобиль</h2>
           </div>
           <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -228,7 +228,7 @@
                 </form>
           </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
             <h2 class="panel-title">Заявка на ремонт</h2>
           </div>
@@ -262,7 +262,7 @@
                         </li>
                         </ul>
                     </div>
-                    <div class="panel-body tabs-left">
+                    <div class="panel-body tabs-left panel-info">
                         <ul class="nav nav-tabs" role="tablist">
                             <li ng-class="{'active': $index == 0}" ng-repeat="item in texts.destructions" role="presentation">
                                 <a ng-click="$parent.formdetail = item.eng" aria-controls="{{item.eng}}" role="tab" data-toggle="tab" aria-expanded="true">{{item.title}}</a>
@@ -285,7 +285,7 @@
                         <label>Фотография</label>
                         <input type='file' ng-model='mainproduct.details.image' base-sixty-four-input>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center bottom-button">
                         <button type="submit" ng-click="addRequest(mainproduct)"
                                 class="btn btn-primary">
                             Создать

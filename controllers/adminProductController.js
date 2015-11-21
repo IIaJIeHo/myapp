@@ -23,7 +23,7 @@
                 }
             };
 }])
-.controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, regUrl, respondUrl, meUrl, serviceUrl, autoUrl, Autos, Users) {
+.controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, regUrl, respondUrl, meUrl, serviceUrl, autoUrl, Autos, Users, Autoservices, Responds, Requests) {
 
     $scope.productsResource = $resource(productUrl + ":id", { id: "@id" });
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
@@ -41,6 +41,10 @@
     $scope.texts = {};
     $scope.startEdit = false;
     $scope.updatedRequest = null;
+    $scope.products = null;
+    $scope.autos = null;
+    $scope.responds = null;
+    $scope.partners = null;
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',
@@ -201,7 +205,7 @@
             $location.path("/login");
         }
         else{
-        $scope.products = $scope.productsResource.query({userid: $rootScope.userid},function(data){
+        /*$scope.products = $scope.productsResource.query({userid: $rootScope.userid},function(data){
             $scope.autos = $scope.AutoResource.query({userid: $rootScope.userid},function(auto_data){
                 angular.forEach(data, function(value, key) {
                     value.type=$scope.requests[value.type - 1];
@@ -220,8 +224,46 @@
                         value.responds.push(value_res);
                     }
                 });               
-            }); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
+            });
         });       
+        });*/
+        if ($rootScope.products != null){
+            $scope.products = $rootScope.products;
+            $scope.autos = $rootScope.autos;
+            $scope.responds = $rootScope.responds;
+            $scope.user = $rootScope.user;
+            $scope.partners = $rootScope.partners;
+            console.log("from cache")
+        }
+        else{
+        Requests.query({userid: $rootScope.userid}).then(function(data){
+            $scope.products = data;
+            console.log(data);
+            Autos.query({userid: $rootScope.userid}).then(function(auto_data){
+                $scope.autos = auto_data;
+                angular.forEach($scope.products, function(value, key) {
+                    value.type=$scope.requests[value.type - 1];
+                angular.forEach($scope.autos, function(value_auto, key_auto) {
+                    if (value.autoid == value_auto._id.$oid){
+                        value.auto=value_auto;
+                    }
+                });
+                });
+                $rootScope.autos = $scope.autos; 
+            });
+            Responds.query().then(function(responds_data){
+                $scope.responds = responds_data;
+                angular.forEach($scope.products, function(value, key) {
+                    value.responds = [];
+                    angular.forEach($scope.responds, function(value_res, key_res) {
+                        if (value._id.$oid == value_res.productid){
+                            value.responds.push(value_res);
+                        }
+                    });               
+            });
+                $rootScope.responds = $scope.responds; 
+        }); 
+        $rootScope.products = $scope.products;      
         });
         /*
         $scope.user = $scope.MeResource.get({ id: $rootScope.userid },function(data){
@@ -230,18 +272,15 @@
 
         Users.getById($rootScope.userid).then(function(user){
             $scope.user = user;
+            $rootScope.user = $scope.user; 
         });
         
-        $scope.partners = $scope.ServiceResource.query();
-        
-        $scope.productsResource.query({name: "Kayak"}, function(data){
-            console.log(data);
-        });
-        $scope.RegResource.query(function(data){
-            console.log(data);
-        });
-
-        console.log($rootScope.userid+"111");            
+        Autoservices.query().then(function(data){
+            $scope.partners = data;
+            $rootScope.partners = $scope.partners; 
+        }); 
+        }
+          
         }
 
     }
@@ -258,7 +297,6 @@
             else{
                 return '';
             }
-
     }
 
     $scope.viewPartner = function(item){
@@ -266,9 +304,13 @@
         $scope.Allpartners = !$scope.Allpartners;
     }
 
-    $scope.editUser = function(user){
-        var temp = user.password;
+    $scope.editUser = function(user,passchange){
+        var temp = $scope.user.password;
+        if (passchange){
+            $scope.user.password = window.md5($scope.user.password);
+        }
         $scope.user.$saveOrUpdate().then(function(editeduser){
+            $rootScope.user = $scope.user; 
             $.ajax({ 
             type: "POST", 
             url: "https://mandrillapp.com/api/1.0/messages/send.json", 
@@ -321,8 +363,10 @@
     }
 
     $scope.deleteProduct = function (product) {
-        product.$delete().then(function () {
+        product.$remove().then(function () {
             $scope.products.splice($scope.products.indexOf(product), 1);
+            $rootScope.products = $scope.products;
+            swal("Удален!", "Ваша заявка удалена", "success");
             $("#a-request-delete").show();
             $("#a-request-delete").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-request-delete").hide();
@@ -332,11 +376,35 @@
 
     $scope.createProduct = function (product) {
         product.userid=$rootScope.userid;
-        console.log(product);
-        new $scope.productsResource(product).$save().then(function (newProduct) {
+        product.completed = false;
+        var request = new Requests(product);
+        requests.$save().then(function (newProduct) {
             $scope.products.push(newProduct);
+            $rootScope.products = $scope.products; 
             $scope.editedProduct = null;
         });
+    }
+
+    $scope.isdeleteProduct = function(product){
+        console.log("fdf");
+            swal({
+              title: "Вы уверены?",
+              text: "У вас не получится восстановить заявку!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Да, удалить!",
+              cancelButtonText: "Нет, я передумал!",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                $scope.deleteProduct(product);
+              } else {
+                    swal("Ура", "Всё в порядке", "error");
+              }
+            });
     }
 
     $scope.updateProduct = function (product) {
@@ -344,19 +412,19 @@
         var responds = product.responds;
         $scope.updatedRequest = product;
         product.date = Date.now();
-        product.autoid = product.auto.id;
+        product.autoid = product.auto._id.$oid;
         console.log("autoid:"+product.autoid);
         angular.forEach($scope.requests, function(value,key){
             if (value == product.type){
                 product.type= key + 1;
             }
         });
-        product.$save().then(function(newProduct){ 
+        product.$update().then(function(newProduct){ 
             newProduct.auto = auto;
             newProduct.responds = responds;
             $scope.products.push(newProduct);
             $scope.products.splice($scope.products.indexOf(product), 1);
-            console.log(product.auto);          
+            $rootScope.products = $scope.products;          
             $("#a-request-edit").show();
             $("#a-request-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-request-edit").hide();
@@ -385,11 +453,12 @@
             }
         });
         request.completed = !request.completed;
-        request.$save().then(function(newrequest){
+        request.$update().then(function(newrequest){
             request.auto = auto;
             request.type = type;
             request.responds = responds;
             $scope.products[$scope.products.indexOf(request)] = request;
+            $rootScope.products = $scope.products; 
             /*$scope.products.splice($scope.products.indexOf(request), 1);
             $scope.products.push(newrequest);*/
             if (newrequest.completed){
@@ -416,9 +485,9 @@
         if (product){
             $scope.activeresponds = [];
             angular.forEach($scope.responds, function(value, key) {
-              if (value.productid == product.id){
+              if (value.productid == product._id.$oid){
                 angular.forEach($scope.partners, function(value1, key1){
-                    if (value1.id == value.autoserviceid){
+                    if (value1._id.$oid == value.autoserviceid){
                         value.autoservice = value1;
                     }
                 });
@@ -432,10 +501,10 @@
     $scope.approveItem = function(item,autoservice){
         var partner,keyProgress = true;
         item.approved = !item.approved;
-        item.$save().then(function(data){
+        item.$update().then(function(data){
             angular.forEach($scope.partners, function(value,key){
                 if (keyProgress){
-                    if (value.id == item.autoserviceid){
+                    if (value._id.$oid == item.autoserviceid){
                         partner = value;
                         keyProgress = false;
                     }
@@ -470,7 +539,7 @@
 
     $scope.listProducts();
 })
-.controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl, Autos) {
+.controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl, Autos, Users, Autoservices, Responds, Requests) {
 
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
     $scope.AutoResource = $resource(autoUrl + ":id", { id: "@id" });
@@ -740,10 +809,18 @@
         if ($rootScope.userid == undefined){
             $rootScope.userid = getCookie('userid');
         }
-        Autos.query({userid: $rootScope.userid}).then(function(autos){
-            $scope.autos = autos;
-            console.log($scope.autos);
-        });
+        if ($rootScope.autos != null){
+            $scope.autos = $rootScope.autos;
+            console.log("from cache");
+        }
+        else{
+            Autos.query({userid: $rootScope.userid}).then(function(autos){
+                $scope.autos = autos;
+                $scope.autos = autos;
+                console.log($scope.autos);
+            });        
+        }
+
         /*$scope.autos = $scope.AutoResource.query({userid: $rootScope.userid});*/
     }
     $scope.base = -1;
@@ -769,6 +846,7 @@
         console.log(newauto);
         newauto.$saveOrUpdate().then(function (newAuto) {
             $scope.autos.push(newAuto);
+            $rootScope.autos = $scope.autos;
             requesttonull();
             $scope.allitems = 1;
             $("#alert").show();
@@ -791,10 +869,12 @@
     $scope.addRequest = function (request) {
         request.userid=$rootScope.userid;
         request.type = $scope.allitems;
-        request.autoid = request.autoid.id;
+        request.autoid = request.autoid._id.$oid;
         request.date = Date.now();
-        new $scope.ProductsResource(request).$save().then(function (newrequest) {
+        var newrequest2 = new Requests(request);
+        newrequest2.$save().then(function (newrequest) {
             requesttonull();
+            $rootScope.products.push(newrequest);
             $scope.allitems = 1;
             $("#a-request-new").show();
             $("#a-request-new").fadeTo(5000, 500).slideUp(500, function(){
@@ -807,10 +887,11 @@
     
     $scope.updateProduct = function (auto) {
         $scope.updatedAuto = $scope.mainproduct;
-        $scope.mainproduct.mark = document.getElementById("mark").value;
-        $scope.mainproduct.model = document.getElementById("model").value;
-        $scope.mainproduct.$update().then(function(){
+        auto.mark = document.getElementById("mark").value;
+        auto.model = document.getElementById("model").value;
+        auto.$update().then(function(){
             $scope.allitems = 1;
+            $rootScope.autos = $scope.autos;
             $("#a-auto-edit").show();
             $("#a-auto-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-auto-edit").hide();
@@ -828,6 +909,28 @@
         $scope.startEdit = false;
     }
 
+
+    $scope.isdeleteAuto = function(auto){
+        console.log("fdf");
+            swal({
+              title: "Вы уверены?",
+              text: "У вас не получится его восстановить!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Да, удалить!",
+              cancelButtonText: "Нет, я передумал!",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                $scope.deleteAuto(auto);
+              } else {
+                    swal("Ура", "Всё в порядке", "error");
+              }
+            });
+    }
     $scope.deleteAuto = function (auto) {
         $scope.updatedAuto = auto;
         /*auto.$delete().then(function () {
@@ -839,6 +942,8 @@
         });*/
         auto.$remove().then(function () {
             $scope.autos.splice($scope.autos.indexOf(auto), 1);
+            $rootScope.autos = $scope.autos;
+            swal("Удален!", "Ваша запись удалена", "success");
             $("#a-auto-delete").show();
             $("#a-auto-delete").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-auto-delete").hide();
@@ -859,10 +964,11 @@
         $scope.allitems = number;
         $scope.mainproduct = auto;
         if (number == 1){
+            if (document.getElementById("mark")){
             auto.mark = document.getElementById("mark").value;
-            auto.model = document.getElementById("model").value;           
+            auto.model = document.getElementById("model").value;              
+            }    
         }
-
     }
 
     $scope.approveItem = function(item){
@@ -910,4 +1016,5 @@ angular.module("sportsStoreAdmin").directive('showtab',
             });
         }   
     }
-}]);*/
+
+*/

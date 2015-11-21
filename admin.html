@@ -10,15 +10,47 @@
     <script src="ngmodules/angular-cookie.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="bootstrap.min.js"></script>
+    <script src="bootstrap-table.js"></script>
+    <script src="md5.min.js"></script>
+    <script src="sweetalert.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,100&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <style>
-    *{
-  font-family:'Roboto';
-  font-weight: 300;
-}
-</style>
+        *{
+    	  font-family:'Roboto';
+    	  font-weight: 300;
+    	}
+    	#accordion{
+    	    max-width:768px;
+    	    padding:25px 10px;
+    	    margin:0 auto;
+    	}
+    	.well, .panel .panel{
+    	    margin:0 auto;
+    	    max-width: 768px;
+    	}
+    	#productTable{
+    		width:100%;
+    	}
+    	.search-form input{
+    		font-size: 12px;
+    	}
+        .top-header div{
+            text-align: center;
+        }
+        .top-header div:first-child{
+            padding-top:40px;
+        }
+        .top-header div:nth-child(3){
+            padding-top:40px;
+        }
+        ng-view > .container-fluid{
+            /*background: #eee;*/
+        }
+	</style>
     <link href="css/yeti.min.css" rel="stylesheet" />
-    
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <link href="css/bootstrap-table.css" rel="stylesheet" />
+     <link href="css/sweetalert.css" rel="stylesheet" />
     <script>
         angular.module("sportsStoreAdmin", ["ngRoute", "ngResource", "naif.base64"])
             .config(function ($routeProvider) {

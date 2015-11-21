@@ -7,7 +7,7 @@
 <div class="panel panel-default row">
     <div class="panel-body">
         <ul class="nav nav-tabs" id="navigation" role="tablist">
-        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)">{{item}}</a></li>
+        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)"><i class="fa fa__text" ng-class="{'fa-gear': ($index == 1) , 'fa-plus': ($index == 0), 'fa-refresh': ($index == 2) }"></i>{{item}}</a></li>
         </ul>
        <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home"><div ng-include="getScreen()" /></div>
@@ -26,16 +26,19 @@
   font-family:'Roboto';
   font-weight: 300;
 }
+.active-buttons button{
+    width:27px;
+    height: 27px;
+}
+.fa__text{
+  padding-right:5px;
+}
 .header{
   padding:40px 0;
 }
 .autodescription .col-md-4{
   border-right:1px solid #ddd;
   border-bottom:1px solid #ddd;
-}
-.autodescription{
-  border-top:1px solid #ddd;
-  border-left:1px solid #ddd;
 }
 .autodescription .col-md-4 label{
   color: #c1c1c1;

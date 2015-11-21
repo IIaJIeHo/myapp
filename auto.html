@@ -4,19 +4,38 @@
     <title>Administration</title>
     <script src="angular.js"></script>
     <script src="https://code.angularjs.org/1.3.0-rc.2/i18n/angular-locale_ru-ru.js"></script>
+    <script src="angular-base64-upload.js"></script>
     <script src="ngmodules/angular-route.js"></script>
     <script src="ngmodules/angular-resource.js"></script>
     <script src="ngmodules/angular-cookie.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="bootstrap.min.js"></script>
+    <script src="bootstrap-table.js"></script>
+    <script src="md5.min.js"></script>
+    <script src="sweetalert.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,100&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <style>
     *{
-  font-family:'Roboto';
-  font-weight: 300;
-}
+	  font-family:'Roboto';
+	  font-weight: 300;
+	}
+	#accordion{
+	    max-width:768px;
+	    padding:25px 0;
+	    margin:0 auto;
+	}
+	.well, .panel .panel{
+	    margin:0 auto;
+	    max-width: 768px;
+	}
+	.requests{
+		padding-top:15px;
+	}
 </style>
-<link href="css/yeti.min.css" rel="stylesheet" />
+    <link href="css/yeti.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <link href="css/bootstrap-table.css" rel="stylesheet" />
+     <link href="css/sweetalert.css" rel="stylesheet" />
     <script>
         angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
             .config(function ($routeProvider) {

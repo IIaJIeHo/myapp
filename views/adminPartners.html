@@ -5,7 +5,7 @@
 </style>
 
 <div ng-controller="productCtrl">
-    <table id="partnerTable" class="table table-striped table-bordered" ng-if="Allpartners">  
+    <table id="partnerTable" class="table table-striped table-bordered table-hover" ng-if="Allpartners">  
         <tr ng-repeat="item in partners">
             <td>{{item.username}}</td>
             <td>
@@ -15,7 +15,7 @@
             </td>
         </tr>       
     </table>
-    <table id="partnerTableSingle" class="table table-striped table-bordered" ng-if="!Allpartners">  
+    <table id="partnerTableSingle" class="table table-striped table-bordered table-hover" ng-if="!Allpartners">  
         <tr>
             <td>{{activeItem.username}}</td>
             <td>
