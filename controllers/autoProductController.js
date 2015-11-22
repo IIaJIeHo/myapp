@@ -30,6 +30,7 @@
     $scope.UserResource = $resource(userUrl + ":id", { id: "@id" });
     $scope.AutoResource = $resource(autoUrl + ":id", { id: "@id" });
     $scope.allitems = true;
+    $scope.toogleAutoservice = [];
     $scope.mainproduct = null;
     $scope.mainrespond = null;
     $scope.updatedRespond = null;
@@ -132,26 +133,26 @@
         'Защита картера (установка)', 
         'Отопитель двигателя (описать в комментарии)',
         'Шумоизоляция (описать в комментарии)'];
-        $scope.texts.destructions = [{ title: 'Бампер',
+        $scope.texts.destructions = [{ title: 'Бампер', eng: 'bamper',
         data: ['Задний', 
         'Передний']},
-        { title: 'Дверь', 
+        { title: 'Дверь', eng: 'dver',
         data: ['Задняя левая', 
         'Задняя правая', 
         'Передняя левая', 
         'Передняя правая']},
-        { title: 'Зеркало боковое',
+        { title: 'Зеркало боковое', eng: 'zerkalo',
         data: ['Левое', 
         'Правое']},
-        { title: 'Крыло', 
+        { title: 'Крыло', eng: 'krilo',
         data: ['Переднее правое', 
         'Переднее левое' ,
         'Заднее правое' ,
         'Заднее левое']},
-        { title:'Порог', 
+        { title:'Порог', eng: 'porog',
         data: ['Правый' ,
         'Левый']},
-        { title:'Стекло',
+        { title:'Стекло', eng: 'steklo',
         data: ['Лобовое без датчика дождя(замена)' ,
         'Лобовое с датчиком дождя(замена)' ,
         'Лобовое ремонт скола' ,
@@ -161,14 +162,14 @@
         'Задней правой двери' ,
         'Задней левой двери' ,
         'Заднее']},
-        { title:'Фара', 
+        { title:'Фара', eng: 'fara',
         data: ['Передняя правая' ,
         'Передняя левая']},
-        { title:'Противотуманка', 
+        { title:'Противотуманка', eng: 'tuman',
         data: ['Передняя правая',
         'Передняя левая' ,
         'Задняя']},
-        { title:'Задний фонарь', 
+        { title:'Задний фонарь', eng: 'fonar',
         data: ['Правый' ,
         'Левый']}];
     
@@ -249,7 +250,6 @@
                 Autos.query().then(function(auto_data){
                     $scope.autos = auto_data;
                     angular.forEach($scope.products, function(value, key) {
-                        value.type=$scope.requests[value.type - 1];
                     angular.forEach($scope.autos, function(value_auto, key_auto) {
                         if (value.autoid == value_auto._id.$oid){
                             value.auto=value_auto;
@@ -274,7 +274,7 @@
             $rootScope.products = $scope.products;    
             });
             Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ $scope.myresponds = responds_data; $rootScope.myresponds = $scope.myresponds;}); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
-            Users.query(function(users_data){ $scope.users = user_data; $rootScope.users = $scope.users;}); 
+            Users.query().then(function(users_data){ $scope.users = users_data; $rootScope.users = $scope.users;}); 
 
             Autoservices.getById($rootScope.userid).then(function(autoservice){
                 console.log(autoservice);
@@ -357,14 +357,17 @@
     }
 
     $scope.createRespond = function (respond) {
-        var userofrequest, keepgoing = true;
+        var userofrequest, auto, responds, keepgoing = true;
         respond.autoserviceid=$rootScope.userid;
         respond.productid=$scope.mainproduct._id.$oid;
         respond.date = Date.now();
+        console.log($scope.users);
         angular.forEach($scope.users,function(value,key){
+                console.log($scope.mainproduct.userid);
                 if (keepgoing){
                     if (value._id.$oid== $scope.mainproduct.userid){
                         respond.phone = value.phone;
+                        userofrequest = value;
                         keepgoing = false;
                     }                    
                 }
@@ -372,28 +375,22 @@
         console.log(respond);
         var candirespond = new Responds(respond);
         candirespond.$save().then(function (newRespond) {
+            newRespond.autoservice = $scope.autoservice;
              $scope.activeresponds.push(newRespond);
+             $scope.myresponds.push(newRespond);
             $("#a-respond-new").show();
             $("#a-respond-new").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-respond-new").hide();
             });
             $scope.editedRespond = {};
             $scope.mainproduct.replied = true;
-            angular.forEach($scope.requests, function(value,key){
-                if (value == $scope.mainproduct.type){
-                    $scope.mainproduct.type= key + 1;
-                }
-            });
+            auto = $scope.mainproduct.auto;
+            responds = $scope.mainproduct.responds;
+            $scope.mainproduct.auto = [];
+            $scope.mainproduct.responds = [];
             $scope.mainproduct.$update();
-            angular.forEach($scope.users,function(value,key){
-                if (keepgoing){
-                    if (value._id.$oid == $scope.mainproduct.userid){
-                        userofrequest = value;
-                        keepgoing = false;
-                    }                    
-                }
-            }); 
-
+            $scope.mainproduct.auto = auto;
+            $scope.mainproduct.responds = responds;
             $.ajax({ 
             type: "POST", 
             url: "https://mandrillapp.com/api/1.0/messages/send.json", 
@@ -433,6 +430,7 @@
 
     $scope.updateRespond = function (respond) {
         $scope.updatedRespond = $scope.mainrespond;
+        console.log($scope.responds.indexOf(respond));
         respond.$update().then(function(){
             $scope.respondview = 1;
             $("#a-respond-edit").show();
@@ -442,12 +440,33 @@
         });
         $scope.mainrespond = null;
     }
-
+    $scope.isdeleteRespond = function(respond){
+            swal({
+              title: "Вы уверены?",
+              text: "У вас не получится его восстановить!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Да, удалить!",
+              cancelButtonText: "Нет, я передумал!",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                $scope.deleteRespond(respond);
+              } else {
+                    swal("Ура", "Всё в порядке", "error");
+              }
+            });
+    }
     $scope.deleteRespond = function (respond) {
         console.log(respond);
         $scope.updatedRespond = respond;
-        respond.$rempve().then(function () {
+        respond.$remove().then(function () {
             $scope.myresponds.splice($scope.myresponds.indexOf(respond), 1);
+            $scope.responds.splice($scope.responds.indexOf(respond), 1);
+            swal("Удален!", "Ваша запись удалена", "success");
             $("#a-respond-delete").show();
             $("#a-respond-delete").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-respond-delete").hide();
@@ -477,6 +496,7 @@
         $scope.mainproduct = product;
         $scope.startEdit = false;
         if (product){
+            $scope.toogleAutoservice = [];
             $scope.activeresponds = [];
             angular.forEach($scope.responds, function(value, key) {
               if (value.productid == product._id.$oid){
@@ -497,6 +517,7 @@
                 });
 
                 $scope.activeresponds.push(value);
+                $scope.toogleAutoservice.push(false);
               }
             });           
         }

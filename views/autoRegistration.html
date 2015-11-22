@@ -5,7 +5,7 @@
     </div>
 
     <div class="alert alert-danger" ng-show="authenticationError">
-        Authentication Failed ({{authenticationError.status}}). Try again.
+        Авторизация не прошла ({{authenticationError.status}}). Попробуйте снова.
     </div>
 
     <form name="authForm" novalidate>
@@ -51,7 +51,7 @@
             <button type="submit" ng-click="registration(user)"
                     ng-disabled="authForm.$invalid || user.password != repeatpassword"
                     class="btn btn-primary">
-                Log In
+                Зарегистрироваться
             </button>
         </div>
     </form>

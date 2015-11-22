@@ -45,6 +45,7 @@
     $scope.autos = null;
     $scope.responds = null;
     $scope.partners = null;
+    $scope.toogleAutoservice = [];
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',
@@ -242,7 +243,6 @@
             Autos.query({userid: $rootScope.userid}).then(function(auto_data){
                 $scope.autos = auto_data;
                 angular.forEach($scope.products, function(value, key) {
-                    value.type=$scope.requests[value.type - 1];
                 angular.forEach($scope.autos, function(value_auto, key_auto) {
                     if (value.autoid == value_auto._id.$oid){
                         value.auto=value_auto;
@@ -421,11 +421,8 @@
         product.date = Date.now();
         product.autoid = product.auto._id.$oid;
         console.log("autoid:"+product.autoid);
-        angular.forEach($scope.requests, function(value,key){
-            if (value == product.type){
-                product.type= key + 1;
-            }
-        });
+        product.auto = [];
+        product.responds = [];
         product.$update().then(function(newProduct){ 
             newProduct.auto = auto;
             newProduct.responds = responds;
@@ -436,7 +433,6 @@
             $("#a-request-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-request-edit").hide();
             });
-            product.type = $scope.requests[product.type-1]; 
             $scope.allitems = !$scope.allitems;         
         });
         $scope.editedProduct = null;
@@ -454,15 +450,11 @@
         console.log(auto);
         $scope.updatedRequest = request;
         request.date = Date.now();
-        angular.forEach($scope.requests, function(value,key){
-            if (value == request.type){
-                request.type= key + 1;
-            }
-        });
         request.completed = !request.completed;
+        product.auto = [];
+        product.responds = [];
         request.$update().then(function(newrequest){
             request.auto = auto;
-            request.type = type;
             request.responds = responds;
             $scope.products[$scope.products.indexOf(request)] = request;
             $rootScope.products = $scope.products; 
@@ -491,6 +483,7 @@
         $scope.mainproduct = product;
         if (product){
             $scope.activeresponds = [];
+            $scope.toogleAutoservice = [];
             angular.forEach($scope.responds, function(value, key) {
               if (value.productid == product._id.$oid){
                 angular.forEach($scope.partners, function(value1, key1){
@@ -499,6 +492,7 @@
                     }
                 });
                 $scope.activeresponds.push(value);
+                $scope.toogleAutoservice.push(false);
               }
             });
            
@@ -555,6 +549,7 @@
     $scope.texts = {};
     $scope.autos = null;
     $scope.mainproduct = {};
+    $scope.requests_desc = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
 
     /*$scope.marks={
             "Opel":{
@@ -918,12 +913,17 @@
     }
 
     $scope.addRequest = function (request) {
+        var auto = request.autoid;
         request.userid=$rootScope.userid;
-        request.type = $scope.allitems;
+        request.type = $scope.requests_desc[$scope.allitems - 1];
         request.autoid = request.autoid._id.$oid;
         request.date = Date.now();
+        request.completed = false;
         var newrequest2 = new Requests(request);
         newrequest2.$save().then(function (newrequest) {
+            console.log(newrequest);
+            newrequest.responds = [];
+            newrequest.auto = auto;
             requesttonull();
             $rootScope.products.push(newrequest);
             $scope.allitems = 1;

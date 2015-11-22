@@ -40,7 +40,25 @@
     .sortOrder.reverse:after{
         content: "\25bc";
     }
-.main-panel.panel{
+    .row-hover:hover > div{
+      background:#F5F5F5;
+    }
+    .row-hover.bg-success:hover > div{
+      background:#EAFCE3;
+    }
+    .row-title > div{
+      padding:15px 5px;
+    }
+    .row-hover:not(:first-child){
+      border-top:1px solid #3DB5D8;
+    }
+    .row-hover > div{
+      padding:15px 5px;
+    }
+    .row-hover > div.toogle-action{
+      padding:12px 10px;
+    }
+    .main-panel.panel{
   border:none;
 }
 #navigation + .tab-content{
@@ -84,7 +102,7 @@
   padding-top:2px;
   max-width:50px;
 }
-*{
+*,h1,h2,h3,h4,h5{
   font-family:'Roboto';
   font-weight: 300;
 }
@@ -109,6 +127,9 @@
 .active-buttons button{
     width:27px;
     height: 27px;
+}
+.respondactive > div{
+  padding:15px 5px;
 }
 .header{
   padding:40px 0;

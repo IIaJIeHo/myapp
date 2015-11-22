@@ -3,7 +3,7 @@
     #productTable td input { max-width: 125px; }
 </style>
 
-<div ng-controller="productCtrl" class="partial-view">
+<div ng-controller="productCtrl" class="partial-view" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
     <div class="alert alert-success" id="a-request-edit" style="position:fixed;bottom:0;right:0;display:none;">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Поздравляем! </strong>
@@ -24,7 +24,7 @@
         <strong>Поздравляем! </strong>
         Вы возобновили заявку {{updatedRequest.name}}!
     </div>
-    <table id="productTable" class="table table-hover table-responsive" ng-if="allitems">
+    <table id="productTable" class="table table-hover table-responsive" ng-if="allitems" >
         <tr>
             <th><a href="" ng-click="order('type')">Тип</a><span class="sortOrder" ng-show="predicate === 'type'" ng-class="{reverse:reverse}"></span></th>
             <th><a href="" ng-click="order('name')">Название</a><span class="sortOrder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
@@ -73,19 +73,19 @@
                 <h2 class="panel-title">Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
-                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name}}</div> </div>
-                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark}}</div> </div>
-                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model}}</div> </div>
-                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation}}</div> </div>
-                <div class="col-md-4"><label>Год</label><div>{{mainproduct.auto.year}}</div> </div>
-                <div class="col-md-4"><label>Тип двигателя</label><div>{{mainproduct.auto.engine}}</div> </div>
-                <div class="col-md-4"><label>Коробка</label><div>{{mainproduct.auto.box}}</div> </div>
-                <div class="col-md-4"><label>Мощность</label><div>{{mainproduct.auto.body}}</div> </div>
-                <div class="col-md-4"><label>Объем двигателя</label><div>{{mainproduct.auto.volume}}</div> </div>
-                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.auto.color}}</div> </div>
-                <div class="col-md-4"><label>Привод</label><div>{{mainproduct.auto.drive}}</div> </div>
-                <div class="col-md-4"><label>Пробег</label><div>{{mainproduct.auto.mileage}}</div> </div>
-                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin}}</div> </div>
+                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Год</label><div>{{mainproduct.auto.year || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Тип двигателя</label><div>{{mainproduct.auto.engine || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Коробка</label><div>{{mainproduct.auto.box || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Мощность</label><div>{{mainproduct.auto.body || '0'}} л.с.</div> </div>
+                <div class="col-md-4"><label>Объем двигателя</label><div>{{mainproduct.auto.volume || '0'}} л.</div> </div>
+                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.auto.color || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Привод</label><div>{{mainproduct.auto.drive || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Пробег</label><div>{{mainproduct.auto.mileage || '0'}} км</div> </div>
+                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin || 'нету'}}</div> </div>
                 </div>
             </div>
             <div class="panel panel-info" ng-if="startEdit">
@@ -96,7 +96,7 @@
                 <form name="authForm" novalidate>
                     <div class="form-group">
                         <label>Выберите автомобиль</label>
-                        <select ng-model="mainproduct.auto" ng-options="auto.name for auto in autos"></select>
+                        <select class="form-control" ng-model="mainproduct.auto" ng-options="auto.name for auto in autos"></select>
                     </div>
                 </form>
             </div>
@@ -128,7 +128,7 @@
                             </li>
                             </ul>
                         </div>
-                        <div ng-if="startEdit" class="text-center">
+                        <div ng-if="startEdit" class="text-center bottom-button">
                             <button type="submit" ng-click="updateProduct(mainproduct)"
                                     class="btn btn-primary">
                                 Обновить
@@ -257,7 +257,7 @@
                             </div>
                       </div>
                     </div>
-                    <div ng-if="startEdit" class="text-center">
+                    <div ng-if="startEdit" class="text-center bottom-button">
                         <button type="submit" ng-click="updateProduct(mainproduct)"
                                 class="btn btn-primary">
                             Обновить
@@ -326,7 +326,7 @@
                         <img data-ng-src="data:image/png;base64,{{mainproduct.details.image.base64}}" ng-click="changepicture=true" data-err-src="avatar.png"/>
                         <input ng-if="startEdit && changepicture" type='file' ng-model='mainproduct.details.image' base-sixty-four-input>
                     </div>
-                    <div ng-if="startEdit" class="text-center">
+                    <div ng-if="startEdit" class="text-center bottom-button">
                         <button type="submit" ng-click="updateProduct(mainproduct)"
                                 class="btn btn-primary">
                             Обновить
@@ -337,49 +337,56 @@
         </div>
         </div>
     </div>
-        <div class="panel panel-info" ng-if="!allitems">
-          <div class="panel-heading">
-            <h2 class="panel-title">Предложения от автомастерских</h2>
-          </div>
-    <div class="panel-body">
+
+
+  <div class="panel panel-info" ng-if="!allitems && !startEdit">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Ответы
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
         <div class="container-fluid">
-            <table class="table">
-                <tr>
-                    <th>Название компании</th>
-                    <th>Название заявки</th>
-                    <th>Описание</th>
-                    <th>Стоимость</th>
-                    <th>Длительность</th>
-                    <th>Действие</th>
-                </tr>
-                <tr ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
-                    <td>
-                        <a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a>
-                    </td>
-                    <td>
-                        {{item.name}}
-                    </td>
-                    <td>
-                        {{item.description}}
-                    </td>
-                    <td style="display:none;">
-                        <span ng-if="item.approved && (item.autoservice.id == autoservice.id)">{{mainproduct.phone}}</span>
-                    </td>
-                    <td>
-                        {{item.cost | currency}}
-                    </td>
-                    <td>
-                        {{item.duration}}
-                    </td>
-                    <td>
-                        <button ng-class="{'btn-success': (!item.approved),'btn-danger': (item.approved)}" ng-click="approveItem(item,item.autoservice)" class="btn btn-xs btn-icons">
-                            <i ng-if="!item.approved" class="fa fa-thumbs-up"></i>
-                            <i ng-if="item.approved" class="fa fa-thumbs-down"></i>
-                        </button>
-                    </td>
-                </tr>
-            </table>
+            <div class="row row-title">
+                <div class="col-lg-3">
+                    Название компании
+                </div>
+                <div class="col-lg-3">
+                    Имя заявки
+                </div>
+                <div class="col-lg-3">
+                    Стоимость
+                </div>
+                <div class="col-lg-3">
+                    Длительность
+                </div>
+            </div>
+            <div class="row row-hover" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
+                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    <a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a>
+                </div>
+                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    {{item.name}}
+                </div>
+                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    {{item.cost | currency}}
+                </div>
+                <div class="col-lg-2" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    {{item.duration}}ч.
+                </div>
+                <div class="col-lg-1 toogle-action">
+                    <button ng-class="{'btn-success': (!item.approved),'btn-danger': (item.approved)}" ng-click="approveItem(item,item.autoservice)" class="btn btn-xs btn-icons">
+                                <i ng-if="!item.approved" class="fa fa-thumbs-up"></i>
+                                <i ng-if="item.approved" class="fa fa-thumbs-down"></i>
+                    </button>
+                </div>
+                <div class="col-lg-12" ng-if="toogleAutoservice[$index]">
+                    {{item.description}}
+                </div>
+            </div> 
         </div>
-    </div>
-    </div>
+  </div>
+</div>
 </div>

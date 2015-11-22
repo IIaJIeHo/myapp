@@ -10,7 +10,7 @@
     }
 </style>
 
-<div ng-controller="productCtrl">
+<div ng-controller="productCtrl" class="partial-view" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
     <div class="alert alert-success" id="a-respond-edit" style="position:fixed;bottom:0;right:0;display:none;">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Поздравляем! </strong>
@@ -30,54 +30,62 @@
             <th><a href="" ng-click="order('duration')">Длительность</a><span class="sortOrder" ng-show="predicate === 'duration'" ng-class="{reverse:reverse}"></span></th>
             <th><a href="" ng-click="order('date')">Дата</a><span class="sortOrder" ng-show="predicate === 'date'" ng-class="{reverse:reverse}"></span></th>
             <th><a href="" ng-click="order('phone')">Телефон</a><span class="sortOrder" ng-show="predicate === 'phone'" ng-class="{reverse:reverse}"></th>
-            <th><input type="text" ng-model="query" /></th>
+            <th>            
+            <div class="input-group search-form input-group-xs">
+              <input type="text" class="form-control" ng-model="query" placeholder="Поиск">
+              <div class="input-group-addon"><i class="fa fa-search"></i></div>
+            </div></th>
         </tr>
-        <tr ng-repeat="item in myresponds | filter:query |orderBy:predicate:reverse" ng-class="{'success' : item.approved }" ng-click="viewRespond(item,2)"o>
-            <td>{{item.name}}</td>
-            <td>{{item.description}}</td>
-            <td>{{item.cost | currency}}</td>
-            <td>{{item.duration}}</td>
-            <td>{{formatDate(item.date)}}</td>
-            <td><span ng-if="item.approved">{{item.phone}}</span></td>
-            <td>
-                <button ng-click="viewRespond(item,2)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
-                    <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+        <tr ng-repeat="item in myresponds | filter:query |orderBy:predicate:reverse" ng-class="{'success' : item.approved }" >
+            <td ng-click="viewRespond(item,2)">{{item.name}}</td>
+            <td ng-click="viewRespond(item,2)">{{item.description}}</td>
+            <td ng-click="viewRespond(item,2)">{{item.cost | currency}}</td>
+            <td ng-click="viewRespond(item,2)">{{item.duration}}</td>
+            <td ng-click="viewRespond(item,2)">{{formatDate(item.date)}}</td>
+            <td><span ng-if="item.approved" ng-click="viewRespond(item,2)">{{item.phone}}</span></td>
+            <td class="active-buttons">
+                <button ng-click="viewRespond(item,2)" class="btn btn-xs btn-info btn-icons" data-toggle="tooltip" title="Посмотреть">
+                    <i class="fa fa-link"></i>
                 </button>
-                <button ng-click="editRespond(item,3)" ng-disabled="item.replied" class="btn btn-xs btn-success" data-toggle="tooltip" title="Изменить">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                <button ng-click="editRespond(item,3)" ng-disabled="item.replied" class="btn btn-xs btn-success btn-icons" data-toggle="tooltip" title="Изменить">
+                    <i class="fa fa-edit"></i>
                 </button>
-                <button confirmed-click="deleteRespond(item)" ng-confirm-click="Вы действительно хотите удалить?" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Удалить">
-                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                <button ng-click="isdeleteRespond(item)" class="btn btn-xs btn-icons btn-danger" data-toggle="tooltip" title="Удалить">
+                    <i class="fa fa-remove"></i>
                 </button>
             </td>
         </tr>
     </table>
-    <table id="singleTable" class="table table-striped table-bordered table-hover" ng-if="respondview == 2">
-        <tr>
-            <td><button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary">
-                    Назад
-                </button></td>
-        </tr>
-    <!-- просмотр одного ответа-->
-        <tr>
-            <th>Имя</th>
-            <th>Описание</th>
-            <th>Цена</th>
-            <th>Длительность</th>
-            <th>Дата</th>
-            <th>Телефон</th>
-        </tr>
-        <tr>
-            <td>{{mainrespond.name}}</td>
-            <td>{{mainrespond.description}}</td>
-            <td>{{mainrespond.cost | currency}}</td>
-            <td>{{mainrespond.duration}}</td>
-            <td>{{formatDate(mainrespond.date)}}</td>
-            <td><span ng-if="item.approved">{{mainrespond.phone}}</span></td>
-        </tr>  
-    </table>
+    <div class="container-fluid" ng-if="respondview == 2">
+    <button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary btn-icons" ng-if="respondview == 2">
+        <i class="fa fa-arrow-left"></i>
+    </button>
+    <div class="panel panel-info">
+              <div class="panel-heading">
+                <h2 class="panel-title">Данные ответа на заявку</h2>
+              </div>
+              <div class="panel-body panel-xs">
+                    <div class="row respondactive">
+                        <div class="col-md-2">Имя</div>
+                        <div class="col-md-2">Описание</div>
+                        <div class="col-md-2">Цена</div>
+                        <div class="col-md-2">Длительность</div>
+                        <div class="col-md-2">Дата</div>
+                        <div class="col-md-2">Телефон</div>
+                    </div>
+                    <div class="row respondactive">
+                        <div class="col-md-2">{{mainrespond.name}}</div>
+                        <div class="col-md-2">{{mainrespond.description}}</div>
+                        <div class="col-md-2">{{mainrespond.cost | currency}}</div>
+                        <div class="col-md-2">{{mainrespond.duration}}</div>
+                        <div class="col-md-2">{{formatDate(mainrespond.date)}}</div>
+                        <div class="col-md-2"><span ng-if="mainrespond.approved">{{mainrespond.phone}}</span></div>
+                    </div>
+                </div>
+        </div>
+
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО' && respondview == 2">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <h2 class="panel-title">Заявка на ТО</h2>
               </div>
@@ -107,7 +115,7 @@
             </div>
         </div>
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт' && respondview == 2">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <h2 class="panel-title">Заявка на Ремонт</h2>
               </div>
@@ -141,7 +149,7 @@
                             </li>
                             </ul>
                         </div>
-                        <div class="panel-body tabs-left">
+                        <div class="panel-body tabs-left panel-info">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="active" role="presentation">
                                     <a ng-click="formdetails = 'question'" aria-controls="question" role="tab" data-toggle="tab" aria-expanded="true">Частые вопросы</a>
@@ -230,7 +238,7 @@
             </div>
         </div>
         <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы' && respondview == 2">
-            <div class="panel panel-default">
+            <div class="panel panel-info">
               <div class="panel-heading">
                 <h2 class="panel-title">Кузовные работы</h2>
               </div>
@@ -264,7 +272,7 @@
                             </li>
                             </ul>
                         </div>
-                        <div class="panel-body tabs-left">
+                        <div class="panel-body tabs-left panel-info">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li ng-class="{'active': $index == 0}" ng-repeat="item in texts.destructions" role="presentation">
                                     <a ng-click="$parent.formdetail = item.eng" aria-controls="{{item.eng}}" role="tab" data-toggle="tab" aria-expanded="true">{{item.title}}</a>
@@ -291,10 +299,15 @@
               </div>
             </div>
         </div>
+    </div>
     <div id="addTable"  ng-if="respondview == 3">
     <!-- добавление одного автомобиля -->
+    <button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2 class="panel-title">Данные об ответе</h2>
+            </div>
         <div class="panel-body">
-        <button ng-click="viewItem(mainrespond, 1)" class="btn btn-xs btn-primary">Назад</button>
             <form name="autoadd" novalidate>
                 <div class="form-group">
                     <label>Название</label>
@@ -312,10 +325,14 @@
                     <label>Длительность</label>
                     <input name="name" class="form-control" ng-model="mainrespond.duration"/>
                 </div>
-                <button ng-click="updateRespond(mainrespond)" class="btn btn-xs btn-primary">
-                    Обновить
-                </button>
+                    <div class="text-center bottom-button">
+                        <button type="submit"  ng-click="updateRespond(mainrespond)"
+                                class="btn btn-primary">
+                            Обновить
+                        </button>
+                    </div>
             </form>
+        </div>
         </div>
     </div>
 </div>
