@@ -1,4 +1,5 @@
-﻿<nav class="navbar mynav" ng-controller="mainCtrl">
+﻿<div ng-controller="mainCtrl">
+<nav class="navbar mynav" >
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -10,18 +11,18 @@
           <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
+          <div class="link-backtosite"><a href="https://carsbir.ru/" target="_blank">Вернуться на сайт</a></div>
           <ul class="nav navbar-nav navbar-right">
-            <li>Привет, <span class="btn-link" ng-click="setScreen(3);">{{autoservice.name}}!</span></li>
-            <li><span class="btn-link" ng-click="logout();" style="cursor:pointer;">Выход</span></li>
+            <li ng-controller="productCtrl">Привет, {{autoservice.name}}! <span class="btn-link" ng-click="logout();" style="cursor:pointer;">Выход</span></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-<div class="container-fluid" ng-controller="mainCtrl">
+<div class="container" ng-controller="mainCtrl">
 <div class="panel panel-default row">
     <div class="panel-body">
         <ul class="nav nav-tabs" id="navigation" role="tablist">
-        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)"><i class="fa fa__text" ng-class="{'fa-gear': ($index == 1) , 'fa-plus': ($index == 0), 'fa-refresh': ($index == 2) }"></i>{{item}}</a></li>
+        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-green': ($index == 1), 'itab-orange': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa fa__text" ng-class="{'fa-gear': ($index == 1) , 'fa-plus': ($index == 0), 'fa-refresh': ($index == 2) }"></i>{{item}}</a></li>
         </ul>
        <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home"><div ng-include="getScreen()" /></div>
@@ -35,7 +36,98 @@
     </div>
   </div>
   </div>
+</div>
 <style>
+    .relative-wrap{
+      position: relative;
+    }
+    .absolute-wrap{
+      position: absolute;
+    }
+    .absolute-wrap.search-wrap{
+      top: -37px;
+      right: 10px;
+    }
+    .fa.fa-search{
+      padding:3px;
+    }
+    .search-wrap input{
+      min-width: 225px;
+    }
+    .details{
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .amount-responds{
+      text-align: center;
+      position: relative;
+    }
+    .amount-responds span{
+      z-index:2;
+      color:#333;
+      position: relative;
+      z-index:10;
+    }
+    .amount-responds:after{
+      position: absolute;
+      content: '';
+      width:25px;
+      height: 25px;
+      background: rgba(252,176,64,0.7);
+      border-radius: 25px;
+      top:3px;
+      left:50%;
+      z-index:0;
+      margin-left: -12px;
+    }
+    .comment-area{
+      background: #3DB5D8;
+      padding:9px 17px;
+      color:white;
+    }
+    .comment-area label{
+      font-size:17px;
+    }
+    .fa.fa-search{
+      padding:3px;
+    }
+    .sort-names i{
+      color: #949599;
+    }
+    .sort-names a{
+      font-size: 15px;
+    }
+    .link-backtosite{
+      text-align: right;
+      margin-top:15px;
+    }
+    .link-backtosite a{
+      background: #1d75bd;
+      color:white;
+      padding:8px;
+    }
+    .nav .btn-link{
+      margin-left:2px;
+    }
+
+    .nav-tabs>li>a.itab-blue, .nav-tabs>li.active>a.itab-blue{
+      background:#00a79d;
+      color:white;
+    }
+    .nav-tabs>li>a.itab-green, .nav-tabs>li.active>a.itab-green{
+      background:#23ae6a;
+      color:white;
+    }
+    .nav-tabs>li>a.itab-orange, .nav-tabs>li.active>a.itab-orange{
+      background:#fcb040;
+      color:black;
+    }
+    .nav-tabs>li.active>a{
+      margin-top:-6px;
+      padding-bottom: 13px;
+      padding-top: 13px;
+    }
     .row-hover:hover > div{
       background:#F5F5F5;
     }
@@ -207,8 +299,8 @@ input[switch="warning"]:checked + label:before {
   padding:15px;
 }
 .mynav img{
-  padding-top:2px;
-  max-width:50px;
+  padding-top:5px;
+  max-width:75px;
 }
 *{
   font-family:'Roboto';

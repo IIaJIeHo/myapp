@@ -50,8 +50,10 @@
         'Замена масляного фильтра (в каждом ТО)',
         'Защита двигателя',
         'Замена салонного фильтра',
-        'Замена тормозных колодок',
-        'Замена тормозных дисков',
+        'Замена передних тормозных колодок',
+        'Замена задних тормозных колодок',
+        'Замена передних тормозных дисков',
+        'Замена задних тормозных дисков',
         'Замена свечей зажигания',
         'Замена тормозной жидкости', 
         'Замена топливного фильтра', 
@@ -186,23 +188,23 @@
     } */
     $scope.logout = function(){
         $rootScope.userid = undefined;
-        document.cookie = "userid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        document.cookie = "autoid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
         $scope.listProducts();
     }
         $scope.formatDate = function(date) {
             if (date != undefined){
                  date = new Date(date);
               var hours = date.getHours();
+              hours = hours < 10 ? '0'+hours : hours;
               var minutes = date.getMinutes();
               var seconds = date.getSeconds();
               minutes = minutes < 10 ? '0'+minutes : minutes;
-              var strTime = hours + ':' + minutes + ':' + seconds;
-              return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + "  " + strTime;               
+              var strTime = hours + ':' + minutes;
+              return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear() + " / " + strTime + "";               
             }
             else{
                 return '';
             }
-
     }
     $scope.listProducts = function () {
         if ($rootScope.userid == undefined){

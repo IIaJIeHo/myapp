@@ -24,41 +24,96 @@
         <strong>Поздравляем! </strong>
         Вы возобновили заявку {{updatedRequest.name}}!
     </div>
-    <table id="productTable" class="table table-hover table-responsive" ng-if="allitems" >
-        <tr>
-            <th><a href="" ng-click="order('type')">Тип</a><span class="sortOrder" ng-show="predicate === 'type'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('name')">Название</a><span class="sortOrder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('description')">Описание</a><span class="sortOrder" ng-show="predicate === 'description'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('auto.name')">Автомобиль</a><span class="sortOrder" ng-show="predicate === 'auto.name'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('responds.length')">Кол-во предложений</a><span class="sortOrder" ng-show="predicate === 'responds.length'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('date')">Время</a><span class="sortOrder" ng-show="predicate === 'date'" ng-class="{reverse:reverse}"></span></th>
-            <th>   
-            <div class="input-group search-form input-group-xs">
-              <input type="text" class="form-control" ng-model="query" placeholder="Поиск">
-              <div class="input-group-addon"><i class="fa fa-search"></i></div>
+  <div class="panel panel-info" ng-if="!allitems && !startEdit">
+    <div class="panel-heading" role="tab" id="headingTwo">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <h4 class="panel-title">
+          Ответы
+          </h4>
+        </a>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="container-fluid">
+            <div class="row row-title">
+                <div class="col-lg-3">
+                    Название компании
+                </div>
+                <div class="col-lg-3">
+                    Имя заявки
+                </div>
+                <div class="col-lg-3">
+                    Стоимость
+                </div>
+                <div class="col-lg-3">
+                    Длительность
+                </div>
             </div>
+            <div class="row row-hover" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
+                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    <a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a>
+                </div>
+                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    {{item.name}}
+                </div>
+                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    {{item.cost | currency}}
+                </div>
+                <div class="col-lg-2" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                    {{item.duration}}ч.
+                </div>
+                <div class="col-lg-1 toogle-action">
+                    <button ng-class="{'btn-success': (!item.approved),'btn-danger': (item.approved)}" ng-click="approveItem(item,item.autoservice)" class="btn btn-xs btn-icons">
+                                <span ng-if="!item.approved">Принять</span>
+                                <span ng-if="item.approved">Отклонить</span>
+                    </button>
+                </div>
+                <div class="col-lg-12" ng-if="toogleAutoservice[$index]">
+                    {{item.description}}
+                </div>
+            </div> 
+        </div>
+  </div>
+</div>
+    <table id="productTable" class="table table-hover table-responsive" ng-if="allitems" >
+        <tr class="sort-names">
+            <th><a href="" ng-click="order('type')">Тип <i class="fa" ng-show="predicate === 'type'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'type'" ></i></a></th>
+
+            <th><a href="" ng-click="order('name')">Номер заявки <i class="fa" ng-show="predicate === 'name'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'name'" ></i> </a></th>
+
+            <th><a href="" ng-click="order('auto.name')">Автомобиль <i class="fa" ng-show="predicate === 'auto.name'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'auto.name'" ></i></a></th>
+            <th><a href="" ng-click="order('details.comment')">Комментарий <i class="fa" ng-show="predicate === 'details.comment'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'details.comment'" ></i></a></th>
+            <th><a href="" ng-click="order('responds.length')">Кол-во откликов <i class="fa" ng-show="predicate === 'responds.length'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'responds.length'" ></i></a></th>
+
+            <th><a href="" ng-click="order('date')">Время <i class="fa" ng-show="predicate === 'date'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'date'" ></i></a></th>
+            <th class="relative-wrap"> 
+                <div class="absolute-wrap search-wrap">
+                    <div class="input-group search-form input-group-xs">
+                      <input type="text" class="form-control" ng-model="query" placeholder="Поиск">
+                      <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    </div>
+                </div>
             </th>
         </tr>
         <tr ng-repeat="item in products | filter:query | orderBy:predicate:reverse" ng-class="{'success':item.completed}" >
             <td ng-click="viewItem(item)">{{item.type}}</td>
             <td ng-click="viewItem(item)">{{item.name}}</td>
-            <td ng-click="viewItem(item)">{{item.description}}</td>
             <td ng-click="viewItem(item)">{{item.auto.name}}</td>
-            <td ng-click="viewItem(item)">{{item.responds.length}}</td>
-            <td ng-click="viewItem(item)">{{formatDate(item.date)}}</td>
+            <td ng-click="viewItem(item)" class="details">{{item.details.comment}}</td>
+            <td ng-click="viewItem(item)" class="amount-responds"><span>{{item.responds.length}}</span></td>
+            <td ng-click="viewItem(item)" class="date">{{formatDate(item.date)}}</td>
             <td class="active-buttons">
-                <button ng-click="viewItem(item)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
-                    <i class="fa fa-link"></i>
+                <button ng-click="viewItem(item)" class="btn" data-toggle="tooltip" title="Посмотреть">
+                    <i class="eye"></i>
                 </button>
-                <button ng-click="editItem(item)" ng-disabled="item.responds.length > 0" class="btn btn-xs btn-success" data-toggle="tooltip" title="Изменить">
-                    <i class="fa fa-edit"></i>
+                <button ng-click="editItem(item)" ng-disabled="item.responds.length > 0" class="btn" data-toggle="tooltip" title="Изменить">
+                    <i class="edit"></i>
                 </button>
-                <button ng-click="isdeleteProduct(item)" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Удалить">
-                    <i class="fa fa-remove"></i>
+                <button ng-click="isdeleteProduct(item)" class="btn" data-toggle="tooltip" title="Удалить">
+                    <i class="del"></i>
                 </button>
-                <button ng-click="completeItem(item,item.type,item.auto,item.responds)" class="btn btn-xs" ng-class="{'btn-primary':!item.complete,'btn-success':item.complete}" data-toggle="tooltip" title="Завершить">
-                    <i class="fa fa-level-up" ng-if="!item.completed"></i>
-                    <i class="fa fa-level-down" ng-if="item.completed"></i>
+                <button ng-click="completeItem(item,item.type,item.auto,item.responds)" class="btn" data-toggle="tooltip" title="Завершить">
+                    <i class="play" ng-if="!item.completed"></i>
+                    <i class="stop" ng-if="item.completed"></i>
                 </button>
             </td>
         </tr>
@@ -111,7 +166,6 @@
                     <form name="workForm" novalidate>
                         <div class="form-group"><label>Название:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" /></div>
                         <div class="form-group"><label>Описание:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" /></div>
-                        <div class="form-group"><label>Комментарий:</label><input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.comment" /></div>
                         <div class="form-group row">
                             <ul class="checkbox-grid">
                             <li>             
@@ -128,6 +182,7 @@
                             </li>
                             </ul>
                         </div>
+                        <div class="form-group comment-area"><label>Комментарий:</label><textarea ng-disabled="!startEdit" class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
                         <div ng-if="startEdit" class="text-center bottom-button">
                             <button type="submit" ng-click="updateProduct(mainproduct)"
                                     class="btn btn-primary">
@@ -157,10 +212,7 @@
                         <label>Опишите неисправность:</label>
                         <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
                     </div>
-                    <div class="form-group">
-                        <label>Комментарий:</label>
-                        <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.comment" />
-                    </div>
+
                     <div class="form-group row">
                         <ul class="checkbox-grid">
                         <li>             
@@ -257,6 +309,7 @@
                             </div>
                       </div>
                     </div>
+                    <div class="form-group comment-area"><label>Комментарий:</label><textarea ng-disabled="!startEdit" class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
                     <div ng-if="startEdit" class="text-center bottom-button">
                         <button type="submit" ng-click="updateProduct(mainproduct)"
                                 class="btn btn-primary">
@@ -285,10 +338,6 @@
                     <div class="form-group">
                         <label>Опишите неисправность:</label>
                         <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
-                    </div>
-                    <div class="form-group">
-                        <label>Комментарий:</label>
-                        <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.comment" />
                     </div>
                     <div class="form-group row">
                         <ul class="checkbox-grid">
@@ -321,6 +370,7 @@
                             </div>
                       </div>
                     </div>
+                    <div class="form-group comment-area"><label>Комментарий:</label><textarea ng-disabled="!startEdit" class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
                     <div class="form-group">
                         <label>Фотография</label>
                         <img data-ng-src="data:image/png;base64,{{mainproduct.details.image.base64}}" ng-click="changepicture=true" data-err-src="avatar.png"/>
@@ -337,56 +387,4 @@
         </div>
         </div>
     </div>
-
-
-  <div class="panel panel-info" ng-if="!allitems && !startEdit">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Ответы
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-        <div class="container-fluid">
-            <div class="row row-title">
-                <div class="col-lg-3">
-                    Название компании
-                </div>
-                <div class="col-lg-3">
-                    Имя заявки
-                </div>
-                <div class="col-lg-3">
-                    Стоимость
-                </div>
-                <div class="col-lg-3">
-                    Длительность
-                </div>
-            </div>
-            <div class="row row-hover" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
-                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
-                    <a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a>
-                </div>
-                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
-                    {{item.name}}
-                </div>
-                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
-                    {{item.cost | currency}}
-                </div>
-                <div class="col-lg-2" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
-                    {{item.duration}}ч.
-                </div>
-                <div class="col-lg-1 toogle-action">
-                    <button ng-class="{'btn-success': (!item.approved),'btn-danger': (item.approved)}" ng-click="approveItem(item,item.autoservice)" class="btn btn-xs btn-icons">
-                                <i ng-if="!item.approved" class="fa fa-thumbs-up"></i>
-                                <i ng-if="item.approved" class="fa fa-thumbs-down"></i>
-                    </button>
-                </div>
-                <div class="col-lg-12" ng-if="toogleAutoservice[$index]">
-                    {{item.description}}
-                </div>
-            </div> 
-        </div>
-  </div>
-</div>
 </div>

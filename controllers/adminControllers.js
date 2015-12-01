@@ -82,6 +82,24 @@
       var changeError = function() {
         console.log("OKKKKKKKKK1");
   };
+    function getCookie(name) {
+      var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+        $scope.listProducts = function () {
+            if ($rootScope.userid != undefined){
+                $location.path("/main");
+            }
+            else{
+                $rootScope.userid = getCookie('userid');
+                if ($rootScope.userid != undefined){
+                    $location.path("/main");
+                }
+            }
+          };
+          $scope.listProducts();
   $scope.isused = false;
     $scope.registration = function (user) {
         /*$scope.user = user;*/

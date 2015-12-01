@@ -63,7 +63,24 @@
         });
     }
     $scope.user = new Autoservices();
-
+    function getCookie(name) {
+      var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+        $scope.listProducts = function () {
+            if ($rootScope.userid != undefined){
+                $location.path("/main");
+            }
+            else{
+                $rootScope.userid = getCookie('autoid');
+                if ($rootScope.userid != undefined){
+                    $location.path("/main");
+                }
+            }
+          };
+          $scope.listProducts();
     if ($location.search()['user'] == 'new'){
             $("#a-user-new").show();
             $("#a-user-new").fadeTo(5000, 500).slideUp(500, function(){
@@ -122,6 +139,7 @@
     $scope.current = $scope.screens[0];
 
     $scope.setScreen = function (index) {
+      console.log(index);
         $scope.current = $scope.screens[index];
     };
 

@@ -17,13 +17,13 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-info">
     <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
         <a role="button" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <h4 class="panel-title">
           Личные данные пользователя
+        </h4>
         </a>
-      </h4>
     </div>
-    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
         <form name="authForm" novalidate>
             <div class="form-group">
@@ -61,6 +61,14 @@
                 <input name="surname" class="form-control" ng-model="autoservice.site"/>
             </div>
             <div class="form-group">
+                <label>Метро</label>
+                <input name="surname" class="form-control" ng-model="autoservice.metro"/>
+            </div>
+            <div class="form-group">
+                <label>Округ</label>
+                <input name="surname" class="form-control" ng-model="autoservice.region"/>
+            </div>
+            <div class="form-group">
                 <label>Ссылка на профиль</label>
                 <input name="surname" class="form-control" ng-model="autoservice.link"/>
             </div>
@@ -77,9 +85,10 @@
   </div>
   <div class="panel panel-info">
     <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        <h4 class="panel-title">
           Изменить пароль
+          </h4>
         </a>
       </h4>
     </div>

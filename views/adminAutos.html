@@ -22,27 +22,25 @@
     </div>
     <table id="autoTable" class="table table-hover" ng-if="allitems == 1"> 
     <!-- просмотр всех автомобилей -->                
-        <tr>
-            <th><a href="" ng-click="order('name')">Имя</a><span class="sortOrder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('mark')">Марка</a><span class="sortOrder" ng-show="predicate === 'mark'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('model')">Модель</a><span class="sortOrder" ng-show="predicate === 'model'" ng-class="{reverse:reverse}"></span></th>
-            <th><a href="" ng-click="order('generation')">Поколение</a><span class="sortOrder" ng-show="predicate === 'generation'" ng-class="{reverse:reverse}"></span></th>
-            <th>
-             <button ng-click="viewItem(null,3)" class="btn btn-xs btn-primary btn-icons">
-                    <i class="fa fa-plus"></i>
-                </button>  
-            <div class="input-group search-form input-group-xs">
-                
-              <input type="text" class="form-control" ng-model="query" placeholder="Поиск">
-              <div class="input-group-addon"><i class="fa fa-search"></i></div>
-            </div>
+        <tr class="sort-names">
+            <th><a href="" ng-click="order('name')">Имя <i class="fa" ng-show="predicate === 'name'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'name'" ></i></a></th>
+            <th><a href="" ng-click="order('mark')">Марка <i class="fa" ng-show="predicate === 'mark'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'mark'" ></i></a></th>
+            <th><a href="" ng-click="order('model')">Модель <i class="fa" ng-show="predicate === 'model'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'model'" ></i></a></th>
+            <th><a href="" ng-click="order('year')">Год выпуска <i class="fa" ng-show="predicate === 'year'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'year'" ></i></a></th>
+            <th class="relative-wrap"> 
+                <div class="absolute-wrap search-wrap">
+                    <div class="input-group search-form input-group-xs">
+                      <input type="text" class="form-control" ng-model="query" placeholder="Поиск">
+                      <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    </div>
+                </div>
             </th>
         </tr>
         <tr ng-repeat="item in autos | filter:query |orderBy:predicate:reverse" >
             <td ng-click="viewItem(item,2)">{{item.name}}</td>
             <td ng-click="viewItem(item,2)">{{item.mark}}</td>
             <td ng-click="viewItem(item,2)">{{item.model}}</td>
-            <td ng-click="viewItem(item,2)">{{item.generation}}</td>
+            <td ng-click="viewItem(item,2)">{{item.year}}</td>
             <td class="active-buttons">
                 <button ng-click="viewItem(item,2)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
                     <i class="fa fa-link"></i>
@@ -56,6 +54,12 @@
             </td>
         </tr>
     </table>
+    <div class="add-auto" ng-if="allitems == 1">
+    <button ng-click="viewItem(null,3)" class="btn btn-sm btn-primary ">
+        <i class="fa fa-plus fa-2x"></i> 
+    </button>
+    Добавить автомобиль
+    </div>
         <div class="wrapper-part" ng-if="allitems == 2">
         <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
             <div class="panel panel-info">

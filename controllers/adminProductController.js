@@ -52,8 +52,10 @@
         'Замена масляного фильтра (в каждом ТО)',
         'Защита двигателя',
         'Замена салонного фильтра',
-        'Замена тормозных колодок',
-        'Замена тормозных дисков',
+        'Замена передних тормозных колодок',
+        'Замена задних тормозных колодок',
+        'Замена передних тормозных дисков',
+        'Замена задних тормозных дисков',
         'Замена свечей зажигания',
         'Замена тормозной жидкости', 
         'Замена топливного фильтра', 
@@ -288,11 +290,12 @@
             if (date != undefined){
                  date = new Date(date);
               var hours = date.getHours();
+              hours = hours < 10 ? '0'+hours : hours;
               var minutes = date.getMinutes();
               var seconds = date.getSeconds();
               minutes = minutes < 10 ? '0'+minutes : minutes;
-              var strTime = hours + ':' + minutes + ':' + seconds;
-              return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + "  " + strTime;               
+              var strTime = hours + ':' + minutes;
+              return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear() + " / " + strTime + "";               
             }
             else{
                 return '';
@@ -451,8 +454,8 @@
         $scope.updatedRequest = request;
         request.date = Date.now();
         request.completed = !request.completed;
-        product.auto = [];
-        product.responds = [];
+        request.auto = [];
+        request.responds = [];
         request.$update().then(function(newrequest){
             request.auto = auto;
             request.responds = responds;
@@ -542,6 +545,7 @@
 })
 .controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl, Autos, Users, Autoservices, Responds, Requests) {
 
+    $scope.loading = false;
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
     $scope.AutoResource = $resource(autoUrl + ":id", { id: "@id" });
     $scope.ProductsResource = $resource(productUrl + ":id", { id: "@id" });
@@ -612,8 +616,10 @@
         'Замена масляного фильтра (в каждом ТО)',
         'Защита двигателя',
         'Замена салонного фильтра',
-        'Замена тормозных колодок',
-        'Замена тормозных дисков',
+        'Замена передних тормозных колодок',
+        'Замена задних тормозных колодок',
+        'Замена передних тормозных дисков',
+        'Замена задних тормозных дисков',
         'Замена свечей зажигания',
         'Замена тормозной жидкости', 
         'Замена топливного фильтра', 
@@ -913,12 +919,21 @@
     }
 
     $scope.addRequest = function (request) {
+        $scope.loading = true;
         var auto = request.autoid;
         request.userid=$rootScope.userid;
         request.type = $scope.requests_desc[$scope.allitems - 1];
         request.autoid = request.autoid._id.$oid;
         request.date = Date.now();
         request.completed = false;
+        if ($scope.user.number === undefined){
+            $scope.user.number = 0;
+        }
+        else{
+            $scope.user.number += 1;
+        }
+        request.name = parseInt($scope.user.phone.substring(4),10).toString(32) + "-" + (1000000 + $scope.user.number);
+        console.log(request.name);
         var newrequest2 = new Requests(request);
         newrequest2.$save().then(function (newrequest) {
             console.log(newrequest);
@@ -927,11 +942,18 @@
             requesttonull();
             $rootScope.products.push(newrequest);
             $scope.allitems = 1;
+            $scope.setScreen(0);
             $("#a-request-new").show();
             $("#a-request-new").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-request-new").hide();
-            });  
-        });        
+            });
+            $scope.loading = false;
+        });
+        $scope.user.$update().then(function(user){
+            $rootScope.user = $scope.user;
+            console.log($scope.user);
+            console.log(user);
+        });         
     }
 
 
