@@ -14,6 +14,9 @@
         Вы изменили свой пароль
     </div>
 <div ng-controller="productCtrl">
+<div id="loader-wrapper" ng-if="loading">
+    <div id="loader"></div>
+</div>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-info">
     <div class="panel-heading" role="tab" id="headingOne">
@@ -60,10 +63,11 @@
                 <label>Сайт</label>
                 <input name="surname" class="form-control" ng-model="autoservice.site"/>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label>Метро</label>
                 <input name="surname" class="form-control" ng-model="autoservice.metro"/>
             </div>
+            <select class="form-control" id="generation" ng-model="autoservice.metro" ng-options="metro for metro in metrostations"><option value=''>Выбрать</option></select>
             <div class="form-group">
                 <label>Округ</label>
                 <input name="surname" class="form-control" ng-model="autoservice.region"/>
@@ -97,7 +101,15 @@
         <form name="passchange" novalidate>
             <div class="form-group">
                 <label>Новый пароль</label>
-                <input name="password" type="password" class="form-control" ng-model="autoservice.password"/>
+                <input name="password" class="form-control" type="password" ng-model="autoservice.password" ng-blur="validation.password = true"/>
+            </div>
+            <div class="form-group" ng-class="{'has-error':(autoservice.password != repeatpassword)&&validation.password && validation.repeatpassword}">
+                <label>Повторите пароль</label>
+                <input name="repeatpassword" type="password" class="form-control"
+                       ng-model="repeatpassword" ng-blur="validation.repeatpassword = true" required />
+                <div ng-show="validation.password && validation.repeatpassword">
+                    <span class="help-block" ng-show="autoservice.password != repeatpassword">Пароли не совпадают</span>
+                </div>
             </div>
             <div class="text-center">
                 <button type="submit" ng-click="editUser(autoservice,true)"

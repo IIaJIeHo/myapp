@@ -44,7 +44,8 @@
     $scope.respondview = 1;
     $scope.texts = {};
     $scope.startEdit = false;
-     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
+    $scope.loading = false; 
+    $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',
         'Замена масляного фильтра (в каждом ТО)',
@@ -174,7 +175,7 @@
         { title:'Задний фонарь', eng: 'fonar',
         data: ['Правый' ,
         'Левый']}];
-    
+    $scope.metrostations = ['Авиамоторная','Автозаводская','Академическая','Александровский сад','Алексеевская','Алма-Атинская','Алтуфьево','Аннино','Арбатская','Аэропорт','Бабушкинская','Багратионовская','Баррикадная','Бауманская','Беговая','Белорусская','Беляево','Бибирево','Библиотека имени Ленина','Битцевский Парк''Борисово','Боровицкая','Ботанический сад','Братиславская','Бульвар Адмирала Ушакова','Бульвар Дмитрия Донского','Бульвар Рокоссовского','Бунинская аллея','Варшавская','ВДНХ','Владыкино','Водный стадион','Войковская','Волгоградский проспект','Волжская','Волоколамская','Воробьёвы горы','Выставочная','Выхино','Деловой Центр','Динамо','Дмитровская','Добрынинская','Домодедовская','Достоевская','Дубровка','Жулебино','Зябликово','Измайловская','Калужская','Кантемировская','Каховская','Каширская','Киевская','Китай-город','Кожуховская','Коломенская','Комсомольская','Коньково','Котельники','Красногвардейская','Краснопресненская','Красносельская','Красные ворота','Крестьянская застава','Кропоткинская','Крылатское','Кузьминки','Кунцевская','Курская','Кутузовская','Ленинский проспект','Лермонтовский проспект','Лесопарковая','Лубянка','Люблино','Марксистская','Марьина Роща','Марьино','Маяковская','Медведково','Международная','Менделеевская','Митино','Молодёжная','Мякинино','Нагатинская','Нагорная','Нахимовский проспект','Новогиреево','Новокосино','Новокузнецкая','Новослободская','Новоясеневская','Новые Черёмушки','Октябрьская','Октябрьское Поле','Орехово','Отрадное','Охотный ряд','Павелецкая','Парк Культуры','Парк Победы','Партизанская','Первомайская','Перово','Петровско-Разумовская','Печатники','Пионерская','Планерная','Площадь Ильича','Площадь Революции','Полежаевская','Полянка','Пражская','Преображенская площадь','Пролетарская','Проспект Вернадского','Проспект Мира','Профсоюзная','Пятницкое шоссе','Речной вокзал','Рижская','Римская','Рязанский проспект','Савёловская','Свиблово','Севастопольская','Семеновская','Серпуховская','Славянский бульвар','Смоленская','Сокол','Сокольники','Спартак','Спортивная','Сретенский бульвар','Строгино','Студенческая','Сухаревская','Сходненская','Таганская','Тверская','Театральная','Текстильщики','Тёплый Стан','Тимирязевская','Третьяковская','Тропарёво','Трубная','Тульская','Тургеневская','Тушинская','Улица 1905 года','Улица Академика Янгеля','Улица Горчакова','Улица Скобелевская','Улица Старокачаловская','Университет','Филёвский парк','Фили','Фрунзенская','Царицыно','Цветной бульвар','Черкизовская','Чертановская','Чеховская','Чистые пруды','Чкаловская','Шаболовская','Шипиловская','Шоссе Энтузиастов','Щёлковская','Щукинская','Электрозаводская', 'Юго-Западная','Южная','Ясенево'];
     function getCookie(name) {
       var matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -207,6 +208,7 @@
             }
     }
     $scope.listProducts = function () {
+        $scope.loading = true; 
         if ($rootScope.userid == undefined){
             $rootScope.userid = getCookie('autoid');
         }
@@ -272,6 +274,7 @@
                 });
                     console.log($scope.products);
                     $rootScope.responds = $scope.responds;
+                    $scope.loading = false; 
             });
             $rootScope.products = $scope.products;    
             });
@@ -320,14 +323,16 @@
     $scope.createProduct = function (product) {
         product.userid=$rootScope.userid;
         console.log(product);
-
+        $scope.loading = true; 
         new $scope.productsResource(product).$save().then(function (newProduct) {
             $scope.products.push(newProduct);
             $scope.editedProduct = null;
+            $scope.loading = false; 
         });
     }
 
     $scope.editUser = function(user,passchange){
+        $scope.loading = false; 
         var temp = user.password;
         if (passchange){
             $scope.autoservice.password = window.md5($scope.autoservice.password);
@@ -348,17 +353,19 @@
             } 
             ], 
             'subject': 'Данные пользователя изменена', 
-            'html': "Имя = " + user.name + "Фамилия = " + user.surname + "Телефон = "+user.phone+"Пароль = " + temp, 
+            'html': "Имя = " + user.name + "; Фамилия = " + user.surname + "; Телефон = "+user.phone+"; Пароль = " + temp, 
             } 
             }});
             $("#a-user-edit-profile").show();
             $("#a-user-edit-profile").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-user-edit-profile").hide();
-            }); 
+            });
+            $scope.loading = true;  
         });
     }
 
     $scope.createRespond = function (respond) {
+        $scope.loading = true; 
         var userofrequest, auto, responds, keepgoing = true;
         respond.autoserviceid=$rootScope.userid;
         respond.productid=$scope.mainproduct._id.$oid;
@@ -375,6 +382,7 @@
                 }
             }); 
         console.log(respond);
+        respond.viewed = false;
         var candirespond = new Responds(respond);
         candirespond.$save().then(function (newRespond) {
             newRespond.autoservice = $scope.autoservice;
@@ -408,9 +416,10 @@
             } 
             ], 
             'subject': 'На вашу заявку откликнулись', 
-            'html': $scope.autoservice.username + " Оставил заявку; Имя = "+respond.name+"Описание = "+respond.description+"Стоимость = " + respond.cost, 
+            'html': $scope.autoservice.username + " оставил заявку; Имя = "+respond.name+"; Описание = "+respond.description+"; Стоимость = " + respond.cost, 
             } 
             }});
+            $scope.loading = false; 
         });
     }
 
@@ -431,14 +440,17 @@
     }
 
     $scope.updateRespond = function (respond) {
+        $scope.loading = true; 
         $scope.updatedRespond = $scope.mainrespond;
         console.log($scope.responds.indexOf(respond));
+        respond.autoservice = null;
         respond.$update().then(function(){
             $scope.respondview = 1;
             $("#a-respond-edit").show();
             $("#a-respond-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-respond-edit").hide();
-            });        
+            });
+            $scope.loading = false;         
         });
         $scope.mainrespond = null;
     }
@@ -526,8 +538,7 @@
     }
     $scope.deleteItem = function (respond) {
         respond.$remove().then(function () {
-            $scope.responds.splice($scope.responds.indexOf(respond), 1);
-            
+            $scope.responds.splice($scope.responds.indexOf(respond), 1);       
         });
     }
 

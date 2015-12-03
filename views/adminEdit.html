@@ -3,6 +3,7 @@
     #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
     #productTable td input { max-width: 125px; }
 </style>
+
     <div class="alert alert-success" id="a-user-edit-profile" style="position:fixed;bottom:0;right:0;display:none;">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Поздравляем! </strong>
@@ -14,14 +15,15 @@
         Вы изменили свой пароль
     </div>
 <div ng-controller="productCtrl">
+    <div id="loader-wrapper" ng-if="loading">
+        <div id="loader"></div>
+    </div>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-info">
     <div class="panel-heading" role="tab" id="headingOne">
         <a role="button" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
       <h4 class="panel-title">
-
           Личные данные пользователя
-
       </h4>
         </a>
     </div>
@@ -78,7 +80,15 @@
         <form name="passchange" novalidate>
             <div class="form-group">
                 <label>Новый пароль</label>
-                <input name="password" class="form-control" type="password" ng-model="user.password"/>
+                <input name="password" class="form-control" type="password" ng-model="user.password" ng-blur="validation.password = true"/>
+            </div>
+            <div class="form-group" ng-class="{'has-error':(user.password != repeatpassword)&&validation.password && validation.repeatpassword}">
+                <label>Повторите пароль</label>
+                <input name="repeatpassword" type="password" class="form-control"
+                       ng-model="repeatpassword" ng-blur="validation.repeatpassword = true" required />
+                <div ng-show="validation.password && validation.repeatpassword">
+                    <span class="help-block" ng-show="user.password != repeatpassword">Пароли не совпадают</span>
+                </div>
             </div>
             <div class="text-center">
                 <button type="submit" ng-click="editUser(user, true)"

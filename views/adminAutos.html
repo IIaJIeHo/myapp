@@ -5,6 +5,9 @@
 </style>
 
 <div ng-controller="autoCtrl">
+    <div id="loader-wrapper" ng-if="loading">
+        <div id="loader"></div>
+    </div>
     <div class="alert alert-success" id="alert" style="position:fixed;bottom:0;right:0;display:none;">
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Поздравляем! </strong>

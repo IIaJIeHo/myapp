@@ -15,6 +15,9 @@
         Вы добавили новую заявку!
     </div>
 <div ng-controller="productCtrl" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
+    <div id="loader-wrapper" ng-if="loading">
+        <div id="loader"></div>
+    </div>
     <table id="productTable" class="table table-striped table-bordered table-hover" ng-if="allitems" ng-init="check_complete = false;">
         <tr>
             <th><a href="" ng-click="order('type')">Тип  <i class="fa" ng-show="predicate === 'type'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'type'" ></i></a></th>
@@ -373,7 +376,7 @@
                     {{item.name}}
                 </div>
                 <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
-                    {{item.cost | currency}}
+                    <span ng-if="item.autoserviceid == autoservice.$oid._id">{{item.cost | currency}}</span><span ng-if="item.autoserviceid != autoservice.$oid._id">Скрыто</span>
                 </div>
                 <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
                     {{item.duration}}ч.

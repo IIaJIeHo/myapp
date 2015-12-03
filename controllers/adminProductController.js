@@ -45,6 +45,7 @@
     $scope.autos = null;
     $scope.responds = null;
     $scope.partners = null;
+    $scope.loading = false;
     $scope.toogleAutoservice = [];
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
@@ -199,6 +200,7 @@
         $scope.listProducts();
     }
     $scope.listProducts = function () {
+        $scope.loading = true;
         if ($rootScope.userid == undefined){
             console.log($rootScope.userid);
             $rootScope.userid = getCookie('userid');
@@ -263,7 +265,8 @@
                         }
                     });               
             });
-                $rootScope.responds = $scope.responds; 
+                $rootScope.responds = $scope.responds;
+                $scope.loading = false; 
         }); 
         $rootScope.products = $scope.products;      
         });
@@ -315,6 +318,7 @@
     }
 
     $scope.editUser = function(user,passchange){
+        $scope.loading = true;
         var temp = $scope.user.password;
         if (passchange){
             $scope.user.password = window.md5($scope.user.password);
@@ -336,13 +340,14 @@
             } 
             ], 
             'subject': 'Данные пользователя изменена', 
-            'html': "Имя = " + user.name + "Фамилия = " + user.surname + "Телефон = "+user.phone+"Пароль = " + temp, 
+            'html': "Имя = " + user.name + "; Фамилия = " + user.surname + "; Телефон = "+user.phone+"; Пароль = " + temp, 
             } 
             }});
             $("#a-user-edit-profile").show();
             $("#a-user-edit-profile").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-user-edit-profile").hide();
-            }); 
+            });
+            $scope.loading = false;
         });
         /*
         user.$save().then(function(editeduser){
@@ -385,6 +390,7 @@
     }
 
     $scope.createProduct = function (product) {
+        $scope.loading = true;
         product.userid=$rootScope.userid;
         product.completed = false;
         var request = new Requests(product);
@@ -392,6 +398,7 @@
             $scope.products.push(newProduct);
             $rootScope.products = $scope.products; 
             $scope.editedProduct = null;
+            $scope.loading = false;
         });
     }
 
@@ -418,6 +425,7 @@
     }
 
     $scope.updateProduct = function (product) {
+        $scope.loading = true;
         var auto = product.auto;
         var responds = product.responds;
         $scope.updatedRequest = product;
@@ -436,10 +444,11 @@
             $("#a-request-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-request-edit").hide();
             });
-            $scope.allitems = !$scope.allitems;         
+            $scope.allitems = !$scope.allitems;
+            $scope.editedProduct = null;
+            $scope.mainproduct = null;
+            $scope.loading = false;         
         });
-        $scope.editedProduct = null;
-        $scope.mainproduct = null;
     }
 
     $scope.editItem = function (product) {
@@ -514,6 +523,16 @@
                     }
                 }
             });
+            /* Проверить*/
+            angular.forEach($scope.activeresponds, function(value, key) {
+                if (!value.viewed){
+                    value.viewed = true;
+                    if ($scope.activeresponds[key] != item){
+                        value.approved = false;
+                        $scope.activeresponds[key].$update();
+                    }
+                }
+            });
             item.autoservice = autoservice;
             $scope.activeresponds[$scope.activeresponds.indexOf(item)] = item;
             $.ajax({ 
@@ -531,7 +550,7 @@
             } 
             ], 
             'subject': 'На вашу заявку откликнулись', 
-            'html': $scope.user.username + " Подтвердил заявку; Имя = "+item.name+"Описание = "+item.description+"Стоимость = " + item.cost, 
+            'html': $scope.user.username + " подтвердил заявку; Имя = "+item.name+"; Описание = "+item.description+"; Стоимость = " + item.cost, 
             } 
             }});
         });
@@ -846,6 +865,7 @@
         }
     }
     $scope.listProducts = function () {
+        $scope.loading = true;
         $scope.allitems = 1;
         if ($rootScope.userid == undefined){
             $rootScope.userid = getCookie('userid');
@@ -860,6 +880,7 @@
                 $scope.autos = autos;
                 $rootScope.autos = autos;
                 console.log($scope.autos);
+                $scope.loading = false;
             });        
         }
 
@@ -874,6 +895,7 @@
 
 
     $scope.addItem = function (auto) {
+        $scope.loading = true;
         auto.userid=$rootScope.userid;
         if (!$scope.markinput){
             auto.mark = document.getElementById("mark").value;
@@ -905,6 +927,7 @@
             $("#alert").fadeTo(5000, 500).slideUp(500, function(){
                $("#alert").hide();
             });
+            $scope.loading = false;
         });
         /*
         new $scope.AutoResource(auto).$save().then(function (newAuto) {
@@ -959,6 +982,7 @@
 
     
     $scope.updateProduct = function (auto) {
+        $scope.loading = true;
         $scope.updatedAuto = $scope.mainproduct;
         if (!$scope.markinput){
             auto.mark = document.getElementById("mark").value;
@@ -988,7 +1012,11 @@
             $("#a-auto-edit").show();
             $("#a-auto-edit").fadeTo(5000, 500).slideUp(500, function(){
                $("#a-auto-edit").hide();
-            });        
+            });
+            $scope.editedProduct = null;
+            $scope.mainproduct = null;
+            $scope.startEdit = false; 
+            $scope.loading = false;  
         });
         /*auto.$save().then(function(){
             $scope.allitems = 1;
@@ -997,9 +1025,7 @@
                $("#a-auto-edit").hide();
             });        
         });*/
-        $scope.editedProduct = null;
-        $scope.mainproduct = null;
-        $scope.startEdit = false;
+
     }
 
 

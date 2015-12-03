@@ -38,6 +38,130 @@
   </div>
 </div>
 <style>
+.container{
+  min-width: 980px;
+}
+.robot, .u2, .u3, .u1, .u4, 
+.eye2, .big-kuzov, .edit, .eye, .kuzov-work, 
+.play, .del, .stop, .otv-na-zayavku, .lock, 
+.strelka1, .strelka2, .strelka3, .add-car, .big-car, 
+.dannie-auto, .vibor-auto, .kuzov, .remont, .to, 
+.big-otvet, .l-robot, .avto-user, .dobavit-user, .moi-otveti, 
+.zayavka-user, .zayavka, .metro, .redakt-profile
+{ display: inline-block; background: url('sprite.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; }
+ 
+.robot { background-position: -2px -0px; width: 167px; height: 199px; }
+.u2 { background-position: -2px -201px; width: 118px; height: 118px; }
+.u3 { background-position: -2px -321px; width: 118px; height: 118px; }
+.u1 { background-position: -2px -441px; width: 117px; height: 118px; }
+.u4 { background-position: -2px -561px; width: 117px; height: 118px; }
+.eye2 { background-position: -122px -201px; width: 33px; height: 33px; }
+.big-kuzov { background-position: -122px -236px; width: 30px; height: 30px; }
+.edit { background-position: -122px -268px; width: 30px; height: 29px; }
+.eye { background-position: -122px -299px; width: 30px; height: 29px; }
+.kuzov-work { background-position: -122px -330px; width: 30px; height: 30px; }
+.play { background-position: -122px -362px; width: 30px; height: 30px; }
+.del { background-position: -122px -394px; width: 29px; height: 29px; }
+.stop { background-position: -122px -425px; width: 29px; height: 30px; }
+.otv-na-zayavku { background-position: -121px -457px; width: 28px; height: 24px; }
+.lock { background-position: -121px -483px; width: 27px; height: 35px; }
+.strelka1 { background-position: -121px -520px; width: 26px; height: 13px; }
+.strelka2 { background-position: -121px -535px; width: 26px; height: 13px; }
+.strelka3 { background-position: -121px -550px; width: 26px; height: 12px; }
+.add-car { background-position: -121px -564px; width: 24px; height: 23px; }
+.big-car { background-position: -121px -589px; width: 24px; height: 20px; }
+.dannie-auto { background-position: -121px -611px; width: 24px; height: 20px; }
+.vibor-auto { background-position: -121px -633px; width: 24px; height: 21px; }
+.kuzov { background-position: -121px -656px; width: 21px; height: 21px; }
+.remont { background-position: -144px -656px; width: 21px; height: 21px; }
+.to { background-position: -121px -679px; width: 21px; height: 21px; }
+.big-otvet { background-position: -149px -520px; width: 18px; height: 17px; }
+.l-robot { background-position: -149px -539px; width: 18px; height: 21px; }
+.avto-user { background-position: -151px -457px; width: 15px; height: 11px; }
+.dobavit-user { background-position: -151px -470px; width: 15px; height: 15px; }
+.moi-otveti { background-position: -153px -394px; width: 14px; height: 14px; }
+.zayavka-user { background-position: -154px -236px; width: 13px; height: 19px; }
+.zayavka { background-position: -154px -257px; width: 13px; height: 19px; }
+.metro { background-position: -154px -278px; width: 12px; height: 13px; }
+.redakt-profile { background-position: -154px -293px; width: 12px; height: 12px; }
+
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(9,58,200,0.3);
+}
+#loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #3498db;
+    -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+ 
+#loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #e74c3c;
+    -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+      animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+ 
+#loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #f9c922;
+    -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+      animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+ 
+@-webkit-keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg);  /* IE 9 */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg);  /* IE 9 */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}
+@keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg);  /* IE 9 */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg);  /* IE 9 */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}
+
     .relative-wrap{
       position: relative;
     }
