@@ -22,7 +22,7 @@
 <div class="panel panel-default row">
     <div class="panel-body">
         <ul class="nav nav-tabs" id="navigation" role="tablist">
-        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-green': ($index == 1), 'itab-orange': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa fa__text" ng-class="{'fa-gear': ($index == 1) , 'fa-plus': ($index == 0), 'fa-refresh': ($index == 2) }"></i>{{item}}</a></li>
+        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-orange': ($index == 1), 'itab-grey': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa__text" ng-class="{'zayavka': ($index == 0) , 'big-otvet': ($index == 1), 'redakt-profile': ($index == 2) }"></i>{{item}}</a></li>
         </ul>
        <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="home"><div ng-include="getScreen()" /></div>
@@ -38,14 +38,107 @@
   </div>
 </div>
 <style>
+.bordered{
+	padding: 15px;
+	border: 1px solid #ddd;
+	margin-bottom:15px;
+}
+.bordered h3{
+	margin:10px 0;
+}
+.matop15{
+	margin-top:15px;
+}
+.answers{
+	float:right;
+	margin-right:5px;
+}
+    .autoservice__view, .autoservice__name, .autoservice__metro{
+      float:left;
+      margin-top:-4px;
+    }
+    .autoservice__name, .autoservice__metro{
+    	margin-left:5px;
+    }
+.panel-title{
+  color:white;
+}
+.create-auto:hover{
+	cursor:pointer;
+}
+.panel a:hover, .panel a:active{
+	text-decoration:none;
+}
+.btn-fixed{
+	position: fixed;
+	top: 165px;
+	margin-left: 18px;
+}
+.row-hover .col-lg-3,.row-hover .col-lg-2,.row-hover .col-lg-5,.row-hover .col-lg-4{
+	height:60px;
+}
+.row-hover .btn{
+	border-radius:5px;
+}
+.row-hover:hover{
+	cursor:pointer;
+}
+button.close{
+  margin:-5px 0 0 10px;
+}
+.respond-status span{
+	color:white;
+	padding:3px 7px;
+	border-radius:5px;
+}
+.success-status{
+	background:#019444;
+}
+.viewed-status{
+	background:#1d75bd;
+}
+.pending-status{
+	background:#58595b;
+}
+.panel-title{
+  color:white;
+}
+button.close{
+  margin:-5px 0 0 10px;
+}
+.choose-work{
+  background: #dce3eb;
+  max-width: 768px;
+}
+.choose-work h2{
+  text-transform: uppercase;
+  font-size: 30px;
+}
+.choose-work p{
+  text-align: center;
+  padding:10px 0;
+}
+.choose-work__wrap{
+  margin:0 auto;
+  background: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 5px;
+  max-width: 300px;
+  padding:15px 50px;
+}
+.choose-work__wrap:hover{
+  border:3px solid #1d75bd;
+  cursor: pointer;
+}
 .container{
   min-width: 980px;
 }
-
 .btn-primary {
   color: #ffffff;
   background-color: #00A79D;
   border-color: #00A79D;
+  border-radius: 3px;
 }
 
 .btn-primary:hover,
@@ -68,10 +161,14 @@
 { display: inline-block; background: url('sprite.png') no-repeat; overflow: hidden; text-indent: -9999px; text-align: left; }
  
 .robot { background-position: -2px -0px; width: 167px; height: 199px; }
-.u2 { background-position: -2px -201px; width: 118px; height: 118px; }
-.u3 { background-position: -2px -321px; width: 118px; height: 118px; }
-.u1 { background-position: -2px -441px; width: 117px; height: 118px; }
-.u4 { background-position: -2px -561px; width: 117px; height: 118px; }
+.u2 { background-position: -2px -201px; width: 118px; height: 118px; display: block;
+margin: 0 auto;}
+.u3 { background-position: -2px -321px; width: 118px; height: 118px; display: block;
+margin: 0 auto;}
+.u1 { background-position: -2px -441px; width: 117px; height: 118px; display: block;
+margin: 0 auto;}
+.u4 { background-position: -2px -561px; width: 117px; height: 118px; display: block;
+margin: 0 auto;}
 .eye2 { background-position: -122px -201px; width: 33px; height: 33px; }
 .big-kuzov { background-position: -122px -236px; width: 30px; height: 30px; }
 .edit { background-position: -122px -268px; width: 30px; height: 29px; }
@@ -82,9 +179,9 @@
 .stop { background-position: -122px -425px; width: 29px; height: 30px; }
 .otv-na-zayavku { background-position: -121px -457px; width: 28px; height: 24px; }
 .lock { background-position: -121px -483px; width: 27px; height: 35px; }
-.strelka1 { background-position: -121px -520px; width: 26px; height: 13px; }
-.strelka2 { background-position: -121px -535px; width: 26px; height: 13px; }
-.strelka3 { background-position: -121px -550px; width: 26px; height: 12px; }
+.strelka1 { background-position: -121px -520px; width: 26px; height: 13px; float:right; margin-top:5px;}
+.strelka2 { background-position: -121px -535px; width: 26px; height: 13px; float:right; margin-top:5px;}
+.strelka3 { background-position: -121px -550px; width: 26px; height: 12px; float:right; margin-top:5px;}
 .add-car { background-position: -121px -564px; width: 24px; height: 23px; }
 .big-car { background-position: -121px -589px; width: 24px; height: 20px; }
 .dannie-auto { background-position: -121px -611px; width: 24px; height: 20px; }
@@ -264,7 +361,7 @@
       background:#fcb040;
       color:black;
     }
-    .nav-tabs>li.active>a{
+    #navigation.nav-tabs>li.active>a{
       margin-top:-6px;
       padding-bottom: 13px;
       padding-top: 13px;
@@ -463,11 +560,16 @@ input[switch="warning"]:checked + label:before {
   margin:25px auto;
 }
 .fa__text{
-  padding-right:5px;
+  margin:-4px 5px -1px 0;
+}
+.fa__type{
+	margin:-17px 5px -6px 0px;
 }
 .active-buttons button{
-    width:27px;
-    height: 27px;
+    width: 30px;
+    height: 29px;
+    padding: 0px;
+    background: transparent;
 }
 .header{
   padding:40px 0;
@@ -587,14 +689,33 @@ ul.checkbox-grid{
 .tabs-left > .nav-tabs {
   float: left;
   margin-right: 19px;
-  border-right: 1px solid #ddd;
+  border:none;
+  border-right: 10px solid #5cc0de;
+  width: 320px;
+  padding-bottom:52px;
+  position:relative;
 }
+
+.tabs-left > .nav-tabs:after{
+  position:absolute;
+  content:'';
+  width:100%;
+  height:65px;
+  background:white;
+}
+.tabs-left .form-group{
+  margin-bottom:0;
+  padding-top:10px;
+}
+.tabs-left > .tab-content{
+  border-right: 10px solid rgb(92, 192, 222);
+  border-top: 10px solid rgb(92, 192, 222);
+  border-bottom: 10px solid rgb(92, 192, 222);
+}
+
 
 .tabs-left > .nav-tabs > li > a {
   margin-right: -1px;
-  -webkit-border-radius: 4px 0 0 4px;
-     -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
 }
 
 .tabs-left > .nav-tabs > li > a:hover,
@@ -605,8 +726,13 @@ ul.checkbox-grid{
 .tabs-left > .nav-tabs .active > a,
 .tabs-left > .nav-tabs .active > a:hover,
 .tabs-left > .nav-tabs .active > a:focus {
-  border-color: #ddd transparent #ddd #ddd;
-  border-right-color: #ffffff;
+  border-color: #5cc0de;
+  border-right-color: #5cc0de;
+}
+
+.tabs-left > .nav-tabs .active > a, .tabs-left > .nav-tabs .active > a:hover, .tabs-left > .nav-tabs .active > a:focus{
+  background: #5bc0de;
+  color:white;
 }
 
 .tabs-right > .nav-tabs {

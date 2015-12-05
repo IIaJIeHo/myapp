@@ -166,9 +166,10 @@
 */
     }
 })
-.controller("mainCtrl", function ($scope) {
+.controller("mainCtrl", function ($scope,$location) {
 
     $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
+    $scope.routes = ["main", "auto", "leaverequest", "edit"];
     $scope.current = $scope.screens[0];
 
     $scope.setScreen = function (index) {
@@ -192,6 +193,22 @@
             return "views/adminPartners.html";
         }
     };
+
+    /*$scope.checklocation = function(){
+    	if ($location.path() == "/main"){
+    		$scope.current = $scope.screens[0];
+    	}
+      	if ($location.path() == "/auto"){
+    		$scope.current = $scope.screens[1];
+    	}
+      	if ($location.path() == "/leaverequest"){
+    		$scope.current = $scope.screens[2];
+    	}
+       	if ($location.path() == "/edit"){
+    		$scope.current = $scope.screens[3];
+    	}
+    }
+    $scope.checklocation();*/
 })
 
 .controller("ordersCtrl", function ($scope, $http, ordersUrl) {

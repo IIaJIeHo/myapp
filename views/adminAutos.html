@@ -45,14 +45,14 @@
             <td ng-click="viewItem(item,2)">{{item.model}}</td>
             <td ng-click="viewItem(item,2)">{{item.year}}</td>
             <td class="active-buttons">
-                <button ng-click="viewItem(item,2)" class="btn btn-xs btn-info" data-toggle="tooltip" title="Посмотреть">
-                    <i class="fa fa-link"></i>
+                <button ng-click="viewItem(item,2)" class="btn" data-toggle="tooltip" title="Посмотреть">
+                    <i class="eye"></i>
                 </button>
-                <button ng-click="editItem(item,3)" ng-disabled="item.replied" class="btn btn-xs btn-success" data-toggle="tooltip" title="Изменить">
-                    <i class="fa fa-edit"></i>
+                <button ng-click="editItem(item,3)" ng-disabled="item.replied" class="btn" data-toggle="tooltip" title="Изменить">
+                    <i class="edit"></i>
                 </button>
-                <button ng-click="isdeleteAuto(item)" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Удалить">
-                    <i class="fa fa-remove"></i>
+                <button ng-click="isdeleteAuto(item)" class="btn" data-toggle="tooltip" title="Удалить">
+                    <i class="del"></i>
                 </button>
             </td>
         </tr>
@@ -64,7 +64,7 @@
     Добавить автомобиль
     </div>
         <div class="wrapper-part" ng-if="allitems == 2">
-        <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
+        <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed"><i class="fa fa-arrow-left"></i></button>
             <div class="panel panel-info">
               <div class="panel-heading">
                 <h2 class="panel-title">Данные автомобиля</h2>
@@ -89,7 +89,7 @@
             </div>
     <div id="addTable"  class="wrapper-part" ng-if="allitems == 3">
     <!-- добавление одного автомобиля -->
-    <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons"><i class="fa fa-arrow-left"></i></button>
+    <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed"><i class="fa fa-arrow-left"></i></button>
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h2 class="panel-title">Данные автомобиля</h2>

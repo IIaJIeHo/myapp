@@ -238,7 +238,8 @@
             $scope.responds = $rootScope.responds;
             $scope.user = $rootScope.user;
             $scope.partners = $rootScope.partners;
-            console.log("from cache")
+            console.log("from cache");
+            $scope.loading = false;
         }
         else{
         Requests.query({userid: $rootScope.userid}).then(function(data){
@@ -874,6 +875,7 @@
             $scope.autos = $rootScope.autos;
             console.log($scope.autos);
             console.log("from cache");
+            $scope.loading = false;
         }
         else{
             Autos.query({userid: $rootScope.userid}).then(function(autos){

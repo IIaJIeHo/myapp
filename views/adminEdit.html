@@ -23,11 +23,11 @@
     <div class="panel-heading" role="tab" id="headingOne">
         <a role="button" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
       <h4 class="panel-title">
-          Личные данные пользователя
+          Личные данные пользователя<span class="strelka3"></span>
       </h4>
         </a>
     </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
         <form name="authForm" novalidate>
             <div class="form-group">
@@ -71,11 +71,11 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion1" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
       <h4 class="panel-title">
-          Изменить пароль
+          Изменить пароль<span class="strelka3"></span>
       </h4>
         </a>
     </div>
-    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
       <div class="panel-body">
         <form name="passchange" novalidate>
             <div class="form-group">
@@ -92,7 +92,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" ng-click="editUser(user, true)"
-                        ng-disabled="passchange.$invalid"
+                        ng-disabled="user.password != repeatpassword"
                         class="btn btn-primary">
                     Изменить
                 </button>

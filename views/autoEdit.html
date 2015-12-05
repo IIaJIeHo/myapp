@@ -22,7 +22,7 @@
     <div class="panel-heading" role="tab" id="headingOne">
         <a role="button" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
         <h4 class="panel-title">
-          Личные данные пользователя
+          Личные данные пользователя<span class="strelka3"></span>
         </h4>
         </a>
     </div>
@@ -63,11 +63,10 @@
                 <label>Сайт</label>
                 <input name="surname" class="form-control" ng-model="autoservice.site"/>
             </div>
-            <div class="form-group" style="display:none;">
+            <div class="form-group">
                 <label>Метро</label>
-                <input name="surname" class="form-control" ng-model="autoservice.metro"/>
+                <select class="form-control" id="generation" ng-model="autoservice.metro" ng-options="metro for metro in metrostations"><option value=''>Выбрать</option></select>
             </div>
-            <select class="form-control" id="generation" ng-model="autoservice.metro" ng-options="metro for metro in metrostations"><option value=''>Выбрать</option></select>
             <div class="form-group">
                 <label>Округ</label>
                 <input name="surname" class="form-control" ng-model="autoservice.region"/>
@@ -91,7 +90,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
         <h4 class="panel-title">
-          Изменить пароль
+          Изменить пароль<span class="strelka3"></span>
           </h4>
         </a>
       </h4>
@@ -113,7 +112,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" ng-click="editUser(autoservice,true)"
-                        ng-disabled="passchange.$invalid"
+                        ng-disabled="autoservice.password != repeatpassword"
                         class="btn btn-primary">
                     Изменить
                 </button>

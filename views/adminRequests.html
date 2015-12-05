@@ -5,8 +5,8 @@
     </div>
 
 <div ng-controller="autoCtrl" class="partial-view wrapper-part" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper'; mainproduct.autoid = autos[0];">
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid choose-work">
+        <div class="row" style="display:none;">
             <div class="btn-group btn-group-justified condensted" role="group" aria-label="...">
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-success" ng-click="viewItem(mainproduct, 1)"><i class="fa fa__text fa-tachometer"></i>Заявка на ТО</button>
@@ -18,6 +18,17 @@
                 <button type="button" class="btn btn-danger" ng-click="viewItem(mainproduct, 3)"><i class="fa fa__text fa-truck"></i>Кузовные работы</button>
               </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><h2>Укажите вид услуг</h2></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 1)"><div class="u1"></div>Заявка на техническое обслуживание</div></div>
+            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 2)"><div class="u2"></div>Заявка на ремонт автомобиля</div></div>
+            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 3)"><div class="u3"></div>Заявка на кузовные работы</div></div>
+        </div>
+        <div class="row">
+            <p>Пожалуйста укажите 1 из 4 вариантов</p>
         </div>
 
     </div>
@@ -36,6 +47,12 @@
                         <select class="form-control" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
                     </div>
                 </form>
+            <div class="text-right create-auto" ng-click="setScreen(1);">
+                <button class="btn btn-sm btn-primary ">
+                    <i class="fa fa-plus"></i> 
+                </button>
+                Добавить автомобиль
+            </div>
           </div>
         </div>
         <div class="panel panel-info">
@@ -68,7 +85,7 @@
                     <div class="text-center">
                         <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
                                 class="btn btn-primary">
-                             Создать заявку
+                             Отправить заявку
                         </button>
                     </div>
                 </form>
@@ -88,6 +105,12 @@
                         <select class="form-control" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
                     </div>
                 </form>
+            <div class="text-right create-auto" ng-click="setScreen(1);">
+                <button class="btn btn-sm btn-primary ">
+                    <i class="fa fa-plus"></i> 
+                </button>
+                Добавить автомобиль
+            </div>
           </div>
         </div>
         <div class="panel panel-info">
@@ -196,7 +219,7 @@
                     <div class="text-center bottom-button">
                         <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
                                 class="btn btn-primary">
-                            Создать заявку
+                            Отправить заявку
                         </button>
                     </div>
                 </form>
@@ -216,6 +239,12 @@
                         <select class="form-control" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
                     </div>
                 </form>
+            <div class="text-right create-auto" ng-click="setScreen(1);">
+                <button class="btn btn-sm btn-primary ">
+                    <i class="fa fa-plus"></i> 
+                </button>
+                Добавить автомобиль
+            </div>
           </div>
         </div>
         <div class="panel panel-info">
@@ -263,7 +292,7 @@
                     <div class="text-center bottom-button">
                         <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
                                 class="btn btn-primary">
-                            Создать заявку
+                            Отправить заявку
                         </button>
                     </div>
                 </form>
