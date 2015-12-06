@@ -643,7 +643,7 @@
             };
         }
     ])
-.controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl, Autos, Users, Autoservices, Responds, Requests) {
+.controller("autoCtrl", function ($scope, $rootScope, $location, $resource, regUrl, autoUrl, productUrl, Autos, Users, Autoservices, Responds, Requests) {
 
     $scope.loading = false;
     $scope.RegResource = $resource(regUrl + ":id", { id: "@id" });
