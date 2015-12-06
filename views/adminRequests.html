@@ -5,7 +5,8 @@
     </div>
 
 <div ng-controller="autoCtrl" class="partial-view wrapper-part" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper'; mainproduct.autoid = autos[0];">
-    <div class="container-fluid choose-work">
+    <div class="container-fluid leave-request">
+    <div class=" choose-work">
         <div class="row" style="display:none;">
             <div class="btn-group btn-group-justified condensted" role="group" aria-label="...">
               <div class="btn-group" role="group">
@@ -32,13 +33,18 @@
         </div>
 
     </div>
+    <div class="information">
+        <div class="robot" ></div>
+        <p>Вы получаете предложения только от наших партнеров, предложение будет включать в себя стоимость и примерный срок проведедния ремонтных работ автомобиля или подробную информацию по проведению ТО.</p>
+        <p>Мы внимательно следим за качеством оказываемых нашими партнерами услуг и отсеиваем неконкурентноспособные компании ещё до их появления в проекте CarsBir.</p>
+    </div>
     <div id="loader-wrapper" ng-if="loading">
         <div id="loader"></div>
     </div>
-    <div id="request1" class="container-fluid" ng-if="allitems == 1">
-        <div class="panel panel-info">
+    <div id="request1"  ng-if="allitems == 1">
+        <div class="panel panel-default">
           <div class="panel-heading">
-            <h2 class="panel-title">Автомобиль</h2>
+            <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
           </div>
           <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -57,7 +63,7 @@
         </div>
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Заявка на ТО</h2>
+            <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на ТО</h2>
           </div>
           <div class="panel-body">
                 <form name="workForm" novalidate>
@@ -93,10 +99,10 @@
         </div>
     </div>
 
-    <div id="request2" class="container-fluid" ng-if="allitems == 2">
-        <div class="panel panel-info">
+    <div id="request2"  ng-if="allitems == 2">
+        <div class="panel panel-default">
           <div class="panel-heading">
-            <h2 class="panel-title">Автомобиль</h2>
+            <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
           </div>
           <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -115,7 +121,7 @@
         </div>
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Заявка на ремонт</h2>
+            <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на ремонт</h2>
           </div>
           <div class="panel-body">
                 <form name="workForm" novalidate>
@@ -227,10 +233,10 @@
         </div>
 
     </div>
-    <div id="request3" class="container-fluid" ng-if="allitems == 3">
-        <div class="panel panel-info">
+    <div id="request3"  ng-if="allitems == 3">
+        <div class="panel panel-default">
           <div class="panel-heading">
-            <h2 class="panel-title">Автомобиль</h2>
+            <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
           </div>
           <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -249,7 +255,7 @@
         </div>
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Кузовные работы</h2>
+            <h2 class="panel-title"><i class="kuzov-work"></i>Кузовные работы</h2>
           </div>
           <div class="panel-body">
                 <form name="workForm" novalidate>
@@ -285,9 +291,19 @@
                       </div>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="form-group">
-                        <label>Фотография</label>
-                        <input type='file' ng-model='mainproduct.details.image' base-sixty-four-input>
+                    <div class="form-group" ng-class="{'has-error': errorfile}">
+                        <label>Фото</label>
+                        <div class="row photo-cube">
+                            <div class="col-md-3" ng-repeat="i in mainproduct.details.image">
+                                <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
+                            </div>
+                        </div>
+                        <input name="name" type='file' model='mainproduct.details.image' error='errorfile' ng-model='hello_file' file-feed multiple />
+                        <div ng-show="errorfile">
+                            <span class="help-block" ng-show="errorfile == 'Toomuch'">Не более 4 файлов</span>
+                            <span class="help-block" ng-show="errorfile == 'Toomuch1mb'">Каждый файл не более 1 мб</span>
+                            <span class="help-block" ng-show="errorfile == 'Type'">Загружать можно только картинки</span>
+                        </div>
                     </div>
                     <div class="text-center bottom-button">
                         <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
@@ -299,4 +315,5 @@
           </div>
         </div>
     </div>
+</div>
 </div>

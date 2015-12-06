@@ -65,9 +65,9 @@
     </div>
         <div class="wrapper-part" ng-if="allitems == 2">
         <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed"><i class="fa fa-arrow-left"></i></button>
-            <div class="panel panel-info">
+            <div class="panel panel-default">
               <div class="panel-heading">
-                <h2 class="panel-title">Данные автомобиля</h2>
+                <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
                 <div class="col-md-4"><label>Имя</label><div>{{$parent.mainproduct.name || 'нету'}}</div> </div>
@@ -83,16 +83,20 @@
                 <div class="col-md-4"><label>Привод</label><div>{{$parent.mainproduct.drive || 'нету'}}</div> </div>
                 <div class="col-md-4"><label>Пробег</label><div>{{$parent.mainproduct.mileage || '0'}} км</div> </div>
                 <div class="col-md-4"><label>Vin</label><div>{{$parent.mainproduct.vin || 'нету'}}</div> </div>
-                <div class="col-md-12 text-center"><img data-ng-src="data:image/png;base64,{{$parent.mainproduct.picture.base64}}" data-err-src="avatar.png"/></div>
+                </div>
+                <div class="row photo-cube">
+                    <div class="col-md-3" ng-repeat="i in $parent.mainproduct.picture">
+                        <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
+                    </div>
                 </div>
             </div>
             </div>
     <div id="addTable"  class="wrapper-part" ng-if="allitems == 3">
     <!-- добавление одного автомобиля -->
     <button ng-click="viewItem($parent.mainproduct, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed"><i class="fa fa-arrow-left"></i></button>
-        <div class="panel panel-info">
+        <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title">Данные автомобиля</h2>
+                <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
             <div class="panel-body">
             
@@ -163,12 +167,19 @@
                         <label>Vin</label>
                         <input name="name" class="form-control" ng-model="$parent.mainproduct.vin"/>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-error': errorfile}">
                         <label>Фото</label>
-                        <img style="max-width:100px;" ng-if="startEdit && $parent.mainproduct.newpicture == null" data-ng-src="data:image/png;base64,{{$parent.mainproduct.picture.base64}}" data-err-src="avatar.png"/>
-                        <img style="max-width:100px;" ng-if="startEdit && $parent.mainproduct.newpicture != null" data-ng-src="data:image/png;base64,{{$parent.mainproduct.newpicture.base64}}" data-err-src="avatar.png"/>
-                        <input ng-if="startEdit" name="name" type='file' ng-model='$parent.mainproduct.newpicture' base-sixty-four-input />
-                        <input ng-if="!startEdit" name="name" type='file' ng-model='$parent.mainproduct.picture' base-sixty-four-input />
+                        <div class="row photo-cube">
+                            <div class="col-md-3" ng-repeat="i in $parent.mainproduct.picture">
+                                <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border:1px solid" ng-src="{{baseurl}}{{i}}" /></a>
+                            </div>
+                        </div>
+                        <input name="name" type='file' model='$parent.mainproduct.picture' error='errorfile' ng-model='hello_file' file-feed multiple />
+                        <div ng-show="errorfile">
+                            <span class="help-block" ng-show="errorfile == 'Toomuch'">Не более 4 файлов</span>
+                            <span class="help-block" ng-show="errorfile == 'Toomuch1mb'">Каждый файл не более 1 мб</span>
+                            <span class="help-block" ng-show="errorfile == 'Type'">Загружать можно только картинки</span>
+                        </div>
                     </div>
                      <div class="text-center bottom-button">
                     <button ng-if="!startEdit" ng-click="addItem($parent.mainproduct)" class="btn btn-primary">

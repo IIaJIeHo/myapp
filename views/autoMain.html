@@ -11,7 +11,7 @@
           <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <div class="link-backtosite"><a href="https://carsbir.ru/" target="_blank">Вернуться на сайт</a></div>
+          <div class="link-backtosite"><a href="http://carsbir.ru/" target="_blank">Вернуться на сайт</a></div>
           <ul class="nav navbar-nav navbar-right">
             <li ng-controller="productCtrl">Привет, {{autoservice.name}}! <span class="btn-link" ng-click="logout();" style="cursor:pointer;">Выход</span></li>
           </ul>
@@ -38,6 +38,42 @@
   </div>
 </div>
 <style>
+.photo-cube{
+  margin:15px;
+}
+.panel-default>.panel-heading{
+  background: #DCE3EB;
+}
+.panel-default  .panel-title{
+  color: #333;
+}
+.panel-info  .panel-title{
+  color: #fff;
+}
+.panel-success .panel-title{
+  color: #fff;
+}
+.panel-warning .panel-title{
+  color: #fff;
+}
+.panel-title{
+  color:white;
+}
+.create-auto:hover{
+  cursor:pointer;
+}
+.panel a:hover, .panel a:active{
+  text-decoration:none;
+}
+.btn-fixed{
+  position: fixed;
+  top: 165px;
+  margin-left: 18px;
+}
+.answers{
+  float:right;
+  margin-right:5px;
+}
 .bordered{
 	padding: 15px;
 	border: 1px solid #ddd;
@@ -56,6 +92,10 @@
     .autoservice__view, .autoservice__name, .autoservice__metro{
       float:left;
       margin-top:-4px;
+    }
+.autoservice__metro{
+      width:50%;
+      text-align: left;
     }
     .autoservice__name, .autoservice__metro{
     	margin-left:5px;
@@ -173,17 +213,17 @@ margin: 0 auto;}
 .big-kuzov { background-position: -122px -236px; width: 30px; height: 30px; }
 .edit { background-position: -122px -268px; width: 30px; height: 29px; }
 .eye { background-position: -122px -299px; width: 30px; height: 29px; }
-.kuzov-work { background-position: -122px -330px; width: 30px; height: 30px; }
+.kuzov-work { background-position: -122px -330px; width: 30px; height: 30px; margin-bottom: -9px; margin-right: 6px; margin-top: -4px;}
 .play { background-position: -122px -362px; width: 30px; height: 30px; }
 .del { background-position: -122px -394px; width: 29px; height: 29px; }
 .stop { background-position: -122px -425px; width: 29px; height: 30px; }
-.otv-na-zayavku { background-position: -121px -457px; width: 28px; height: 24px; }
+.otv-na-zayavku { background-position: -121px -457px; width: 28px; height: 24px; margin-top: -13px; margin-bottom: -4px; margin-right:5px;}
 .lock { background-position: -121px -483px; width: 27px; height: 35px; }
 .strelka1 { background-position: -121px -520px; width: 26px; height: 13px; float:right; margin-top:5px;}
 .strelka2 { background-position: -121px -535px; width: 26px; height: 13px; float:right; margin-top:5px;}
 .strelka3 { background-position: -121px -550px; width: 26px; height: 12px; float:right; margin-top:5px;}
 .add-car { background-position: -121px -564px; width: 24px; height: 23px; }
-.big-car { background-position: -121px -589px; width: 24px; height: 20px; }
+.big-car { background-position: -121px -589px; width: 24px; height: 20px; margin-bottom: -4px; margin-right: 6px; }
 .dannie-auto { background-position: -121px -611px; width: 24px; height: 20px; }
 .vibor-auto { background-position: -121px -633px; width: 24px; height: 21px; }
 .kuzov { background-position: -121px -656px; width: 21px; height: 21px; }
@@ -196,7 +236,7 @@ margin: 0 auto;}
 .moi-otveti { background-position: -153px -394px; width: 14px; height: 14px; }
 .zayavka-user { background-position: -154px -236px; width: 13px; height: 19px; }
 .zayavka { background-position: -154px -257px; width: 13px; height: 19px; }
-.metro { background-position: -154px -278px; width: 12px; height: 13px; }
+.metro { background-position: -154px -278px; width: 12px; height: 13px; margin-right:2px; margin-bottom:-2px;}
 .redakt-profile { background-position: -154px -293px; width: 12px; height: 12px; }
 
 #loader-wrapper {
@@ -371,9 +411,21 @@ margin: 0 auto;}
     }
     .row-title > div{
       padding:15px 5px;
+      text-align: center;
     }
     .row-hover:not(:first-child){
-      border-top:1px solid #3DB5D8;
+      border-top:2px solid #3c9a5f;
+    }
+    .row-hover > div:not(:nth-child(4)){
+      border-right:2px solid #3c9a5f;
+    }
+    .row-hover > div:last-child{
+      border-top:2px solid #3c9a5f;
+      border-right: none !important;
+    }
+    .row-hover > div{
+      padding:15px 5px;
+      text-align: center;
     }
     .row-hover > div{
       padding:15px 5px;
@@ -526,10 +578,7 @@ input[switch="warning"]:checked + label:before {
 .mynav{
   border-bottom: 2px solid #ddd;
 }
-.tabs-left{
-  border-width:1px;
-  border-style:solid;
-}
+
 .bottom-button{
   padding-top:15px;
 }

@@ -45,6 +45,7 @@
     $scope.texts = {};
     $scope.startEdit = false;
     $scope.loading = false; 
+    $scope.baseurl = "http://localhost/myapp";
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',
@@ -210,6 +211,7 @@
     $scope.logout = function(){
         $rootScope.userid = undefined;
         document.cookie = "autoid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        $rootScope.products = null;
         $scope.listProducts();
     }
         $scope.formatDate = function(date) {
@@ -219,9 +221,11 @@
               hours = hours < 10 ? '0'+hours : hours;
               var minutes = date.getMinutes();
               var seconds = date.getSeconds();
+              var day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
+              var month = (date.getMonth()+1) < 10 ? '0'+ (date.getMonth() + 1) : (date.getMonth() + 1);
               minutes = minutes < 10 ? '0'+minutes : minutes;
               var strTime = hours + ':' + minutes;
-              return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear() + " / " + strTime + "";               
+              return day + "." + month+ "." + date.getFullYear() + " / " + strTime + "";               
             }
             else{
                 return '';
@@ -306,6 +310,7 @@
                 console.log(autoservice);
                 $scope.autoservice = autoservice;
                 console.log($scope.autoservice);
+                $scope.autoservice.id = $scope.autoservice._id.$oid;
                 $rootScope.autoservice = $scope.autoservice;
             });
 

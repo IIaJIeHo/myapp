@@ -47,6 +47,7 @@
     $scope.partners = null;
     $scope.loading = false;
     $scope.toogleAutoservice = [];
+    $scope.baseurl = "http://localhost/myapp";
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',
@@ -197,6 +198,7 @@
     $scope.logout = function(){
         $rootScope.userid = undefined;
         document.cookie = "userid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        $rootScope.products = null;
         $scope.listProducts();
     }
     $scope.listProducts = function () {
@@ -297,9 +299,11 @@
               hours = hours < 10 ? '0'+hours : hours;
               var minutes = date.getMinutes();
               var seconds = date.getSeconds();
+              var day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
+              var month = (date.getMonth()+1) < 10 ? '0'+ (date.getMonth() + 1) : (date.getMonth() + 1);
               minutes = minutes < 10 ? '0'+minutes : minutes;
               var strTime = hours + ':' + minutes;
-              return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear() + " / " + strTime + "";               
+              return day + "." + month+ "." + date.getFullYear() + " / " + strTime + "";               
             }
             else{
                 return '';
@@ -563,6 +567,82 @@
 
     $scope.listProducts();
 })
+.directive('fileFeed', [
+        function() {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+				scope: {model:'=',error:'='},
+                link: function(scope, element, attributes, controller) {
+                    element.bind("change", function(changeEvent) {
+                        var files = [];
+						scope.model = [];
+                        scope.error = null;
+                        if (element[0].files.length > 4){
+                            scope.error="Toomuch";
+                            scope.$apply();
+                        }
+                        else{
+                            for (var i = 0; i < element[0].files.length; i++) {
+                                files.push(element[0].files[i]);
+                                if (element[0].files[i].size > 1048576){
+                                    scope.error="Toomuch1mb";
+                                    scope.$apply();
+                                }
+                                if (element[0].files[i].type.indexOf("image/") !== 0){
+                                    scope.error="Type";
+                                    scope.$apply();
+                                }
+                            }
+                            if (scope.error == null){
+                                fileUploading(0,files[0],files);
+                            }
+                            /*scope.$apply(function(){
+                                controller.$modelValue = files;
+                            });*/
+                            scope.$apply();
+                        }
+                        
+					
+                    });
+					var fileUploading = function(number,file,files){
+						var error = 0;
+						console.log(file);
+						if (file != undefined){
+							if(!file.type.match('image.*')) {
+								$("#drop-box").html("<p> Images only. Select another file</p>");
+								error = 1;
+							}else if(file.size > 1048576){
+								$("#drop-box").html("<p> Too large Payload. Select another file</p>");
+								error = 1;
+							}else{
+								data = new FormData();
+								data.append('image', file, file.name);
+								if(!error){
+									var xhr = new XMLHttpRequest();
+									xhr.open('POST', 'upload.php', true);
+									xhr.send(data);
+									xhr.onload = function () {
+										if (xhr.status === 200) {
+											console.log(xhr.responseText);
+											scope.model.push(xhr.responseText);
+											fileUploading(++number,files[number],files);
+											$("#drop-box").html("<p> File Uploaded. Select more files</p>");
+										} else {
+											$("#drop-box").html("<p> Error in upload, try again.</p>");
+										}
+									};
+								}
+							}			
+						}
+						else{
+							scope.$apply();
+						}
+					}
+                }
+            };
+        }
+    ])
 .controller("autoCtrl", function ($scope, $rootScope, $resource, regUrl, autoUrl, productUrl, Autos, Users, Autoservices, Responds, Requests) {
 
     $scope.loading = false;
@@ -573,6 +653,7 @@
     $scope.texts = {};
     $scope.autos = null;
     $scope.mainproduct = {};
+	$scope.baseurl = "http://localhost/myapp";
     $scope.requests_desc = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
 
     /*$scope.marks={
@@ -794,6 +875,7 @@
     $scope.logout = function(){
         $rootScope.userid = undefined;
         document.cookie = "userid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        $rootScope.products = null;
         $scope.listProducts();
     }
 
@@ -894,7 +976,6 @@
         console.log($scope.base);
         return $scope.base;
     }
-
 
     $scope.addItem = function (auto) {
         $scope.loading = true;
@@ -1087,6 +1168,50 @@
         $scope.startEdit = true;
         $scope.allitems = number;
     }
+	
+	$scope.fileUpload = function(element, $scope){ 
+		console.log("dfdf"+element.files);
+		$scope.$apply(function(){
+			files = element.files;
+			var data = new FormData();
+			var error = 0;
+			if (files.length > 0){
+				fileUploading(0,files[0],files);
+			}			
+		});
+	}
+	
+	function fileUploading(number,file,files){
+		var error = 0;
+		console.log(file);
+		if (file != undefined){
+			if(!file.type.match('image.*')) {
+		   		$("#drop-box").html("<p> Images only. Select another file</p>");
+		   		error = 1;
+		  	}else if(file.size > 1048576){
+		  		$("#drop-box").html("<p> Too large Payload. Select another file</p>");
+		   		error = 1;
+		  	}else{
+				data = new FormData();
+		  		data.append('image', file, file.name);
+				if(!error){
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', 'upload.php', true);
+					xhr.send(data);
+					xhr.onload = function () {
+						if (xhr.status === 200) {
+							console.log(xhr.responseText);
+							fileUploading(++number,files[number],files);
+							$("#drop-box").html("<p> File Uploaded. Select more files</p>");
+						} else {
+							$("#drop-box").html("<p> Error in upload, try again.</p>");
+						}
+					};
+				}
+		  	}			
+		}
+	}
+
 
     $scope.viewItem = function (auto,number) {
         $scope.allitems = number;
@@ -1166,3 +1291,62 @@ angular.module("sportsStoreAdmin").directive('showtab',
     }
 
 */
+
+$(function(){
+
+	$("#drop-box").click(function(){
+		$("#upl").click();
+	});
+
+	// To prevent Browsers from opening the file when its dragged and dropped on to the page
+	$(document).on('drop dragover', function (e) {
+        e.preventDefault();
+    }); 
+
+	// Add events
+	$('input[type=file]').on('change', fileUpload);
+
+	// File uploader function
+
+	function fileUpload(event){  
+		$("#drop-box").html("<p>"+event.target.value+" uploading...</p>");
+		files = event.target.files;
+		var data = new FormData();
+		var error = 0;
+		if (files.length > 0){
+			fileUploading(0,files[0],files);
+		}
+	}
+	
+	function fileUploading(number,file,files){
+		var error = 0;
+		console.log(file);
+		if (file != undefined){
+			if(!file.type.match('image.*')) {
+		   		$("#drop-box").html("<p> Images only. Select another file</p>");
+		   		error = 1;
+		  	}else if(file.size > 1048576){
+		  		$("#drop-box").html("<p> Too large Payload. Select another file</p>");
+		   		error = 1;
+		  	}else{
+				data = new FormData();
+		  		data.append('image', file, file.name);
+				if(!error){
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', 'upload.php', true);
+					xhr.send(data);
+					xhr.onload = function () {
+						if (xhr.status === 200) {
+							console.log(xhr.responseText);
+							fileUploading(++number,files[number],files);
+							$("#drop-box").html("<p> File Uploaded. Select more files</p>");
+						} else {
+							$("#drop-box").html("<p> Error in upload, try again.</p>");
+						}
+					};
+				}
+		  	}			
+		}
+	}
+
+});

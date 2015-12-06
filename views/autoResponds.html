@@ -32,7 +32,7 @@
             <th><a href="" ng-click="order('cost')">Стоимость <i class="fa" ng-show="predicate === 'cost'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'cost'" ></i></a></th>
             <th><a href="" ng-click="order('phone')">Телефон <i class="fa" ng-show="predicate === 'phone'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'phone'" ></i></a></th>
             <th><a href="" ng-click="order('date')">Дата заявки<i class="fa" ng-show="predicate === 'date'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'date'" ></i></a></th>
-            <th><a href="" ng-click="order('date')">Статус заявки<i class="fa" ng-show="predicate === 'date'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'date'" ></i></a></th>
+            <th><a href="" ng-click="order('approved')">Статус заявки<i class="fa" ng-show="predicate === 'approved'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'approved'" ></i></a></th>
             <th class="relative-wrap"> 
                 <div class="absolute-wrap search-wrap">
                     <div class="input-group search-form input-group-xs">
@@ -105,7 +105,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО' && respondview == 2">
             <div class="panel panel-info">
               <div class="panel-heading">
-                <h2 class="panel-title">Заявка на ТО</h2>
+                <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на ТО</h2>
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
@@ -135,7 +135,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт' && respondview == 2">
             <div class="panel panel-info">
               <div class="panel-heading">
-                <h2 class="panel-title">Заявка на Ремонт</h2>
+                <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на Ремонт</h2>
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
@@ -255,7 +255,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы' && respondview == 2">
             <div class="panel panel-info">
               <div class="panel-heading">
-                <h2 class="panel-title">Кузовные работы</h2>
+                <h2 class="panel-title"><i class="kuzov-work"></i>Кузовные работы</h2>
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
@@ -303,9 +303,13 @@
                                 </div>
                           </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-if="mainproduct.details.image">
                             <label>Фотография</label>
-                            <img data-ng-src="data:image/png;base64,{{mainproduct.details.image.base64}}" ng-click="changepicture=true" data-err-src="avatar.png"/>
+                            <div class="row photo-cube">
+                            <div class="col-md-3" ng-repeat="i in mainproduct.details.image">
+                                <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
+                            </div>
+                        </div>
                         </div>
                     </form>
               </div>

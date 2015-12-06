@@ -83,7 +83,7 @@
     <div class="panel-heading" role="tab" id="headingTwo">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
             <h4 class="panel-title">
-          Ответы<span class="strelka3"></span><span class="answers">Ответов: {{activeresponds.length}}</span>
+          <i class="otv-na-zayavku"></i> Ответы<span class="strelka3"></span><span class="answers">Ответов: {{activeresponds.length}}</span>
           </h4>
         </a>
     </div>
@@ -133,9 +133,9 @@
         </div>
   </div>
 </div>
-            <div class="panel panel-info" ng-if="!startEdit">
+            <div class="panel panel-default" ng-if="!startEdit">
               <div class="panel-heading">
-                <h2 class="panel-title">Данные автомобиля</h2>
+                <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
                 <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name || 'нету'}}</div> </div>
@@ -153,9 +153,9 @@
                 <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin || 'нету'}}</div> </div>
                 </div>
             </div>
-            <div class="panel panel-info" ng-if="startEdit">
+            <div class="panel panel-default" ng-if="startEdit">
                 <div class="panel-heading">
-                <h2 class="panel-title">Автомобиль</h2>
+                <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
               </div>
               <div class="panel-body">
                 <form name="authForm" novalidate>
@@ -170,7 +170,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО'">
             <div class="panel panel-info">
               <div class="panel-heading">
-                <h2 class="panel-title">Заявка на ТО</h2>
+                <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на ТО</h2>
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
@@ -205,7 +205,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт'">
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Заявка на ремонт</h2>
+            <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на ремонт</h2>
           </div>
           <div class="panel-body">
                 <form name="workForm" novalidate>
@@ -323,7 +323,7 @@
         <div class="container-fluid" ng-if="mainproduct.type == 'Кузовные работы'">
         <div class="panel panel-info">
           <div class="panel-heading">
-            <h2 class="panel-title">Кузовные работы</h2>
+            <h2 class="panel-title"><i class="kuzov-work"></i>Кузовные работы</h2>
           </div>
           <div class="panel-body">
                 <form name="workForm" novalidate>
@@ -363,10 +363,19 @@
                       </div>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea ng-disabled="!startEdit" class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="form-group">
-                        <label>Фотография</label>
-                        <img data-ng-src="data:image/png;base64,{{mainproduct.details.image.base64}}" ng-click="changepicture=true" data-err-src="avatar.png"/>
-                        <input ng-if="startEdit && changepicture" type='file' ng-model='mainproduct.details.image' base-sixty-four-input>
+                    <div class="form-group" ng-class="{'has-error': errorfile}">
+                        <label>Фото</label>
+                        <div class="row photo-cube">
+                            <div class="col-md-3" ng-repeat="i in mainproduct.details.image">
+                                <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
+                            </div>
+                        </div>
+                        <input ng-if="startEdit" name="name" type='file' model='mainproduct.details.image' error='errorfile' ng-model='hello_file' file-feed multiple />
+                        <div ng-if="startEdit" ng-show="errorfile">
+                            <span class="help-block" ng-show="errorfile == 'Toomuch'">Не более 4 файлов</span>
+                            <span class="help-block" ng-show="errorfile == 'Toomuch1mb'">Каждый файл не более 1 мб</span>
+                            <span class="help-block" ng-show="errorfile == 'Type'">Загружать можно только картинки</span>
+                        </div>
                     </div>
                     <div ng-if="startEdit" class="text-center bottom-button">
                         <button type="submit" ng-click="updateProduct(mainproduct)"
