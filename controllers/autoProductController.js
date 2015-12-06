@@ -45,7 +45,7 @@
     $scope.texts = {};
     $scope.startEdit = false;
     $scope.loading = false; 
-    $scope.baseurl = "http://localhost/myapp";
+    $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',

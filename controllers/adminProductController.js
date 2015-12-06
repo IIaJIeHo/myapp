@@ -47,7 +47,7 @@
     $scope.partners = null;
     $scope.loading = false;
     $scope.toogleAutoservice = [];
-    $scope.baseurl = "http://localhost/myapp";
+    $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
     $scope.texts.work = ['Контрольный осмотр',
         'Замена масла в двигателе (в каждом ТО)',
@@ -653,7 +653,7 @@
     $scope.texts = {};
     $scope.autos = null;
     $scope.mainproduct = {};
-	$scope.baseurl = "http://localhost/myapp";
+	$scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
     $scope.requests_desc = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
 
     /*$scope.marks={
