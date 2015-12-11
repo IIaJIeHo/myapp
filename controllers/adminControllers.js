@@ -237,6 +237,38 @@
     }
 });
 
+        angular.module("sportsStoreAdmin", ["ngRoute", "ngResource", "naif.base64"])
+            .config(function ($routeProvider) {
+
+                $routeProvider.when("/login", {
+                    templateUrl: "views/adminLogin.html"
+                });
+
+                $routeProvider.when("/registration", {
+                    templateUrl: "views/adminRegistration.html"
+                });
+
+                $routeProvider.when("/main", {
+                    templateUrl: "views/adminMain.html"
+                });
+
+                $routeProvider.when("/auto", {
+                    templateUrl: "views/adminMain.html"
+                });
+
+                $routeProvider.when("/leaverequest", {
+                    templateUrl: "views/adminMain.html"
+                });
+
+                $routeProvider.when("/edit", {
+                    templateUrl: "views/adminMain.html"
+                });
+
+                $routeProvider.otherwise({
+                    redirectTo: "login"
+                });
+            });
+
 
  angular.module('sportsStoreAdmin')
   .factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {

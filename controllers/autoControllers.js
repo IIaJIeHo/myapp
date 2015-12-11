@@ -187,6 +187,27 @@
     }
 });
 
+angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
+  .config(function ($routeProvider) {
+
+            $routeProvider.when("/login", {
+                    templateUrl: "views/autoLogin.html"
+                });
+
+                $routeProvider.when("/registration", {
+                    templateUrl: "views/autoRegistration.html"
+                });
+
+                $routeProvider.when("/main", {
+                    templateUrl: "views/autoMain.html"
+                });
+
+                $routeProvider.otherwise({
+                    redirectTo: "login"
+                });
+            });
+
+
  angular.module('sportsStoreAdmin')
   .factory('$mongolabResourceHttp', ['MONGOLAB_CONFIG', '$http', '$q', function (MONGOLAB_CONFIG, $http, $q) {
 

@@ -1,16 +1,4 @@
-﻿<style>
-    #productTable { width: auto; }
-    #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-    #productTable td input { max-width: 125px; }
-    .sortOrder:after{
-        content: "\25b2";
-    }
-    .sortOrder.reverse:after{
-        content: "\25bc";
-    }
-</style>
-
-<div ng-controller="productCtrl" class="partial-view" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
+﻿<div ng-controller="productCtrl" class="partial-view" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
     <div id="loader-wrapper" ng-if="loading">
         <div id="loader"></div>
     </div>

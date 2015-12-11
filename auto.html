@@ -2,7 +2,16 @@
 <html ng-app="sportsStoreAdmin">
 <head>
     <title>Приложение автосервиса</title>
-    <script src="angular.js"></script>
+	<!-- build:css styles/styles.min.css -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,100&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href="css/yeti.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <link href="css/bootstrap-table.css" rel="stylesheet" />
+     <link href="css/sweetalert.css" rel="stylesheet" />
+    <link href="css/creative.css" rel="stylesheet" />
+	<!-- /build -->
+	<!-- build:js scripts/bundle_admin.min.js -->
+	<script src="angular.js"></script>
     <script src="https://code.angularjs.org/1.3.0-rc.2/i18n/angular-locale_ru-ru.js"></script>
     <script src="angular-base64-upload.js"></script>
     <script src="ngmodules/angular-route.js"></script>
@@ -13,55 +22,9 @@
     <script src="bootstrap-table.js"></script>
     <script src="md5.min.js"></script>
     <script src="sweetalert.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,100&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-        <style>
-    *{
-	  font-family:'Roboto';
-	  font-weight: 300;
-	}
-	#accordion{
-	    max-width:768px;
-	    padding:25px 0;
-	    margin:0 auto;
-	}
-	.well, .panel .panel{
-	    margin:0 auto;
-	    max-width: 768px;
-	}
-	.requests{
-		padding-top:15px;
-	}
-    button.close {
-    margin: -5px 0 0 10px;
-}
-</style>
-    <link href="css/yeti.min.css" rel="stylesheet" />
-    <link href="css/font-awesome.css" rel="stylesheet" />
-    <link href="css/bootstrap-table.css" rel="stylesheet" />
-     <link href="css/sweetalert.css" rel="stylesheet" />
-    <script>
-        angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
-            .config(function ($routeProvider) {
-
-                $routeProvider.when("/login", {
-                    templateUrl: "views/autoLogin.html"
-                });
-
-                $routeProvider.when("/registration", {
-                    templateUrl: "views/autoRegistration.html"
-                });
-
-                $routeProvider.when("/main", {
-                    templateUrl: "views/autoMain.html"
-                });
-
-                $routeProvider.otherwise({
-                    redirectTo: "login"
-                });
-            });
-    </script>
     <script src="controllers/autoControllers.js"></script>
     <script src="controllers/autoProductController.js"></script>
+	<!-- /build -->
 </head>
 <body>
     <ng-view />
