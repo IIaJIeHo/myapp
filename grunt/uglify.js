@@ -1,4 +1,8 @@
 module.exports = {
+    options: {
+        report: 'min',
+        mangle: false
+    },
     all: {
       files: {
         'dist/scripts/bundle_admin.min.js': ['dist/scripts/bundle_admin.js'],

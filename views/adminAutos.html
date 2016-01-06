@@ -64,24 +64,29 @@
                 <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
-                <div class="col-md-4"><label>Имя</label><div>{{$parent.mainproduct.name || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Марка</label><div>{{$parent.mainproduct.mark || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Модель</label><div>{{$parent.mainproduct.model || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Поколение</label><div>{{$parent.mainproduct.generation || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Год</label><div>{{$parent.mainproduct.year || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Тип двигателя</label><div>{{$parent.mainproduct.engine || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Коробка</label><div>{{$parent.mainproduct.box || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Имя</label><div>{{$parent.mainproduct.name || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Марка</label><div>{{$parent.mainproduct.mark || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Модель</label><div>{{$parent.mainproduct.model || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Поколение</label><div>{{$parent.mainproduct.generation || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Год</label><div>{{$parent.mainproduct.year || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Тип двигателя</label><div>{{$parent.mainproduct.engine || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Коробка</label><div>{{$parent.mainproduct.box || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Мощность</label><div>{{$parent.mainproduct.body || '0'}} л.с.</div> </div>
                 <div class="col-md-4"><label>Объем двигателя</label><div>{{$parent.mainproduct.volume || '0'}} л.</div> </div>
-                <div class="col-md-4"><label>Цвет</label><div>{{$parent.mainproduct.color || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Привод</label><div>{{$parent.mainproduct.drive || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Цвет</label><div>{{$parent.mainproduct.color || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Тип Кузова</label><div>{{$parent.mainproduct.drive || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Пробег</label><div>{{$parent.mainproduct.mileage || '0'}} км</div> </div>
-                <div class="col-md-4"><label>Vin</label><div>{{$parent.mainproduct.vin || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Vin</label><div>{{$parent.mainproduct.vin || 'нет'}}</div> </div>
                 </div>
                 <div class="row photo-cube">
                     <div class="col-md-3" ng-repeat="i in $parent.mainproduct.picture">
                         <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
                     </div>
+                </div>
+                <div class="text-center">
+                    <button ng-click="editItem($parent.mainproduct,3)" class="btn btn-primary">
+                        Редактировать
+                    </button>
                 </div>
             </div>
             </div>
@@ -96,7 +101,7 @@
             
                 <form name="autoadd" novalidate>
                     <div class="form-group">
-                        <label>Название</label>
+                        <label>Название* (обязательно поле)</label>
                         <input name="name" class="form-control" ng-model="$parent.mainproduct.name"/>
                     </div>
                     <div class="form-group">
@@ -113,42 +118,39 @@
                     </div>
                     <div class="form-group">
                         <label>Поколение</label>
-                        <select class="form-control" ng-change="Search(3,$parent.mainproduct.generation)" ng-if="!generationinput && !$parent.mainproduct.isgeneration" ng-focus="$parent.mainproduct.model.push('Другая');" ng-disabled="!$parent.mainproduct.mark || !$parent.mainproduct.model" id="generation" ng-model="$parent.mainproduct.generation" ng-options="generation for generation in $parent.mainproduct.model"><option value=''>Выбрать</option></select>
-                        <input type="text" class="form-control" ng-model="$parent.mainproduct.generation" ng-if="generationinput && $parent.mainproduct.isgeneration" ng-blur="BacktoSelect(3,$parent.mainproduct.generation)"/>
+                        <input type="text" class="form-control" ng-model="$parent.mainproduct.generation"/>
                     </div>
                     <div class="form-group">
                         <label>Год</label>
-                        <input name="name" class="form-control" ng-model="mainproduct.year"/>
+                        <select class="form-control" ng-model="mainproduct.year" ng-options="o as o for o in array_auto.array_years" ></select>
                     </div>
                     <div class="form-group">
                         <label>Тип двигателя</label>
-                        <input name="name" class="form-control" ng-model="$parent.mainproduct.engine"/>
+                        <select class="form-control" ng-model="$parent.mainproduct.engine" ng-options="o as o for o in array_auto.array_engine" ></select>
                     </div>
                     <div class="form-group">
                         <label>Коробка передач</label>
-                        <input name="name" class="form-control" ng-model="$parent.mainproduct.box"/>
+                        <select class="form-control" ng-model="$parent.mainproduct.box" ng-options="o as o for o in array_auto.array_box" ></select>
                     </div>
                     <div class="form-group">
                         <label>Мощность</label>
                         <div class="input-group">
                             <input name="name" class="form-control" ng-model="$parent.mainproduct.body"/>
+
                             <div class="input-group-addon">л.с.</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Объем двигателя</label>
-                        <div class="input-group">
-                            <input name="name" class="form-control" ng-model="$parent.mainproduct.volume"/>
-                            <div class="input-group-addon">л.</div>
-                        </div>
+                        <label>Объем двигателя (л.)</label>
+                            <select class="form-control" ng-model="$parent.mainproduct.volume" ng-options="o as o for o in array_auto.array_volume" ></select>
                     </div>
                     <div class="form-group">
                         <label>Цвет</label>
                         <input name="name" class="form-control" ng-model="$parent.mainproduct.color"/>
                     </div>
                     <div class="form-group">
-                        <label>Привод</label>
-                        <input name="name" class="form-control" ng-model="$parent.mainproduct.drive"/>
+                        <label>Тип Кузова</label>
+                        <select class="form-control" ng-model="$parent.mainproduct.drive" ng-options="o as o for o in array_auto.array_back" ></select>
                     </div>
                     <div class="form-group">
                         <label>Пробег</label>
@@ -176,10 +178,10 @@
                         </div>
                     </div>
                      <div class="text-center bottom-button">
-                    <button ng-if="!startEdit" ng-click="addItem($parent.mainproduct)" class="btn btn-primary">
+                    <button ng-if="!startEdit" ng-click="addItem($parent.mainproduct)" class="btn btn-primary" ng-disabled="!$parent.mainproduct.name">
                         Создать
                     </button>
-                    <button ng-if="startEdit" ng-click="updateProduct($parent.mainproduct)" class="btn btn-primary">
+                    <button ng-if="startEdit" ng-click="updateProduct($parent.mainproduct)" class="btn btn-primary" ng-disabled="!$parent.mainproduct.name">
                         Обновить
                     </button>
                     </div>

@@ -1,30 +1,37 @@
-﻿<div class="well" ng-controller="authCtrl">
-
-    <div class="alert alert-info" ng-hide="authenticationError">
-        Введите ваш логин и пароль чтобы войти в систему
-    </div>
+﻿<div class="top-logo"><img src="images/logo.png"  /></div>
+<div class="top-hat">
+    Введите ваш логин и пароль чтобы войти в систему
+</div>
+<div class="well" ng-controller="authCtrl">
 
     <div class="alert alert-danger" ng-show="authenticationError">
-        Не получилось авторизоваться ({{authenticationError.status}}). Попробуйте снова.
+        <span ng-if="authenticationError.status == 401">Неправильный логин или пароль. Попробуйте снова.</span>
+        <span ng-if="authenticationError.status != 401">Не вышло войти в систему ({{authenticationError.status}}). Попробуйте снова.</span>
+    </div>
+
+    <div class="alert alert-success" id="regsuccess" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        Вы успешно прошли регистрацию, а теперь войдите в личный кабинет
     </div>
 
     <form name="authForm" novalidate>
         <div class="form-group">
-            <label>Имя</label>
+            <label class="la-16">Логин</label>
             <input name="username" class="form-control" ng-model="username" required />
         </div>
         <div class="form-group">
-            <label>Пароль</label>
+            <label class="la-16">Пароль</label>
             <input name="password" type="password" class="form-control"
                    ng-model="password" required />
         </div>
         <div class="text-center">
             <button ng-click="authenticate(username, password)"
                     ng-disabled="authForm.$invalid"
-                    class="btn btn-primary">
+                    class="btn btn-primary ma-r-20">
                 Войти
             </button>
-            <a href="#/registration">Зарегистрироваться</a>
+            <a style="display:none;" href="#/registration" class="reg-link">Зарегистрироваться</a>
         </div>
     </form>
 </div>

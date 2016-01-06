@@ -1,9 +1,9 @@
 ﻿<div class="container-fluid">
+<div class="top-logo"><img src="images/logo.png"  /></div>
+<div class="top-hat">
+    Введите ваш логин и пароль чтобы войти в систему
+</div>
 <div class="well" ng-controller="authCtrl">
-
-    <div class="alert alert-info" ng-hide="authenticationError">
-        Введите ваше имя при регистрации и пароль чтобы войти в систему
-    </div>
 
     <div class="alert alert-danger" ng-show="authenticationError">
         <span ng-if="authenticationError.status == 401">Неправильный логин или пароль. Попробуйте снова.</span>
@@ -18,21 +18,21 @@
 
     <form name="authForm" novalidate>
         <div class="form-group">
-            <label>Имя</label>
+            <label class="la-16">Логин</label>
             <input name="username" class="form-control" ng-model="username" required />
         </div>
         <div class="form-group">
-            <label>Пароль</label>
+            <label class="la-16">Пароль</label>
             <input name="password" type="password" class="form-control"
                    ng-model="password" required />
         </div>
         <div class="text-center">
             <button ng-click="authenticate(username, password)"
                     ng-disabled="authForm.$invalid"
-                    class="btn btn-primary">
+                    class="btn btn-primary ma-r-20">
                 Войти
             </button>
-            <a href="#/registration">Зарегистрироваться</a>
+            <a href="#/registration" class="reg-link">Зарегистрироваться</a>
         </div>
     </form>
 </div>

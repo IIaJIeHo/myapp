@@ -3,11 +3,16 @@ module.exports = {
 		separator: ';',
 	},
 	admin: {
-		src: ['angular.js', 'ngmodules/*.js', 'md5.min.js','sweetalert.min.js','angular-locale_ru-ru.js', 'jquery-latest.js','bootstrap.min.js','controllers/adminControllers.js', 'controllers/adminProductController.js'],
+		src: ['angular.js', 'ngmodules/*.js', 'md5.min.js','sweetalert.min.js',
+		'angular-locale_ru-ru.js', 'jquery-latest.js','bootstrap.min.js' , 'modules/config.admin.js' , 'modules/factories.js',
+		'modules/directives.js', 'controllers/adminControllers.js', 'controllers/adminProductController.js'],
 		dest: 'dist/scripts/bundle_admin.js',
 	},
 	auto: {
-		src: ['angular.js', 'ngmodules/*.js', 'md5.min.js','sweetalert.min.js','angular-locale_ru-ru.js', 'jquery-latest.js','bootstrap.min.js','controllers/autoControllers.js', 'controllers/autoProductController.js'],
+		src: ['angular.js', 'ngmodules/*.js', 'md5.min.js','sweetalert.min.js',
+		'angular-locale_ru-ru.js', 'jquery-latest.js','bootstrap.min.js', 'modules/config.auto.js',
+		'modules/directives.js', 'modules/factories.js',
+		'controllers/autoControllers.js', 'controllers/autoProductController.js'],
 		dest: 'dist/scripts/bundle_auto.js',
 	},
 	styles: {

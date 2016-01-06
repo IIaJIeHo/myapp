@@ -11,6 +11,28 @@
 .partial-view .leave-request .panel{
   margin:25px 0;
 }
+a.reg-link{
+  color: #00A79D;
+}
+.top-hat{
+  background:#dce5ee;
+  text-align: center;
+  padding:5px 0;
+  font-size: 16px;
+  color:#333;
+  margin: 0px auto;
+  max-width: 768px;
+}
+.top-logo{
+  text-align: center;
+  padding: 25px 0;
+}
+.ma-r-20{
+  margin-right: 20px;
+}
+label.la-16{
+  font-size:16px;
+}
 .information{
   float:left;
   padding:15px;
@@ -100,6 +122,9 @@ button.close{
   border:3px solid #1d75bd;
   cursor: pointer;
 }
+.choose-work__active{
+  border:3px solid #1d75bd;
+}
 .container{
   min-width: 980px;
 }
@@ -116,8 +141,21 @@ button.close{
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #008C9D;
-  border-color: #008C9D;
+  background-color: #00A79D;
+  border-color: #00A79D;
+}
+
+.agree{
+  padding-top:10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.agree input{
+  position: absolute;
+  top: 11.2px;
+  left: 0px;
+  width: 14px;
 }
 
 .robot, .u2, .u3, .u1, .u4, 
@@ -507,6 +545,7 @@ ul.checkbox-grid{
 	padding-left: 18px;
 	vertical-align: top;
 	margin-top: -0.5px;
+  cursor: pointer;
 }
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
@@ -956,6 +995,9 @@ margin: 0 auto;}
       z-index:0;
       margin-left: -12px;
     }
+    .user-class .amount-responds:after{
+      top:7px;
+    }
     .comment-area{
       background: #3DB5D8;
       padding:9px 17px;
@@ -1017,7 +1059,7 @@ margin: 0 auto;}
       border-right:2px solid #3c9a5f;
     }
     .row-hover > div:last-child{
-      border-top:2px solid #3c9a5f;
+      /*border-top:2px solid #3c9a5f;*/
       border-right: none !important;
     }
     .row-hover > div{
@@ -1195,6 +1237,13 @@ input[switch="warning"]:checked + label:before {
   height:27px;
   float:left;
 }
+.panel-info.panel-request{
+  border-color:#00A79D; 
+}
+.panel-info.panel-request > .panel-heading{
+  background: #00A79D;
+  border-color:#00A79D;
+}
 .condensted{
     margin: 0px auto !important;
     max-width: 768px !important;
@@ -1203,7 +1252,7 @@ input[switch="warning"]:checked + label:before {
   /*padding-top:25px;*/
 }
 .partial-view .panel{
-  margin:25px auto;
+  margin:25px auto !important;
 }
 .fa__text{
   margin:-4px 5px -1px 0;
@@ -1429,11 +1478,6 @@ ul.checkbox-grid{
         *{
     	  font-family:'Roboto';
     	  font-weight: 300;
-    	}
-    	#accordion{
-    	    max-width:768px;
-    	    padding:25px 10px;
-    	    margin:0 auto;
     	}
     	.well, .panel .panel{
     	    margin:0 auto;

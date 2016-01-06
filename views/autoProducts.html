@@ -4,7 +4,7 @@
         <strong>Поздравляем! </strong>
         Вы добавили новую заявку!
     </div>
-<div ng-controller="productCtrl" ng-init="formdetails = 'question'; $parent.formdetail = 'bamper';">
+<div ng-controller="productCtrl">
     <div id="loader-wrapper" ng-if="loading">
         <div id="loader"></div>
     </div>
@@ -58,19 +58,19 @@
                 <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
-                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Год</label><div>{{mainproduct.auto.year || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Тип двигателя</label><div>{{mainproduct.auto.engine || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Коробка</label><div>{{mainproduct.auto.box || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Год</label><div>{{mainproduct.auto.year || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Тип двигателя</label><div>{{mainproduct.auto.engine || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Коробка</label><div>{{mainproduct.auto.box || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Мощность</label><div>{{mainproduct.auto.body || '0'}} л.с.</div> </div>
                 <div class="col-md-4"><label>Объем двигателя</label><div>{{mainproduct.auto.volume || '0'}} л.</div> </div>
-                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.auto.color || 'нету'}}</div> </div>
-                <div class="col-md-4"><label>Привод</label><div>{{mainproduct.auto.drive || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Цвет</label><div>{{mainproduct.auto.color || 'нет'}}</div> </div>
+                <div class="col-md-4"><label>Тип Кузова</label><div>{{mainproduct.auto.drive || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Пробег</label><div>{{mainproduct.auto.mileage || '0'}} км</div> </div>
-                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin || 'нету'}}</div> </div>
+                <div class="col-md-4"><label>Vin</label><div>{{mainproduct.auto.vin || 'нет'}}</div> </div>
                 </div>
             </div>
         </div>
@@ -81,21 +81,20 @@
               </div>
               <div class="panel-body">
                     <form name="workForm" novalidate>
-                        <div class="form-group"><label>Название:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" /></div>
-                        <div class="form-group"><label>Описание:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" /></div>
+                        <div class="form-group"><label>Номер заявки:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" /></div>
                         <div class="form-group row">
                             <ul class="checkbox-grid">
                             <li>             
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
-                                <label>Свои запчасти</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.ownparts"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                                Свои запчасти</label>
                             </li>
                             <li>
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
-                                <label>Автомобиль на гарантии</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.onguaranty" ><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                                Автомобиль на гарантии</label>
                             </li>
                             <li ng-repeat="item in texts.work">
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.work[$index]" />
-                                <label>{{item}}</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.work[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.work[$index]" />
+                                {{item}}</label>
                             </li>
                             </ul>
                         </div>
@@ -112,107 +111,99 @@
               <div class="panel-body">
                     <form name="workForm" novalidate>
                         <div class="form-group">
-                            <label>Название:</label>
+                            <label>Номер заявки:</label>
                             <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" />
-                        </div>
-                        <div class="form-group">
-                            <label>Описание:</label>
-                            <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" />
-                        </div>
-                        <div class="form-group">
-                            <label>Опишите неисправность:</label>
-                            <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
                         </div>
                         <div class="form-group row">
                             <ul class="checkbox-grid">
                             <li>             
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
-                                <label>Свои запчасти</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.ownparts"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                                Свои запчасти</label>
                             </li>
                             <li>
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
-                                <label>Автомобиль на гарантии</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.onguaranty" ><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                                Автомобиль на гарантии</label>
                             </li>
                             </ul>
                         </div>
-                        <div class="panel-body tabs-left panel-info">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="active" role="presentation">
-                                    <a ng-click="formdetails = 'question'" aria-controls="question" role="tab" data-toggle="tab" aria-expanded="true">Частые вопросы</a>
-                                </li>
-                                <li role="presentation">
-                                    <a ng-click="formdetails = 'diagnos'" aria-controls="diagnos" role="tab" data-toggle="tab">Диагностика</a>
-                                </li>
-                                <li role="presentation">
-                                    <a ng-click="formdetails = 'engine'" aria-controls="engine" role="tab" data-toggle="tab">Двигатель</a>
-                                </li>
-                                <li role="presentation">
-                                    <a ng-click="formdetails = 'head'" aria-controls="head" role="tab" data-toggle="tab">Подвеска и ходовая часть</a>
-                                </li>
-                                <li role="presentation">
-                                    <a ng-click="formdetails = 'wheel'" aria-controls="wheel" role="tab" data-toggle="tab">Рулевое управление и коробка передач</a>
-                                </li>
-                                <li role="presentation">
-                                    <a ng-click="formdetails = 'addi'" aria-controls="addi" role="tab" data-toggle="tab">Дополнительное оборудование</a>
-                                </li>           
-                            </ul>
+                        <div class="panel-body tabs-left panel-info" ng-show="showtable">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li ng-class="{'active': $parent.formdetails == 'question'}" role="presentation" ng-if="checknegative(mainproduct.details.question,'question')">
+                                <a ng-click="changedetail('question');" aria-controls="question" role="tab" data-toggle="tab" aria-expanded="true">Частые вопросы</a>
+                            </li>
+                            <li ng-class="{'active': $parent.formdetails == 'diagnos'}" role="presentation" ng-if="checknegative(mainproduct.details.diagnos,'diagnos')">
+                                <a ng-click="changedetail('diagnos');" aria-controls="diagnos" role="tab" data-toggle="tab">Диагностика</a>
+                            </li>
+                            <li ng-class="{'active': $parent.formdetails == 'engine'}" role="presentation" ng-if="checknegative(mainproduct.details.engine,'engine')">
+                                <a ng-click="changedetail('engine');" aria-controls="engine" role="tab" data-toggle="tab">Двигатель</a>
+                            </li>
+                            <li ng-class="{'active': $parent.formdetails == 'head'}" role="presentation" ng-if="checknegative(mainproduct.details.head,'head')">
+                                <a ng-click="changedetail('head');" aria-controls="head" role="tab" data-toggle="tab">Подвеска и ходовая часть</a>
+                            </li>
+                            <li ng-class="{'active': $parent.formdetails == 'wheel'}" role="presentation" ng-if="checknegative(mainproduct.details.wheel,'wheel')">
+                                <a ng-click="changedetail('wheel');" aria-controls="wheel" role="tab" data-toggle="tab">Рулевое управление и коробка передач</a>
+                            </li>
+                            <li ng-class="{'active': $parent.formdetails == 'addi'}" role="presentation" ng-if="checknegative(mainproduct.details.addi,'addi')">
+                                <a ng-click="changedetail('addi');" aria-controls="addi" role="tab" data-toggle="tab">Дополнительное оборудование</a>
+                            </li>           
+                        </ul>
                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'question'">
+                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails == 'question'">
                                     <div class="form-group row">
                                         <ul class="checkbox-grid">
                                             <li ng-repeat="item in texts.question">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.question[$index]" />
-                                                <label>{{item}}</label>
+                                                <label ng-hide="!startEdit && !mainproduct.details.question[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.question[$index]" />
+                                                {{item}}</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'diagnos'">
+                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails == 'diagnos'">
                                     <div class="form-group row">
                                         <ul class="checkbox-grid">
                                             <li ng-repeat="item in texts.diagnos">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.diagnos[$index]" />
-                                                <label>{{item}}</label>
+                                                <label ng-hide="!startEdit && !mainproduct.details.diagnos[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.diagnos[$index]" />
+                                                {{item}}</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'engine'">
+                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails == 'engine'">
                                     <div class="form-group row">
                                         <ul class="checkbox-grid">
                                             <li ng-repeat="item in texts.engine">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.engine[$index]" />
-                                                <label>{{item}}</label>
+                                                <label ng-hide="!startEdit && !mainproduct.details.engine[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.engine[$index]" />
+                                                {{item}}</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'head'">
+                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails == 'head'">
                                     <div class="form-group row">
                                         <ul class="checkbox-grid">
                                             <li ng-repeat="item in texts.head">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.head[$index]" />
-                                                <label>{{item}}</label>
+                                                <label ng-hide="!startEdit && !mainproduct.details.head[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.head[$index]" />
+                                                {{item}}</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'wheel'">
+                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails == 'wheel'">
                                     <div class="form-group row">
                                         <ul class="checkbox-grid">
                                             <li ng-repeat="item in texts.wheel">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.wheel[$index]" />
-                                                <label>{{item}}</label>
+                                                <label ng-hide="!startEdit && !mainproduct.details.wheel[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.wheel[$index]" />
+                                                {{item}}</label>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div role="tabpanel" class="tab-pane active" ng-if="formdetails == 'addi'">
+                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails == 'addi'">
                                     <div class="form-group row">
                                         <ul class="checkbox-grid">
                                             <li ng-repeat="item in texts.addi">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.addi[$index]" />
-                                                <label>{{item}}</label>
+                                                <label ng-hide="!startEdit && !mainproduct.details.addi[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.addi[$index]" />
+                                                {{item}}</label>
                                             </li>
                                         </ul>
                                     </div>
@@ -232,49 +223,40 @@
               <div class="panel-body">
                     <form name="workForm" novalidate>
                         <div class="form-group">
-                            <label>Название:</label>
+                            <label>Номер заявки:</label>
                             <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" />
                         </div>
-                        <div class="form-group">
-                            <label>Описание:</label>
-                            <input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.description" />
-                        </div>
-                        <div class="form-group">
-                            <label>Опишите неисправность:</label>
-                            <input ng-disabled="!startEdit" class="form-control" type="textarea" ng-model="mainproduct.details.mainbody" />
-                        </div>
-
                         <div class="form-group row">
                             <ul class="checkbox-grid">
                             <li>             
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
-                                <label>Свои запчасти</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.ownparts"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                                Свои запчасти</label>
                             </li>
                             <li>
-                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
-                                <label>Автомобиль на гарантии</label>
+                                <label ng-hide="!startEdit && !mainproduct.details.onguaranty" ><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                                Автомобиль на гарантии</label>
                             </li>
                             </ul>
                         </div>
-                        <div class="panel-body tabs-left panel-info">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li ng-class="{'active': $index == 0}" ng-repeat="item in texts.destructions" role="presentation">
-                                    <a ng-click="$parent.formdetail = item.eng" aria-controls="{{item.eng}}" role="tab" data-toggle="tab" aria-expanded="true">{{item.title}}</a>
-                                </li>           
-                            </ul>
-                           <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetail == item.eng" ng-repeat="item in texts.destructions" ng-init="parentIndex = $index" >
-                                    <div class="form-group row">
-                                        <ul class="checkbox-grid">
-                                            <li ng-repeat="ite in item.data">
-                                                <input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" />
-                                                <label>{{ite}}</label>
-                                            </li>
-                                        </ul>
-                                    </div>
+                    <div class="panel-body panel-info tabs-left" ng-show="showtable">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li ng-class="{'active': $parent.formdetails2 == item.eng }" ng-repeat="item in texts.destructions" role="presentation" ng-show="checknegative2(mainproduct.details.destructions[$index],item.eng)">
+                                <a ng-click="$parent.formdetails2 = item.eng" aria-controls="{{item.eng}}" role="tab" data-toggle="tab" aria-expanded="true" >{{item.title}}</a>
+                            </li>           
+                        </ul>
+                       <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" ng-show="$parent.formdetails2 == item.eng" ng-repeat="item in texts.destructions" ng-init="parentIndex = $index" >
+                                <div class="form-group row">
+                                    <ul class="checkbox-grid">
+                                        <li ng-repeat="ite in item.data">
+                                            <label ng-hide="!startEdit && !mainproduct.details.destructions[parentIndex][$index]"><input ng-disabled="!startEdit" ng-disabled="startEdit" type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" />
+                                            {{ite}}</label>
+                                        </li>
+                                    </ul>
                                 </div>
-                          </div>
-                        </div>
+                            </div>
+                      </div>
+                    </div>
                         <div class="form-group comment-area"><label>Комментарий:</label><textarea ng-disabled="!startEdit" class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
                         <div class="form-group" ng-if="mainproduct.details.image">
                             <label>Фотография</label>
@@ -290,7 +272,7 @@
         </div>
     </div> 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" ng-if="!allitems">
-  <div class="panel panel-info" >
+  <div class="panel panel-info panel-request" ng-hide="answered">
     <div class="panel-heading" role="tab" id="headingOne">
         <a role="button" data-toggle="collapse" data-parent="#accordion"  data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" ng-disabled="mainproduct.completed">
         <h4 class="panel-title">
@@ -316,7 +298,7 @@
                 <textarea class="form-control" ng-model="editedRespond.description" placeholder="Подробно расскажите про детали предложения" rows="5" ng-disabled="mainproduct.completed"> </textarea>
             </div>
             <div class="text-center">
-                <button type="submit" ng-click="createRespond(editedRespond)"
+                <button type="submit" ng-click="createRespond(editedRespond);answered = true;"
                         ng-disabled="authForm.$invalid || mainproduct.completed"
                         class="btn btn-primary">
                     Добавить

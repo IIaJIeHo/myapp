@@ -24,12 +24,12 @@
             <div class="col-md-12"><h2>Укажите вид услуг</h2></div>
         </div>
         <div class="row">
-            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 1)"><div class="u1"></div>Заявка на техническое обслуживание</div></div>
-            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 2)"><div class="u2"></div>Заявка на ремонт автомобиля</div></div>
-            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 3)"><div class="u3"></div>Заявка на кузовные работы</div></div>
+            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 1)" ng-class="{'choose-work__active' : allitems == 1}"><div class="u1"></div>Заявка на техническое обслуживание</div></div>
+            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 2)" ng-class="{'choose-work__active' : allitems == 2}"><div class="u2"></div>Заявка на ремонт автомобиля</div></div>
+            <div class="col-md-4"><div class="choose-work__wrap" ng-click="viewItem(mainproduct, 3)" ng-class="{'choose-work__active' : allitems == 3}"><div class="u3"></div>Заявка на кузовные работы</div></div>
         </div>
         <div class="row">
-            <p>Пожалуйста укажите 1 из 4 вариантов</p>
+            <p>Пожалуйста укажите 1 из 3 вариантов</p>
         </div>
 
     </div>
@@ -70,20 +70,20 @@
                     <div class="form-group row">
                         <ul class="checkbox-grid">
                         <li>             
-                            <input type="checkbox" ng-model="mainproduct.details.ownparts" />
-                            <label>Свои запчасти</label>
+                            <label><input type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            Свои запчасти</label>
                         </li>
                         <li>
-                            <input type="checkbox" ng-model="mainproduct.details.onguaranty" />
-                            <label>Автомобиль на гарантии</label>
+                            <label><input type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            Автомобиль на гарантии</label>
                         </li>
                         </ul>
                     </div>
                     <div class="form-group row">
                         <ul class="checkbox-grid">
                             <li ng-repeat="item in texts.work">
-                                <input type="checkbox" ng-model="mainproduct.details.work[$index]" />
-                                <label>{{item}}</label>
+                                <label><input type="checkbox" ng-model="mainproduct.details.work[$index]" />
+                                {{item}}</label>
                             </li>
                         </ul>
                     </div>
@@ -128,12 +128,12 @@
                     <div class="form-group row">
                         <ul class="checkbox-grid">
                         <li>             
-                            <input type="checkbox" ng-model="mainproduct.details.ownparts" />
-                            <label>Свои запчасти</label>
+                            <label><input type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            Свои запчасти</label>
                         </li>
                         <li>
-                            <input type="checkbox" ng-model="mainproduct.details.onguaranty" />
-                            <label>Автомобиль на гарантии</label>
+                            <label><input type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            Автомобиль на гарантии</label>
                         </li>
                         </ul>
                     </div>
@@ -163,8 +163,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="item in texts.question">
-                                            <input type="checkbox" ng-model="mainproduct.details.question[$index]" />
-                                            <label>{{item}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.question[$index]" />
+                                            {{item}}</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -173,8 +173,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="item in texts.diagnos">
-                                            <input type="checkbox" ng-model="mainproduct.details.diagnos[$index]" />
-                                            <label>{{item}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.diagnos[$index]" />
+                                            {{item}}</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -183,8 +183,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="item in texts.engine">
-                                            <input type="checkbox" ng-model="mainproduct.details.engine[$index]" />
-                                            <label>{{item}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.engine[$index]" />
+                                            {{item}}</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -193,8 +193,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="item in texts.head">
-                                            <input type="checkbox" ng-model="mainproduct.details.head[$index]" />
-                                            <label>{{item}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.head[$index]" />
+                                            {{item}}</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -203,8 +203,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="item in texts.wheel">
-                                            <input type="checkbox" ng-model="mainproduct.details.wheel[$index]" />
-                                            <label>{{item}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.wheel[$index]" />
+                                            {{item}}</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -213,8 +213,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="item in texts.addi">
-                                            <input type="checkbox" ng-model="mainproduct.details.addi[$index]" />
-                                            <label>{{item}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.addi[$index]" />
+                                            {{item}}</label>
                                         </li>
                                     </ul>
                                 </div>
@@ -262,12 +262,12 @@
                     <div class="form-group row">
                         <ul class="checkbox-grid">
                         <li>             
-                            <input type="checkbox" ng-model="mainproduct.details.ownparts" />
-                            <label>Свои запчасти</label>
+                            <label><input type="checkbox" ng-model="mainproduct.details.ownparts" />
+                            Свои запчасти</label>
                         </li>
                         <li>
-                            <input type="checkbox" ng-model="mainproduct.details.onguaranty" />
-                            <label>Автомобиль на гарантии</label>
+                            <label><input type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                            Автомобиль на гарантии</label>
                         </li>
                         </ul>
                     </div>
@@ -282,8 +282,8 @@
                                 <div class="form-group row">
                                     <ul class="checkbox-grid">
                                         <li ng-repeat="ite in item.data">
-                                            <input type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" />
-                                            <label>{{ite}}</label>
+                                            <label><input type="checkbox" ng-model="mainproduct.details.destructions[parentIndex][$index]" />
+                                            {{ite}}</label>
                                         </li>
                                     </ul>
                                 </div>

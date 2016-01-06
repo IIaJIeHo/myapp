@@ -27,5 +27,6 @@ myprod:
   tasks:
     - 'concat'
     - 'uglify'
+    - 'cssmin'
     - 'copy'
     - 'processhtml'

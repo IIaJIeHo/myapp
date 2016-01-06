@@ -100,19 +100,19 @@
         <form name="passchange" novalidate>
             <div class="form-group">
                 <label>Новый пароль</label>
-                <input name="password" class="form-control" type="password" ng-model="autoservice.password" ng-blur="validation.password = true"/>
+                <input name="password" class="form-control" type="password" ng-model="newpassword" ng-blur="validation.password = true"/>
             </div>
-            <div class="form-group" ng-class="{'has-error':(autoservice.password != repeatpassword)&&validation.password && validation.repeatpassword}">
+            <div class="form-group" ng-class="{'has-error':(newpassword != repeatpassword) && validation.password && validation.repeatpassword}">
                 <label>Повторите пароль</label>
                 <input name="repeatpassword" type="password" class="form-control"
                        ng-model="repeatpassword" ng-blur="validation.repeatpassword = true" required />
                 <div ng-show="validation.password && validation.repeatpassword">
-                    <span class="help-block" ng-show="autoservice.password != repeatpassword">Пароли не совпадают</span>
+                    <span class="help-block" ng-show="newpassword != repeatpassword">Пароли не совпадают</span>
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" ng-click="editUser(autoservice,true)"
-                        ng-disabled="autoservice.password != repeatpassword"
+                <button type="submit" ng-click="editUser(autoservice,true, newpassword)"
+                        ng-disabled="newpassword != repeatpassword"
                         class="btn btn-primary">
                     Изменить
                 </button>

@@ -1,4 +1,8 @@
 module.exports = {
+            options : {
+                keepSpecialComments: 0,
+                rebase: false
+            },
 		  target: {
 			files: [{
 			  expand: true,
