@@ -47,10 +47,13 @@
             <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
           </div>
           <div class="panel-body">
-                <form name="authForm" novalidate>
-                    <div class="form-group">
+                <form name="autoForm1" novalidate>
+                    <div class="form-group" ng-class="{'has-error':(validation.auto && autoForm1.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
+                        <div ng-show="validation.auto">
+                            <span class="help-block" ng-show="autoForm1.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
                     </div>
                 </form>
             <div class="text-right create-auto" ng-click="setScreen(1);">
@@ -88,11 +91,14 @@
                         </ul>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="text-center">
-                        <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
+                    <div class="text-center" ng-class="{'has-error':(validation.auto && autoForm1.auto.$error.required)}">
+                        <button type="submit" ng-click="addRequest(mainproduct); validation.auto = true;" ng-disabled="!mainproduct.autoid && validation.auto"
                                 class="btn btn-primary">
                              Отправить заявку
                         </button>
+                        <div ng-show="validation.auto">
+                            <span class="help-block" ng-show="autoForm1.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
                     </div>
                 </form>
           </div>
@@ -105,10 +111,13 @@
             <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
           </div>
           <div class="panel-body">
-                <form name="authForm" novalidate>
-                    <div class="form-group">
+                <form name="autoForm2" novalidate>
+                    <div class="form-group" ng-class="{'has-error':(validation2.auto && autoForm2.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
+                        <div ng-show="validation2.auto">
+                            <span class="help-block" ng-show="autoForm2.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
                     </div>
                 </form>
             <div class="text-right create-auto" ng-click="setScreen(1);">
@@ -222,11 +231,14 @@
                       </div>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="text-center bottom-button">
-                        <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
+                    <div class="text-center bottom-button" ng-class="{'has-error':(validation2.auto && autoForm2.auto.$error.required)}">
+                        <button type="submit" ng-click="addRequest(mainproduct);validation2.auto = true;" ng-disabled="!mainproduct.autoid && validation2.auto"
                                 class="btn btn-primary">
                             Отправить заявку
                         </button>
+                        <div ng-show="validation2.auto">
+                            <span class="help-block" ng-show="autoForm2.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
                     </div>
                 </form>
           </div>
@@ -239,10 +251,13 @@
             <h2 class="panel-title"><i class="big-car"></i>Автомобиль</h2>
           </div>
           <div class="panel-body">
-                <form name="authForm" novalidate>
-                    <div class="form-group">
+                <form name="autoForm3" novalidate>
+                    <div class="form-group" ng-class="{'has-error':(validation3.auto && autoForm3.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos"></select>
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
+                        <div ng-show="validation3.auto">
+                            <span class="help-block" ng-show="autoForm3.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
                     </div>
                 </form>
             <div class="text-right create-auto" ng-click="setScreen(1);">
@@ -305,11 +320,14 @@
                             <span class="help-block" ng-show="errorfile == 'Type'">Загружать можно только картинки</span>
                         </div>
                     </div>
-                    <div class="text-center bottom-button">
-                        <button type="submit" ng-click="addRequest(mainproduct)" ng-disabled="!mainproduct.autoid"
+                    <div class="text-center bottom-button" ng-class="{'has-error':(validation3.auto && autoForm3.auto.$error.required)}">
+                        <button type="submit" ng-click="addRequest(mainproduct);validation3.auto = true;" ng-disabled="!mainproduct.autoid && validation3.auto"
                                 class="btn btn-primary">
                             Отправить заявку
                         </button>
+                        <div ng-show="validation3.auto">
+                            <span class="help-block" ng-show="autoForm3.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
                     </div>
                 </form>
           </div>

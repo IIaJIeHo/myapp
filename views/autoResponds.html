@@ -12,9 +12,10 @@
         <strong>Ого! </strong>
         Вы удалили {{updatedRespond.name}}
     </div>
-    <table id="autoTable" class="table table-striped table-bordered table-hover" ng-if="respondview == 1"> 
+    <table id="productTable" class="table table-striped table-bordered table-hover" ng-if="respondview == 1"> 
     <!-- просмотр всех ответов -->
         <tr class="sort-names">
+            <th><a href="" ng-click="order('type')">Тип <i class="fa" ng-show="predicate === 'type'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'type'" ></i></a></th>
             <th><a href="" ng-click="order('name')">Номер заявки <i class="fa" ng-show="predicate === 'name'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'name'" ></i> </a></th>
             <th><a href="" ng-click="order('description')">Комментарий <i class="fa" ng-show="predicate === 'description'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'description'" ></i> </a></th>
             <th><a href="" ng-click="order('cost')">Стоимость <i class="fa" ng-show="predicate === 'cost'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'cost'" ></i></a></th>
@@ -31,6 +32,7 @@
             </th>
         </tr>
         <tr ng-repeat="item in myresponds | filter:query |orderBy:predicate:reverse" >
+            <td ng-click="viewRespond(item,2)"><span class="fa__type" ng-class="{'to': item.type == 'Заявка на ТО', 'kuzov': item.type == 'Кузовные работы', 'remont': item.type == 'Заявка на Ремонт'}"></span>{{item.type}}</td>
             <td ng-click="viewRespond(item,2)">{{item.name}}</td>
             <td ng-click="viewRespond(item,2)">{{item.description}}</td>
             <td ng-click="viewRespond(item,2)">{{item.cost | currency}}</td>

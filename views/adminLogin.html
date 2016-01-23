@@ -1,7 +1,7 @@
 ﻿<div class="container-fluid">
 <div class="top-logo"><img src="images/logo.png"  /></div>
 <div class="top-hat">
-    Введите ваш логин и пароль чтобы войти в систему
+    <b>Вход для пользователя:</b> Введите ваш логин и пароль чтобы войти в систему
 </div>
 <div class="well" ng-controller="authCtrl">
 
@@ -18,8 +18,8 @@
 
     <form name="authForm" novalidate>
         <div class="form-group">
-            <label class="la-16">Логин</label>
-            <input name="username" class="form-control" ng-model="username" required />
+            <label class="la-16">E-mail</label>
+            <input name="username" class="form-control" ng-model="email" type="email" required />
         </div>
         <div class="form-group">
             <label class="la-16">Пароль</label>
@@ -27,7 +27,7 @@
                    ng-model="password" required />
         </div>
         <div class="text-center">
-            <button ng-click="authenticate(username, password)"
+            <button ng-click="authenticate(email, password)"
                     ng-disabled="authForm.$invalid"
                     class="btn btn-primary ma-r-20">
                 Войти

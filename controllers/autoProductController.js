@@ -71,6 +71,7 @@
                 $scope.autoservice = $rootScope.autoservice; 
                 $scope.autoservices = $rootScope.autoservices;              
                 $scope.loading = false;
+                console.log("cache");
             }
             else{
             Autoservices.getById($rootScope.userid).then(function(autoservice){
@@ -220,6 +221,7 @@
         var userofrequest, auto, responds, keepgoing = true;
         respond.autoserviceid=$rootScope.userid;
         respond.productid=$scope.mainproduct._id.$oid;
+        respond.type = $scope.mainproduct.type;
         respond.date = Date.now();
         if ($scope.autoservice.number === undefined){
             $scope.autoservice.number = 0;
@@ -227,7 +229,8 @@
         else{
             $scope.autoservice.number += 1;
         }
-        respond.name = parseInt($scope.autoservice.phone.substring(4),10).toString(32) + "-" + (2000000 + $scope.autoservice.number);
+        /*respond.name = parseInt($scope.autoservice.phone.substring(4),10).toString(32) + "-" + (2000000 + $scope.autoservice.number);*/
+        respond.name = $scope.mainproduct.name;
         angular.forEach($scope.users,function(value,key){
                 if (keepgoing){
                     if (value._id.$oid== $scope.mainproduct.userid){
@@ -241,9 +244,13 @@
         respond.viewed = false;
         var candirespond = new Responds(respond);
         candirespond.$save().then(function (newRespond) {
+            $scope.responds.push(newRespond);
+            $rootScope.responds = $scope.responds;
+            $scope.mainproduct.responds.push(newRespond);
             newRespond.autoservice = $scope.autoservice;
              $scope.activeresponds.push(newRespond);
              $scope.myresponds.push(newRespond);
+             $rootScope.myresponds = $scope.myresponds;
              Functions.alertAnimate($("#a-respond-new"));
             $scope.editedRespond = {};
             $scope.mainproduct.replied = true;
@@ -257,11 +264,14 @@
             Functions.sendMail({
                 email: userofrequest.email,
                 username: userofrequest.username,
-                subject: 'На вашу заявку откликнулись',
-                html: $scope.autoservice.username + " оставил заявку; Имя = "+respond.name+"; Описание = "+respond.description+"; Стоимость = " + respond.cost,
+                subject: 'На вашу заявку № '+respond.name+' откликнулись',
+                html: $scope.autoservice.username + " сервис ответил на заявку № " + respond.name + ", стоимость ремонта " + respond.cost + "руб. Комментарий: " + respond.description,
             });
             $scope.loading = false; 
         });
+        $scope.autoservice.$update().then(function(autoservice){
+            $rootScope.autoservice = $scope.autoservice;
+        });   
     }
 
     $scope.updateProduct = function (product) {
@@ -379,7 +389,7 @@
                 if (($scope.answered == false) && (value.autoserviceid == $scope.autoservice._id.$oid)){
                     $scope.answered = true;
                 }
-
+                console.log(value);
                 $scope.activeresponds.push(value);
                 $scope.toogleAutoservice.push(false);
               }

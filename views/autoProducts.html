@@ -285,11 +285,11 @@
         <div class="row bg-success text-center" style="padding:10px 0;" ng-if="mainproduct.completed">
                     Заявка завершена
         </div>
-        <form name="authForm" novalidate>
+        <form name="priceform">
             <div class="form-group">
                 <label>Цена</label>
                         <div class="input-group">
-                        <input name="cost" class="form-control" ng-model="editedRespond.cost" ng-disabled="mainproduct.completed"/>
+                        <input name="cost" class="form-control" ng-model="editedRespond.cost" ng-disabled="mainproduct.completed" ng-pattern="/^[0-9]{1,7}$/" ng-required="true"/>
                             <div class="input-group-addon">руб.</div>
                         </div>
             </div>
@@ -299,8 +299,8 @@
             </div>
             <div class="text-center">
                 <button type="submit" ng-click="createRespond(editedRespond);answered = true;"
-                        ng-disabled="authForm.$invalid || mainproduct.completed"
-                        class="btn btn-primary">
+                        ng-disabled="!editedRespond.cost || priceform.cost.$error.pattern || mainproduct.completed"
+                        class="btn btn-primary" >
                     Добавить
                 </button>
             </div>
@@ -335,7 +335,7 @@
             <div class="row row-hover" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
                 <div class="col-lg-4" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
                     <div class="autoservice__view"><span class="eye2"></span></div>
-                    <div class="autoservice__name"><a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a></div>
+                    <div class="autoservice__name"><a target="_blank" title="{{item.autoservice.name}}" href="{{item.autoservice.link}}">{{item.autoservice.name}}</a></div>
                     <div class="autoservice__metro"><span class="metro"></span>{{item.autoservice.metro}}</div>
                 </div>
                 <div class="col-lg-2" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">

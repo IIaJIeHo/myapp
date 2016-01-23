@@ -100,7 +100,7 @@
         <form name="passchange" novalidate>
             <div class="form-group">
                 <label>Новый пароль</label>
-                <input name="password" class="form-control" type="password" ng-model="newpassword" ng-blur="validation.password = true"/>
+                <input name="password" class="form-control" type="password" ng-model="newpassword" ng-blur="validation.password = true" required/>
             </div>
             <div class="form-group" ng-class="{'has-error':(newpassword != repeatpassword) && validation.password && validation.repeatpassword}">
                 <label>Повторите пароль</label>
@@ -112,7 +112,7 @@
             </div>
             <div class="text-center">
                 <button type="submit" ng-click="editUser(autoservice,true, newpassword)"
-                        ng-disabled="newpassword != repeatpassword"
+                        ng-disabled="(newpassword != repeatpassword) || passchange.password.$error.required"
                         class="btn btn-primary">
                     Изменить
                 </button>

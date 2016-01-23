@@ -1,13 +1,15 @@
 ﻿angular.module("sportsStoreAdmin")
-.controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, userRegUrl,autoUrl, Users, Functions) {
+.controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, userRegUrl, autoUrl, Users, Functions) {
     $scope.error = null;
     $scope.isused = false;
+    $scope.isusedmail = false;
     $scope.user = new Users();
     if ($location.search()['user'] == 'new'){
         Functions.alertAnimate($("#a-user-new"));
     }
-    $scope.authenticate = function (user, pass) {
-        $scope.candidat = Users.query({username: user}).then(function(user){
+    $scope.authenticate = function (mail, pass) {
+        $scope.candidat = Users.query({email: mail}).then(function(user){
+            console.log(user);
             if (user[0] != undefined){
                 if (user[0].password == window.md5(pass)){
                     $location.path("/main");
@@ -37,9 +39,9 @@
     $scope.listProducts();
     $scope.registration = function (user) {
         var isused = false, temppassword = '',copieduser;
-        Users.query({username: user.username}).then(function(found){
+        Users.query({email: user.email}).then(function(found){
             if (found.length > 0){
-                $scope.isused = true;
+                $scope.isusedmail = true;
             }
             else{
                 $scope.validation.password = false;
@@ -53,7 +55,7 @@
                         email: user.email,
                         username: user.username,
                         subject: 'Добро пожаловать в Carsbir',
-                        html: "Добро пожаловать в Carsbir. Ваш логин: " + user.username + " Ваш пароль: " + temppassword,
+                        html: "Добро пожаловать в Carsbir. Ваш логин (email): " + user.email + " Ваш пароль: " + temppassword,
                     });
                 }, function(error){
                     $scope.error = error;
@@ -62,7 +64,7 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope,$location) {
+.controller("mainCtrl", function ($scope, $rootScope, $location,Responds, Requests) {
 
     $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
     $scope.routes = ["main", "auto", "leaverequest", "edit"];
@@ -70,6 +72,23 @@
 
     $scope.setScreen = function (index) {
         $scope.current = $scope.screens[index];
+        Requests.query({userid: $rootScope.userid}).then(function(data){
+            $scope.products = data;
+            Responds.query().then(function(responds_data){
+                $scope.responds = responds_data;
+                angular.forEach($scope.products, function(value, key) {
+                    value.responds = [];
+                    angular.forEach($scope.responds, function(value_res, key_res) {
+                        if (value._id.$oid == value_res.productid){
+                            value.responds.push(value_res);
+                        }
+                    });               
+            });
+            $rootScope.responds = $scope.responds;
+            $scope.loading = false; 
+        }); 
+        $rootScope.products = $scope.products;      
+        });
     };
 
     $scope.getScreen = function () {

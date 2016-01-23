@@ -347,8 +347,8 @@
             Functions.sendMail({
                 email: partner.email,
                 username: partner.username,
-                subject: 'На вашу заявку откликнулись',
-                html: $scope.user.username + " подтвердил заявку; Имя = "+item.name+"; Описание = "+item.description+"; Стоимость = " + item.cost, 
+                subject: 'Вашу заявку № ' + item.name + ' подтвердили',
+                html: $scope.user.username + " подтвердил заявку № " + item.name + ", стоимость ремонта " + item.cost + "руб. ", 
             });
         });
     }
@@ -501,6 +501,9 @@
     }
 
     $scope.addRequest = function (request) {
+        if (request.autoid == undefined){
+            return false;
+        }
         $scope.loading = true;
         var auto = request.autoid;
         request.userid=$rootScope.userid;
@@ -514,7 +517,7 @@
         else{
             $scope.user.number += 1;
         }
-        request.name = parseInt($scope.user.phone.substring(4),10).toString(32) + "-" + (1000000 + $scope.user.number);
+        request.name = parseInt($scope.user.phone.substring(4),10).toString(32) + "-" + (100 + $scope.user.number);
         var newrequest2 = new Requests(request);
         newrequest2.$save().then(function (newrequest) {
             newrequest.responds = [];

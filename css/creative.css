@@ -316,9 +316,16 @@ margin: 0 auto;}
     .autoservice__metro{
       text-align: left;
       width:71%;
+      font-size:11px;
     }
     .autoservice__name, .autoservice__metro{
     	margin-left:5px;
+    }
+    .autoservice__name{
+      max-width: 180px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
     .amount-responds span{
       z-index:2;

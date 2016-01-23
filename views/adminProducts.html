@@ -90,7 +90,7 @@
     <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
         <div class="container-fluid">
             <div class="row row-title">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     Название компании
                 </div>
                 <div class="col-lg-2">
@@ -99,16 +99,16 @@
                 <div class="col-lg-2">
                     Стоимость
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     Дата заявки
                 </div>
                 <div class="col-lg-2">
                 </div>
             </div>
             <div class="row row-hover" ng-repeat="item in activeresponds" ng-class="{'bg-success': item.approved}">
-                <div class="col-lg-3" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                <div class="col-lg-4" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
                     <div class="autoservice__view"><span class="eye2"></span></div>
-                    <div class="autoservice__name"><a target="_blank" href="http://{{item.autoservice.site}}">{{item.autoservice.name}}</a></div>
+                    <div class="autoservice__name"><a target="_blank" title="{{item.autoservice.name}}" href="{{item.autoservice.link}}">{{item.autoservice.name}}</a></div>
                     <div class="autoservice__metro"><span class="metro"></span>{{item.autoservice.metro}}</div>
                 </div>
                 <div class="col-lg-2" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
@@ -117,7 +117,7 @@
                 <div class="col-lg-2" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
                     {{item.cost | currency}}
                 </div>
-                <div class="col-lg-3 date" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
+                <div class="col-lg-2 date" ng-click="toogleAutoservice[$index] = !toogleAutoservice[$index];">
                     {{formatDate(item.date)}}
                 </div>
                 <div class="col-lg-2 toogle-action">
