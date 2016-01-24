@@ -26,7 +26,7 @@
     $scope.showtable = false;
     $scope.toogleAutoservice = [];
     $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
-    $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
+    $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.texts = Data.getWorkTypes();
 
     $('#navigation a').click(function (e) {
@@ -370,7 +370,7 @@
     $scope.autos = null;
     $scope.mainproduct = {};
 	$scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
-    $scope.requests_desc = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
+    $scope.requests_desc = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.marks = Data.getMarks();
     $scope.texts = Data.getWorkTypes();
     $scope.array_auto = Data.getAuto();
@@ -379,6 +379,7 @@
         $scope.mainproduct = {};
         $scope.mainproduct.details = {};
         $scope.mainproduct.details.question = [];
+        $scope.mainproduct.details.tuning = [];
         $scope.mainproduct.details.engine = [];
         $scope.mainproduct.details.head = [];
         $scope.mainproduct.details.wheel = [];
@@ -386,7 +387,7 @@
         $scope.mainproduct.details.diagnos = [];
         $scope.mainproduct.details.work = [];
         $scope.mainproduct.details.destructions = [[],[],[],[],[],[],[],[],[]];
-        $scope.mainproduct.details.image = {};
+        $scope.mainproduct.details.image = [];
         $scope.modelinput = false;
         $scope.markinput = false;
         $scope.generationinput = false;   
@@ -594,6 +595,26 @@
             swal("Удален!", "Ваша запись удалена", "success");
             Functions.alertAnimate($("#a-auto-delete"));
         });
+    }
+
+    $scope.deleteImage = function(image){
+        $scope.mainproduct.details.image.splice($scope.mainproduct.details.image.indexOf(image),1);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'delete.php', true);
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        var params = "filename="+image.slice(1);
+        console.log(params);
+        var json = JSON.stringify({'filename' : image});
+        xhr.send(params);
+        xhr.onload = function () {
+            console.log(xhr.status);
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.log(xhr.responseText);
+            }
+        };
+
     }
 
     $scope.editItem = function (auto,number) {

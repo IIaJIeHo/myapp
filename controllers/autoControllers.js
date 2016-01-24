@@ -39,6 +39,30 @@
 
     $scope.isused = false;
     $scope.isusedmail = false;
+    $scope.restorepassword = function(mail){
+        var password='', user;
+        Autoservices.query({email: mail}).then(function(found){
+
+            if (found[0] != undefined){
+                user = found[0];
+                password = (Date.now() + Functions.getRandomInt(1000000,10000000)*100000).toString(36);
+                console.log(password);
+                user.password = window.md5(password);
+                user.$update().then(function(newuser){
+                    console.log(newuser);
+                    Functions.sendMail({
+                        email: user.email,
+                        username: user.username,
+                        subject: 'Наш пароль изменен в Carsbir',
+                        html: "Ваш логин (email): " + user.email + " Ваш новый пароль: " + password,
+                    });
+                });
+            }
+            else{
+                Functions.alertAnimate($("#a-user-noemail"));
+            }
+        });
+    }
     $scope.registration = function (user) {
         var isused = false, temppassword = '',copieduser;
         Autoservices.query({email: user.email}).then(function(autoservice){

@@ -27,9 +27,10 @@
     $scope.answered = false;
     $scope.showtable = false;
     $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
-    $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы'];
+    $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.texts = Data.getWorkTypes();
     $scope.metrostations = Data.getMetro();
+    $scope.regions = Data.getRegions();
     $scope.logout = function(){
         $rootScope.userid = undefined;
         document.cookie = "autoid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
@@ -194,6 +195,9 @@
             if (user.phone == undefined){
                 user.phone = '';
             }
+            if (user.town == undefined){
+                user.town = '';
+            }
             if (passchange){
                 Functions.sendMail({
                     email: user.email,
@@ -208,7 +212,7 @@
                     email: user.email,
                     username: user.username,
                     subject: user.username + ': данные организации изменены',
-                    html: "Имя = " + user.name + "; Описание = " + user.description + "; Телефон = "+user.phone,
+                    html: "Имя = " + user.name + "; Описание = " + user.description + "; Телефон = "+user.phone + "; Город = "+user.town,
                     });
                 Functions.alertAnimate($("#a-user-edit-profile"));         
             }

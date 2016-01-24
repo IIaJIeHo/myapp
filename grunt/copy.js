@@ -3,7 +3,7 @@ module.exports = {
 		files: [
 		  // includes files within path
 		  {expand: true, flatten: true, src: ['images/*'], dest: 'dist/images/', filter: 'isFile'},
-		  {expand: true, src: ['fonts/*','views/*','angular.js','upload.php'], dest: 'dist/', filter: 'isFile'}
+		  {expand: true, src: ['fonts/*','views/*','angular.js','upload.php','delete.php'], dest: 'dist/', filter: 'isFile'}
 		]
 	}
 };

@@ -124,6 +124,35 @@
               </div>
             </div>
         </div>
+        <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на тюнинг' && respondview == 2">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h2 class="panel-title"><i class="kuzov-work"></i>Заявка на тюнинг</h2>
+              </div>
+              <div class="panel-body">
+                    <form name="workForm" novalidate>
+                        <div class="form-group"><label>Номер заявки:</label><input ng-disabled="!startEdit" class="form-control" type="text" ng-model="mainproduct.name" /></div>
+                        <div class="form-group row">
+                            <ul class="checkbox-grid">
+                            <li>             
+                                <label ng-hide="!startEdit && !mainproduct.details.ownparts"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.ownparts" />
+                                Свои запчасти</label>
+                            </li>
+                            <li>
+                                <label ng-hide="!startEdit && !mainproduct.details.onguaranty" ><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.onguaranty" />
+                                Автомобиль на гарантии</label>
+                            </li>
+                            <li ng-repeat="item in texts.tuning">
+                                <label ng-hide="!startEdit && !mainproduct.details.tuning[$index]"><input ng-disabled="!startEdit" type="checkbox" ng-model="mainproduct.details.tuning[$index]" />
+                                {{item}}</label>
+                            </li>
+                            </ul>
+                        </div>
+                        <div class="form-group comment-area"><label>Комментарий:</label><textarea ng-disabled="!startEdit" class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
+                    </form>
+              </div>
+            </div>
+        </div>
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на Ремонт' && respondview == 2">
             <div class="panel panel-info">
               <div class="panel-heading">

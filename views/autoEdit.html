@@ -34,8 +34,8 @@
                 <input name="name" class="form-control" ng-model="autoservice.name"/>
             </div>
             <div class="form-group">
-                <label>Описание</label>
-                <input name="surname" class="form-control" ng-model="autoservice.description"/>
+                <label>Город</label>
+                <input name="town" class="form-control" ng-model="autoservice.town"/>
             </div>
             <div class="form-group">
                 <label>Адрес</label>
@@ -50,26 +50,17 @@
                     <span class="help-block" ng-show="authForm.phone.$error.pattern && !authForm.phone.$error.required && !authForm.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
                 </div>
             </div>
-            <div class="form-group" ng-class="{'has-error':authForm.email.$invalid && validation.email}">
-                <label>Email</label>
-                <input type="email" name="email"  class="form-control"
-                       ng-model="autoservice.email" ng-blur="validation.email = true" required />
-                <div ng-show="validation.email">
-                    <span class="help-block" ng-show="authForm.email.$error.required">Дайте нам свой Email</span>
-                    <span class="help-block" ng-show="authForm.email.$error.email">Email должен быть другим</span>
-                </div>
-            </div>
             <div class="form-group">
                 <label>Сайт</label>
                 <input name="surname" class="form-control" ng-model="autoservice.site"/>
             </div>
             <div class="form-group">
                 <label>Метро</label>
-                <select class="form-control" id="generation" ng-model="autoservice.metro" ng-options="metro for metro in metrostations"><option value=''>Выбрать</option></select>
+                <select class="form-control" id="metro" ng-model="autoservice.metro" ng-options="metro for metro in metrostations"><option value=''>Выбрать</option></select>
             </div>
             <div class="form-group">
                 <label>Округ</label>
-                <input name="surname" class="form-control" ng-model="autoservice.region"/>
+                <select class="form-control" id="region" ng-model="autoservice.region" ng-options="region for region in regions"><option value=''>Выбрать</option></select>
             </div>
             <div class="form-group">
                 <label>Ссылка на профиль</label>
@@ -79,7 +70,7 @@
                 <button type="submit" ng-click="editUser(autoservice)"
                         ng-disabled="authForm.$invalid"
                         class="btn btn-primary">
-                    Изменить
+                    Сохранить данные
                 </button>
             </div>
         </form>
@@ -114,7 +105,7 @@
                 <button type="submit" ng-click="editUser(autoservice,true, newpassword)"
                         ng-disabled="(newpassword != repeatpassword) || passchange.password.$error.required"
                         class="btn btn-primary">
-                    Изменить
+                    Изменить пароль
                 </button>
             </div>
         </form>

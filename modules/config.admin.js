@@ -25,6 +25,10 @@
                     templateUrl: "views/adminMain.html"
                 });
 
+                $routeProvider.when("/forgetpassword", {
+                    templateUrl: "views/adminForgetPassword.html"
+                });
+
                 $routeProvider.otherwise({
                     redirectTo: "login"
                 });

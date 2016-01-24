@@ -13,6 +13,10 @@ angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
                     templateUrl: "views/autoMain.html"
                 });
 
+                $routeProvider.when("/forgetpassword", {
+                    templateUrl: "views/autoForgetPassword.html"
+                });
+
                 $routeProvider.otherwise({
                     redirectTo: "login"
                 });

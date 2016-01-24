@@ -46,7 +46,7 @@
                 <button type="submit" ng-click="editUser(user,false)"
                         ng-disabled="authForm.$invalid"
                         class="btn btn-primary">
-                    Изменить
+                    Сохранить данные
                 </button>
             </div>
         </form>
@@ -80,7 +80,7 @@
                 <button type="submit" ng-click="editUser(user, true, newpassword)"
                         ng-disabled="(newpassword != repeatpassword) || passchange.password.$error.required"
                         class="btn btn-primary">
-                    Изменить
+                    Изменить пароль
                 </button>
             </div>
         </form>
