@@ -168,9 +168,10 @@
                         <div class="row photo-cube">
                             <div class="col-md-3" ng-repeat="i in $parent.mainproduct.picture">
                                 <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border:1px solid" ng-src="{{baseurl}}{{i}}" /></a>
+                                <a class="pointer" ng-click="deleteImageP(i);">удалить</a>
                             </div>
                         </div>
-                        <input name="name" type='file' model='$parent.mainproduct.picture' error='errorfile' ng-model='hello_file' file-feed multiple />
+                        <input name="name" type='file' model='$parent.mainproduct.picture' error='errorfile' ng-model='hello_file' file-feed multiple/>
                         <div ng-show="errorfile">
                             <span class="help-block" ng-show="errorfile == 'Toomuch'">Не более 4 файлов</span>
                             <span class="help-block" ng-show="errorfile == 'Toomuch1mb'">Каждый файл не более 1 мб</span>

@@ -44,7 +44,7 @@
                    ng-model="user.email" ng-blur="validation.email = true" ng-change="isusedmail = false;" required />
             <div ng-show="validation.email">
                 <span class="help-block" ng-show="isusedmail">Такой email уже используется</span>
-                <span class="help-block" ng-show="authForm.email.$error.required">Дайте нам свой Email</span>
+                <span class="help-block" ng-show="authForm.email.$error.required">Укажите свой Email</span>
                 <span class="help-block" ng-show="authForm.email.$error.email">Email должен быть другим</span>
             </div>
         </div>

@@ -312,7 +312,7 @@
                         <div class="row photo-cube">
                             <div class="col-md-3" ng-repeat="i in mainproduct.details.image">
                                 <a target="_blank" href="{{baseurl}}{{i}}"><img ng-dostyle="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
-                                <a ng-click="deleteImage(i);">удалить</a>
+                                <a class="pointer" ng-click="deleteImage(i);">удалить</a>
                             </div>
                         </div>
                         <input name="name" type='file' model='mainproduct.details.image' error='errorfile' ng-model='hello_file' file-feed multiple />

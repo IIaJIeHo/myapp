@@ -13,6 +13,7 @@
 }
 a.reg-link{
   color: #00A79D;
+  padding: 0 8px;
 }
 .top-hat{
   background:#dce5ee;
@@ -92,6 +93,9 @@ label.la-16{
 }
 .row-hover:hover{
 	cursor:pointer;
+}
+.pointer{
+  cursor:pointer;
 }
 button.close{
   margin:-5px 0 0 10px;

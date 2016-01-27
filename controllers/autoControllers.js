@@ -56,6 +56,7 @@
                         subject: 'Наш пароль изменен в Carsbir',
                         html: "Ваш логин (email): " + user.email + " Ваш новый пароль: " + password,
                     });
+                    Functions.alertAnimate($("#a-user-email"));
                 });
             }
             else{

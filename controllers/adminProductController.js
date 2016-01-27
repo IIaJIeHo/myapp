@@ -320,6 +320,25 @@
         }
     }
 
+    $scope.deleteImage = function(image){
+        $scope.mainproduct.details.image.splice($scope.mainproduct.details.image.indexOf(image),1);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'delete.php', true);
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        var params = "filename="+image.slice(1);
+        console.log(params);
+        var json = JSON.stringify({'filename' : image});
+        xhr.send(params);
+        xhr.onload = function () {
+            console.log(xhr.status);
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.log(xhr.responseText);
+            }
+        };
+    }
+
     $scope.approveItem = function(item,autoservice){
         var partner,keyProgress = true;
         item.approved = !item.approved;
@@ -599,6 +618,15 @@
 
     $scope.deleteImage = function(image){
         $scope.mainproduct.details.image.splice($scope.mainproduct.details.image.indexOf(image),1);
+        delpic(image);
+    }
+
+    $scope.deleteImageP = function(image){
+        $scope.mainproduct.picture.splice($scope.mainproduct.picture.indexOf(image),1);
+        delpic(image);
+    }
+
+    var delpic = function (image){
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'delete.php', true);
         xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
@@ -614,7 +642,6 @@
                 console.log(xhr.responseText);
             }
         };
-
     }
 
     $scope.editItem = function (auto,number) {
@@ -699,6 +726,9 @@
                 auto.mark = document.getElementById("mark").value;
                 auto.model = document.getElementById("model").value;              
             }    
+        }
+        if (number == 3){
+            $scope.mainproduct.picture = [];
         }
     }
 
