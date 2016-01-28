@@ -85,6 +85,14 @@
                         data = data.filter(function(product){
                             return product.date > temp_time;
                         });
+                        if ($scope.autoservice.subjects != undefined){
+                            data = data.filter(function(product){
+                                return ((product.subjects.some(function (subject) {
+                                   return $scope.autoservice.subjects.indexOf(subject) >= 0
+                                }) || (product.subjects == undefined));
+                            });
+                        }
+
                         $scope.products = data;
                         Autos.query().then(function(auto_data){
                             $scope.autos = auto_data;
