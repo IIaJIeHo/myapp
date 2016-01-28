@@ -25,6 +25,7 @@
 	$scope.formdetails2 = null;
     $scope.showtable = false;
     $scope.toogleAutoservice = [];
+    $scope.subjects = Data.getSubjects();
     $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.texts = Data.getWorkTypes();
@@ -367,7 +368,8 @@
                 email: partner.email,
                 username: partner.username,
                 subject: 'Вашу заявку № ' + item.name + ' подтвердили',
-                html: $scope.user.username + " подтвердил заявку № " + item.name + ", стоимость ремонта " + item.cost + "руб. ", 
+                html: $scope.user.username + " подтвердил заявку № " + item.name + ", телефон: " + $scope.user.phone +", стоимость ремонта " + item.cost + "руб. ", 
+                Ваш ответ на заявку №... был принят , клиент ожидает вашего звонка ( Андрей , тел.8903458... )  
             });
         });
     }
@@ -478,6 +480,7 @@
         }
         if ($rootScope.autos != null){
             $scope.autos = $rootScope.autos;
+            $scope.user = $rootScope.user;
             $scope.loading = false;
         }
         else{
@@ -485,7 +488,11 @@
                 $scope.autos = autos;
                 $rootScope.autos = autos;
                 $scope.loading = false;
-            });        
+            });
+            Users.getById($rootScope.userid).then(function(user){
+                $scope.user = user;
+                $rootScope.user = $scope.user; 
+            });      
         }
     }
     $scope.base = -1;
@@ -538,6 +545,7 @@
             $scope.user.number += 1;
         }
         request.name = parseInt($scope.user.phone.substring(4),10).toString(32) + "-" + (100 + $scope.user.number);
+        request.subjects = $scope.user.subjects;
         var newrequest2 = new Requests(request);
         newrequest2.$save().then(function (newrequest) {
             newrequest.responds = [];

@@ -51,9 +51,18 @@
                 <form name="autoForm1" novalidate>
                     <div class="form-group" ng-class="{'has-error':(validation.auto && autoForm1.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.mark for auto in autos" required></select>
                         <div ng-show="validation.auto">
                             <span class="help-block" ng-show="autoForm1.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':(autoForm1.phone.$invalid && validation.phone)}" ng-hide="user.phone">
+                        <label>Телефон</label>
+                        <input name="phone" class="form-control" ng-minlength="11" ng-pattern="/^[0-9]{11}$/"
+                               ng-model="user.phone" ng-blur="validation.phone = true" required />
+                        <div ng-show="validation.phone">
+                            <span class="help-block" ng-show="autoForm1.phone.$error.required || autoForm1.phone.$error.minlength">Введите телефон</span>
+                            <span class="help-block" ng-show="autoForm1.phone.$error.pattern && !autoForm1.phone.$error.required && !autoForm1.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
                         </div>
                     </div>
                 </form>
@@ -92,13 +101,14 @@
                         </ul>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="text-center" ng-class="{'has-error':(validation.auto && autoForm1.auto.$error.required)}">
-                        <button type="submit" ng-click="addRequest(mainproduct); validation.auto = true;" ng-disabled="!mainproduct.autoid && validation.auto"
+                    <div class="text-center" ng-class="{'has-error':((validation.auto && autoForm1.auto.$error.required)||(validation.phone && autoForm1.phone.$error.required))}">
+                        <button type="submit" ng-click="addRequest(mainproduct); validation.auto = true; validation.phone = true;" ng-disabled="!mainproduct.autoid && validation.auto"
                                 class="btn btn-primary">
                              Отправить заявку
                         </button>
-                        <div ng-show="validation.auto">
+                        <div ng-show="validation.auto || validation.phone">
                             <span class="help-block" ng-show="autoForm1.auto.$error.required">Вначале добавьте автомобиль</span>
+                            <span class="help-block" ng-show="(autoForm1.phone.$error.required)&&(!autoForm1.auto.$error.required)">Введите телефон</span>
                         </div>
                     </div>
                 </form>
@@ -115,9 +125,18 @@
                 <form name="autoForm2" novalidate>
                     <div class="form-group" ng-class="{'has-error':(validation2.auto && autoForm2.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.mark for auto in autos" required></select>
                         <div ng-show="validation2.auto">
                             <span class="help-block" ng-show="autoForm2.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': (autoForm2.phone.$invalid && validation2.phone)}" ng-hide="user.phone">
+                        <label>Телефон</label>
+                        <input name="phone" class="form-control" ng-minlength="11" ng-pattern="/^[0-9]{11}$/"
+                               ng-model="user.phone" ng-blur="validation2.phone = true" required />
+                        <div ng-show="validation2.phone">
+                            <span class="help-block" ng-show="autoForm2.phone.$error.required || autoForm2.phone.$error.minlength">Введите телефон</span>
+                            <span class="help-block" ng-show="autoForm2.phone.$error.pattern && !autoForm2.phone.$error.required && !autoForm2.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
                         </div>
                     </div>
                 </form>
@@ -232,13 +251,14 @@
                       </div>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="text-center bottom-button" ng-class="{'has-error':(validation2.auto && autoForm2.auto.$error.required)}">
-                        <button type="submit" ng-click="addRequest(mainproduct);validation2.auto = true;" ng-disabled="!mainproduct.autoid && validation2.auto"
+                    <div class="text-center" ng-class="{'has-error':((validation2.auto && autoForm2.auto.$error.required)||(validation2.phone && autoForm2.phone.$error.required))}">
+                        <button type="submit" ng-click="addRequest(mainproduct); validation2.auto = true; validation2.phone = true;" ng-disabled="!mainproduct.autoid && validation2.auto"
                                 class="btn btn-primary">
-                            Отправить заявку
+                             Отправить заявку
                         </button>
-                        <div ng-show="validation2.auto">
+                        <div ng-show="validation2.auto || validation2.phone">
                             <span class="help-block" ng-show="autoForm2.auto.$error.required">Вначале добавьте автомобиль</span>
+                            <span class="help-block" ng-show="(autoForm2.phone.$error.required)&&(!autoForm2.auto.$error.required)">Введите телефон</span>
                         </div>
                     </div>
                 </form>
@@ -255,9 +275,18 @@
                 <form name="autoForm3" novalidate>
                     <div class="form-group" ng-class="{'has-error':(validation3.auto && autoForm3.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.mark for auto in autos" required></select>
                         <div ng-show="validation3.auto">
                             <span class="help-block" ng-show="autoForm3.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':autoForm3.phone.$invalid && validation3.phone}" ng-hide="user.phone">
+                        <label>Телефон</label>
+                        <input name="phone" class="form-control" ng-minlength="11" ng-pattern="/^[0-9]{11}$/"
+                               ng-model="user.phone" ng-blur="validation3.phone = true" required />
+                        <div ng-show="validation3.phone">
+                            <span class="help-block" ng-show="autoForm3.phone.$error.required || autoForm3.phone.$error.minlength">Введите телефон</span>
+                            <span class="help-block" ng-show="autoForm3.phone.$error.pattern && !autoForm3.phone.$error.required && !autoForm3.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
                         </div>
                     </div>
                 </form>
@@ -322,13 +351,14 @@
                             <span class="help-block" ng-show="errorfile == 'Type'">Загружать можно только картинки</span>
                         </div>
                     </div>
-                    <div class="text-center bottom-button" ng-class="{'has-error':(validation3.auto && autoForm3.auto.$error.required)}">
-                        <button type="submit" ng-click="addRequest(mainproduct);validation3.auto = true;" ng-disabled="!mainproduct.autoid && validation3.auto"
+                    <div class="text-center" ng-class="{'has-error':((validation3.auto && autoForm3.auto.$error.required)||(validation3.phone && autoForm3.phone.$error.required))}">
+                        <button type="submit" ng-click="addRequest(mainproduct); validation3.auto = true; validation3.phone = true;" ng-disabled="!mainproduct.autoid && validation3.auto"
                                 class="btn btn-primary">
-                            Отправить заявку
+                             Отправить заявку
                         </button>
-                        <div ng-show="validation3.auto">
+                        <div ng-show="validation3.auto || validation3.phone">
                             <span class="help-block" ng-show="autoForm3.auto.$error.required">Вначале добавьте автомобиль</span>
+                            <span class="help-block" ng-show="(autoForm3.phone.$error.required)&&(!autoForm3.auto.$error.required)">Введите телефон</span>
                         </div>
                     </div>
                 </form>
@@ -342,11 +372,20 @@
           </div>
           <div class="panel-body">
                 <form name="autoForm4" novalidate>
-                    <div class="form-group" ng-class="{'has-error':(validation.auto && autoForm4.auto.$error.required)}">
+                    <div class="form-group" ng-class="{'has-error':(validation4.auto && autoForm4.auto.$error.required)}">
                         <label>Выберите автомобиль</label>
-                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.name for auto in autos" required></select>
-                        <div ng-show="validation.auto">
+                        <select class="form-control" name="auto" ng-model="mainproduct.autoid" ng-options="auto.mark for auto in autos" required></select>
+                        <div ng-show="validation4.auto">
                             <span class="help-block" ng-show="autoForm4.auto.$error.required">Вначале добавьте автомобиль</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': (autoForm4.phone.$invalid && validation4.phone)}" ng-hide="user.phone">
+                        <label>Телефон</label>
+                        <input name="phone" class="form-control" ng-minlength="11" ng-pattern="/^[0-9]{11}$/"
+                               ng-model="user.phone" ng-blur="validation4.phone = true" required />
+                        <div ng-show="validation4.phone">
+                            <span class="help-block" ng-show="autoForm4.phone.$error.required || autoForm4.phone.$error.minlength">Введите телефон</span>
+                            <span class="help-block" ng-show="autoForm4.phone.$error.pattern && !autoForm4.phone.$error.required && !autoForm4.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
                         </div>
                     </div>
                 </form>
@@ -385,13 +424,14 @@
                         </ul>
                     </div>
                     <div class="form-group comment-area"><label>Комментарий:</label><textarea class="form-control" ng-model="mainproduct.details.comment" placeholder="Расскажите подробнее о том, что у вас случилось" rows="5"> </textarea></div>
-                    <div class="text-center" ng-class="{'has-error':(validation.auto && autoForm4.auto.$error.required)}">
-                        <button type="submit" ng-click="addRequest(mainproduct); validation.auto = true;" ng-disabled="!mainproduct.autoid && validation.auto"
+                    <div class="text-center" ng-class="{'has-error':((validation4.auto && autoForm4.auto.$error.required)||(validation4.phone && autoForm4.phone.$error.required))}">
+                        <button type="submit" ng-click="addRequest(mainproduct); validation4.auto = true; validation4.phone = true;" ng-disabled="!mainproduct.autoid && validation4.auto"
                                 class="btn btn-primary">
                              Отправить заявку
                         </button>
-                        <div ng-show="validation.auto">
+                        <div ng-show="validation4.auto || validation4.phone">
                             <span class="help-block" ng-show="autoForm4.auto.$error.required">Вначале добавьте автомобиль</span>
+                            <span class="help-block" ng-show="(autoForm4.phone.$error.required)&&(!autoForm4.auto.$error.required)">Введите телефон</span>
                         </div>
                     </div>
                 </form>

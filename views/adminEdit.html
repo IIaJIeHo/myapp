@@ -42,6 +42,10 @@
                     <span class="help-block" ng-show="authForm.phone.$error.pattern && !authForm.phone.$error.required && !authForm.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
                 </div>
             </div>
+            <div class="form-group">
+                <label>Интуресующие города</label>
+                <div ng-dropdown-multiselect="" options="subjects.data" selected-model="user.subjects"></div>
+            </div>
             <div class="text-center">
                 <button type="submit" ng-click="editUser(user,false)"
                         ng-disabled="authForm.$invalid"

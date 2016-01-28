@@ -34,7 +34,7 @@
 
             <th><a href="" ng-click="order('name')">Номер заявки <i class="fa" ng-show="predicate === 'name'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'name'" ></i> </a></th>
 
-            <th><a href="" ng-click="order('auto.name')">Автомобиль <i class="fa" ng-show="predicate === 'auto.name'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'auto.name'" ></i></a></th>
+            <th><a href="" ng-click="order('auto.mark')">Автомобиль <i class="fa" ng-show="predicate === 'auto.mark'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'auto.mark'" ></i></a></th>
             <th><a href="" ng-click="order('details.comment')">Комментарий <i class="fa" ng-show="predicate === 'details.comment'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'details.comment'" ></i></a></th>
             <th><a href="" ng-click="order('responds.length')">Кол-во откликов <i class="fa" ng-show="predicate === 'responds.length'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'responds.length'" ></i></a></th>
 
@@ -51,7 +51,7 @@
         <tr ng-repeat="item in products | filter:query | orderBy:predicate:reverse" ng-class="{'success':item.completed}" >
             <td ng-click="viewItem(item)"><span class="fa__type" ng-class="{'to': item.type == 'Заявка на ТО', 'kuzov': item.type == 'Кузовные работы', 'remont': item.type == 'Заявка на Ремонт','tuning': item.type == 'Заявка на тюнинг'}"></span>{{item.type}}</td>
             <td ng-click="viewItem(item)">{{item.name}}</td>
-            <td ng-click="viewItem(item)">{{item.auto.name}}</td>
+            <td ng-click="viewItem(item)">{{item.auto.mark}}</td>
             <td ng-click="viewItem(item)" class="details">{{item.details.comment}}</td>
             <td ng-click="viewItem(item)" class="amount-responds"><span>{{item.responds.length}}</span></td>
             <td ng-click="viewItem(item)" class="date">{{formatDate(item.date)}}</td>
@@ -138,7 +138,6 @@
                 <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
-                <div class="col-md-4"><label>Имя</label><div>{{mainproduct.auto.name || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Марка</label><div>{{mainproduct.auto.mark || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Модель</label><div>{{mainproduct.auto.model || 'нет'}}</div> </div>
                 <div class="col-md-4"><label>Поколение</label><div>{{mainproduct.auto.generation || 'нет'}}</div> </div>

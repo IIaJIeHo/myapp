@@ -31,6 +31,7 @@
     $scope.texts = Data.getWorkTypes();
     $scope.metrostations = Data.getMetro();
     $scope.regions = Data.getRegions();
+    $scope.subjects = Data.getSubjects();
     $scope.logout = function(){
         $rootScope.userid = undefined;
         document.cookie = "autoid=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
