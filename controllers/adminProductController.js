@@ -369,7 +369,6 @@
                 username: partner.username,
                 subject: 'Вашу заявку № ' + item.name + ' подтвердили',
                 html: $scope.user.username + " подтвердил заявку № " + item.name + ", телефон: " + $scope.user.phone +", стоимость ремонта " + item.cost + "руб. ", 
-                Ваш ответ на заявку №... был принят , клиент ожидает вашего звонка ( Андрей , тел.8903458... )  
             });
         });
     }
@@ -552,9 +551,15 @@
             newrequest.auto = auto;
             requesttonull();
             $rootScope.products.push(newrequest);
-            $scope.allitems = 1;
             $scope.setScreen(0);
             Functions.alertAnimate($("#a-request-new"));
+            Functions.sendMail({
+                email: "info@carsbir.ru",
+                username: "Партнер",
+                subject: 'Появилась новая заявка',
+                html: "Тип заявки: "+request.type+"; Автомобиль: "+auto.mark
+            });
+            $scope.allitems = 1;
             $scope.loading = false;
         });
         $scope.user.$update().then(function(user){

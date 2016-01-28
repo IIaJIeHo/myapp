@@ -30,7 +30,7 @@ angular.module('sportsStoreAdmin')
     return{
       sendMail: function(info){
         info.from = info.from == undefined ? "info@carsbir.ru" : info.from;
-        $.ajax({ 
+        var sendobject = { 
             type: "POST", 
             url: "https://mandrillapp.com/api/1.0/messages/send.json", 
             data: { 
@@ -42,24 +42,28 @@ angular.module('sportsStoreAdmin')
                   'email': info.email, 
                   'name': info.username, 
                   'type': 'to' 
-                  },
-                  { 
-                  'email': info.from, 
-                  'name': "Admino", 
-                  'type': 'to' 
-                  }  
+                  }
                 ], 
                   'subject': info.subject, 
                   'html': info.html, 
               } 
             }
+          };
+        if (info.email != "info@carsbir.ru"){
+          sendobject.data.to.push({
+                  'email': info.from, 
+                  'name': "Admino", 
+                  'type': 'to' 
+          });
+        }
+        console.log(sendobject);
+        $.ajax(sendobject)
+          .done(function(data){
+            return true;
           })
-            .done(function(data){
-              return true;
-            })
-            .fail(function(data){
-              return false;
-            });
+          .fail(function(data){
+            return false;
+          });
       },
       alertAnimate: function(elem){
         elem.show();
