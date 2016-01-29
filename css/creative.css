@@ -70,6 +70,20 @@ label.la-16{
 .panel-title{
   color:white;
 }
+.multiselect-item{
+  cursor: pointer;
+}
+.dropdown-menu.fixed-height{
+  max-height: 300px;
+  overflow: auto;
+  width: 100%;
+}
+.caret.ma10{
+  margin-top:10px;
+}
+.btn.width100{
+  width:100%;
+}
 .create-auto:hover{
 	cursor:pointer;
 }

@@ -25,7 +25,6 @@
 	$scope.formdetails2 = null;
     $scope.showtable = false;
     $scope.toogleAutoservice = [];
-    $scope.subjects = Data.getSubjects();
     $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.texts = Data.getWorkTypes();
@@ -62,6 +61,7 @@
             $scope.responds = $rootScope.responds;
             $scope.user = $rootScope.user;
             $scope.partners = $rootScope.partners;
+            $scope.subjects = $rootScope.subjects;
             $scope.loading = false;
         }
         else{
@@ -99,6 +99,20 @@
 
         Users.getById($rootScope.userid).then(function(user){
             $scope.user = user;
+            if (user.subjects != undefined){
+            $scope.subjects = Data.getSubjects();
+            $scope.subjects.data.map(function (x) {
+                if (user.subjects.indexOf(x.id) >= 0){
+                    x.checked = true;
+                }
+                else{
+                    x.checked = false;
+                }
+                return x;
+            });
+            $rootScope.subjects = $scope.subjects;               
+            }
+
             $rootScope.user = $scope.user; 
         });
         
@@ -491,6 +505,15 @@
             });
             Users.getById($rootScope.userid).then(function(user){
                 $scope.user = user;
+                $scope.subjects.data.map(function (x) {
+                if (user.subjects.indexOf(x.id) >= 0){
+                    x.checked = true;
+                }
+                else{
+                    x.checked = false;
+                }
+                return x;
+            });
                 $rootScope.user = $scope.user; 
             });      
         }

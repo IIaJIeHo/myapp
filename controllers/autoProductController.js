@@ -71,13 +71,28 @@
                 $scope.myresponds = $rootScope.myresponds;
                 $scope.users = $rootScope.users;
                 $scope.autoservice = $rootScope.autoservice; 
-                $scope.autoservices = $rootScope.autoservices;              
+                $scope.autoservices = $rootScope.autoservices;
+                $scope.subjects = $rootScope.subjects;           
                 $scope.loading = false;
                 console.log("cache");
             }
             else{
             Autoservices.getById($rootScope.userid).then(function(autoservice){
                 $scope.autoservice = autoservice;
+            $scope.subjects = Data.getSubjects();
+            $scope.subjects.data.map(function (x) {
+                if (autoservice.subjects != undefined){
+                    if (autoservice.subjects.indexOf(x.id) >= 0){
+                        x.checked = true;
+                    }
+                    else{
+                        x.checked = false;
+                    }
+                    return x;         
+                }
+
+            });
+            $rootScope.subjects = $scope.subjects;
                 $scope.autoservice.id = $scope.autoservice._id.$oid;
                 $rootScope.autoservice = $scope.autoservice;
                     Requests.query().then(function(data){
@@ -89,7 +104,7 @@
                             data = data.filter(function(product){
                                 return ((product.subjects.some(function (subject) {
                                    return $scope.autoservice.subjects.indexOf(subject) >= 0
-                                }) || (product.subjects == undefined));
+                                })) || (product.subjects == undefined));
                             });
                         }
 
@@ -123,7 +138,8 @@
             });
 
             Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ $scope.myresponds = responds_data; $rootScope.myresponds = $scope.myresponds;}); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
-            Users.query().then(function(users_data){ $scope.users = users_data; $rootScope.users = $scope.users;}); 
+            Users.query().then(function(users_data){ 
+            $scope.users = users_data; $rootScope.users = $scope.users;}); 
 
             Autoservices.query().then(function(autoservices){
                 $scope.autoservices = autoservices;

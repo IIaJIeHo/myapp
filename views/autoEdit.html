@@ -35,7 +35,10 @@
             </div>
             <div class="form-group">
                 <label>Интуресующие города</label>
-                <div ng-dropdown-multiselect="" options="subjects.data" selected-model="autoservice.subjects"></div>
+                    <multiselect class="input-xlarge" multiple="true"
+                        ng-model="user.subjects"
+                        options="subject.label for subject in subjects.data"
+                        change="selected()" ></multiselect>
             </div>
             <div class="form-group">
                 <label>Адрес</label>

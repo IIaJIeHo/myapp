@@ -141,7 +141,7 @@ angular.module("sportsStoreAdmin")
             changeHandler = attrs.change || anguler.noop;
 
           scope.items = [];
-          scope.header = 'Select';
+          scope.header = 'Выбрать';
           scope.multiple = isMultiple;
           scope.disabled = false;
 
@@ -205,7 +205,7 @@ angular.module("sportsStoreAdmin")
               scope.items.push({
                 label: parsedResult.viewMapper(local),
                 model: model[i],
-                checked: false
+                checked: model[i].checked
               });
             }
           }
@@ -215,9 +215,9 @@ angular.module("sportsStoreAdmin")
           element.append($compile(popUpEl)(scope));
 
           function getHeaderText() {
-            if (!modelCtrl.$modelValue || !modelCtrl.$modelValue.length) return scope.header = 'Select';
+            if (!modelCtrl.$modelValue || !modelCtrl.$modelValue.length) return scope.header = 'Выбрать';
             if (isMultiple) {
-              scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
+              scope.header = modelCtrl.$modelValue.length + ' ' + 'выбрано';
             } else {
               var local = {};
               local[parsedResult.itemName] = modelCtrl.$modelValue;

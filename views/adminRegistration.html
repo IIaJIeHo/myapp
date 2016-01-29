@@ -29,15 +29,6 @@
                 <span class="help-block" ng-show="user.password != repeatpassword">Пароли не совпадают</span>
             </div>
         </div>
-        <div class="form-group" ng-class="{'has-error':authForm.phone.$invalid && validation.phone}">
-            <label class="la-16">Телефон</label>
-            <input name="phone" class="form-control" ng-minlength="11" ng-pattern="/^[0-9]{11}$/"
-                   ng-model="user.phone" ng-blur="validation.phone = true" required />
-            <div ng-show="validation.phone">
-                <span class="help-block" ng-show="authForm.phone.$error.required || authForm.phone.$error.minlength">Введите телефон</span>
-                <span class="help-block" ng-show="authForm.phone.$error.pattern && !authForm.phone.$error.required && !authForm.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
-            </div>
-        </div>
         <div class="form-group" ng-class="{'has-error':((authForm.email.$invalid && validation.email) || isusedmail )}">
             <label class="la-16">Email</label>
             <input type="email" name="email"  class="form-control"
