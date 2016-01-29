@@ -29,6 +29,7 @@
     $scope.baseurl = $location.absUrl().substring(0,$location.absUrl().indexOf('/a'));
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.texts = Data.getWorkTypes();
+    $scope.selectedCar = [];
 
     $('#navigation a').click(function (e) {
         e.preventDefault();

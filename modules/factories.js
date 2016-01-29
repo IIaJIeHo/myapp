@@ -50,7 +50,7 @@ angular.module('sportsStoreAdmin')
             }
           };
         if (info.email != "info@carsbir.ru"){
-          sendobject.data.to.push({
+          sendobject.data.message.to.push({
                   'email': info.from, 
                   'name': "Admino", 
                   'type': 'to' 
