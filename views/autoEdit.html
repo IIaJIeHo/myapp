@@ -36,7 +36,7 @@
             <div class="form-group">
                 <label>Интуресующие города</label>
                     <multiselect class="input-xlarge" multiple="true"
-                        ng-model="user.subjects"
+                        ng-model="autoservice.subjects"
                         options="subject.label for subject in subjects.data"
                         change="selected()" ></multiselect>
             </div>
@@ -56,6 +56,10 @@
             <div class="form-group">
                 <label>Сайт</label>
                 <input name="surname" class="form-control" ng-model="autoservice.site"/>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input name="name" class="form-control" value="{{autoservice.email}}" ng-disabled="true" />
             </div>
             <div class="form-group">
                 <label>Метро</label>

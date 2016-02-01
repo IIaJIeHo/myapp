@@ -79,20 +79,22 @@
             else{
             Autoservices.getById($rootScope.userid).then(function(autoservice){
                 $scope.autoservice = autoservice;
-            $scope.subjects = Data.getSubjects();
-            $scope.subjects.data.map(function (x) {
                 if (autoservice.subjects != undefined){
-                    if (autoservice.subjects.indexOf(x.id) >= 0){
-                        x.checked = true;
-                    }
-                    else{
-                        x.checked = false;
-                    }
-                    return x;         
+                    $scope.subjects = Data.getSubjects();
+                    $scope.subjects.data.map(function (x) {
+                        if (autoservice.subjects != undefined){
+                            if (autoservice.subjects.indexOf(x.id) >= 0){
+                                x.checked = true;
+                            }
+                            else{
+                                x.checked = false;
+                            }
+                            return x;         
+                        }
+                    });
+                    console.log("dfdf");
+                    $rootScope.subjects = $scope.subjects;           
                 }
-
-            });
-            $rootScope.subjects = $scope.subjects;
                 $scope.autoservice.id = $scope.autoservice._id.$oid;
                 $rootScope.autoservice = $scope.autoservice;
                     Requests.query().then(function(data){
@@ -102,9 +104,10 @@
                         });
                         if ($scope.autoservice.subjects != undefined){
                             data = data.filter(function(product){
-                                return ((product.subjects.some(function (subject) {
+                                console.log(product);
+                                return ((product.subjects == undefined) || (product.subjects.some(function (subject) {
                                    return $scope.autoservice.subjects.indexOf(subject) >= 0
-                                })) || (product.subjects == undefined));
+                                })));
                             });
                         }
 

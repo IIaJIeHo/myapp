@@ -8,6 +8,7 @@
         Functions.alertAnimate($("#a-user-new"));
     }
     $scope.authenticate = function (mail, pass) {
+        console.log(mail+" "+pass);
         $scope.candidat = Users.query({email: mail}).then(function(user){
             console.log(user);
             if (user[0] != undefined){
@@ -76,7 +77,7 @@
                 copieduser.password = window.md5($scope.user.password);
                 copieduser.date = Date.now();
                 copieduser.$save().then(function (newuser) {
-                    $scope.authenticate(user.username,temppassword);
+                    $scope.authenticate(user.email,temppassword);
                     Functions.sendMail({
                         email: user.email,
                         username: user.username,
@@ -90,7 +91,7 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope, $rootScope, $location,Responds, Requests) {
+.controller("mainCtrl", function ($scope, $rootScope, $location,Responds, Requests, Users, Data) {
 
     $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
     $scope.routes = ["main", "auto", "leaverequest", "edit"];
@@ -114,6 +115,23 @@
             $scope.loading = false; 
         }); 
         $rootScope.products = $scope.products;      
+        });
+        Users.getById($rootScope.userid).then(function(user){
+            $scope.user = user;
+            if (user.subjects != undefined){
+            $scope.subjects = Data.getSubjects();
+            $scope.subjects.data.map(function (x) {
+                if (user.subjects.indexOf(x.id) >= 0){
+                    x.checked = true;
+                }
+                else{
+                    x.checked = false;
+                }
+                return x;
+            });
+            $rootScope.subjects = $scope.subjects;               
+            }
+            $rootScope.user = $scope.user; 
         });
     };
 

@@ -78,7 +78,7 @@
                 copieduser.password = window.md5($scope.user.password);
                 copieduser.date = Date.now();
                 copieduser.$save().then(function (newuser) {
-                    $scope.authenticate(user.username,temppassword);
+                    $scope.authenticate(user.email,temppassword);
                     Functions.sendMail({
                         email: user.email,
                         username: user.username,
@@ -92,7 +92,7 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope,$rootScope,Autoservices,Requests,Autos,Responds,Users,Autoservices) {
+.controller("mainCtrl", function ($scope,$rootScope,Autoservices,Requests,Autos,Responds,Users,Autoservices,Data) {
 
     $scope.screens = ["Заявки", "Мои ответы","Редактирование профиля"];
     $scope.current = $scope.screens[0];
@@ -102,12 +102,33 @@
         Autoservices.getById($rootScope.userid).then(function(autoservice){
             $scope.autoservice = autoservice;
             $scope.autoservice.id = $scope.autoservice._id.$oid;
+            $scope.subjects = Data.getSubjects();
+            $scope.subjects.data.map(function (x) {
+                if (autoservice.subjects != undefined){
+                    if (autoservice.subjects.indexOf(x.id) >= 0){
+                        x.checked = true;
+                    }
+                    else{
+                        x.checked = false;
+                    }
+                    return x;         
+                }
+            });
+            $rootScope.subjects = $scope.subjects;
             $rootScope.autoservice = $scope.autoservice;
                 Requests.query().then(function(data){
                     var temp_time = $scope.autoservice.date - 30*1000*60*60*24;
                     data = data.filter(function(product){
                         return product.date > temp_time;
                     });
+                    if ($scope.autoservice.subjects != undefined){
+                        data = data.filter(function(product){
+                            console.log(product);
+                            return ((product.subjects == undefined) || (product.subjects.some(function (subject) {
+                               return $scope.autoservice.subjects.indexOf(subject) >= 0
+                            })));
+                        });
+                    }
                     $scope.products = data;
                     Autos.query().then(function(auto_data){
                         $scope.autos = auto_data;

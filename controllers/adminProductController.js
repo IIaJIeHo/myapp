@@ -67,6 +67,7 @@
         else{
         Requests.query({userid: $rootScope.userid}).then(function(data){
             $scope.products = data;
+            console.log($scope.products);
             if (data.length == 0){
                 $scope.setScreen(2);
             }
@@ -89,7 +90,7 @@
                         if (value._id.$oid == value_res.productid){
                             value.responds.push(value_res);
                         }
-                    });               
+                });               
             });
                 $rootScope.responds = $scope.responds;
                 $scope.loading = false; 
@@ -505,15 +506,21 @@
             });
             Users.getById($rootScope.userid).then(function(user){
                 $scope.user = user;
-                $scope.subjects.data.map(function (x) {
-                if (user.subjects.indexOf(x.id) >= 0){
-                    x.checked = true;
+                $scope.subjects = Data.getSubjects();
+                if (user.subjects != undefined){
+                    $scope.subjects.data.map(function (x) {
+                        if (user.subjects.indexOf(x.id) >= 0){
+                            x.checked = true;
+                        }
+                        else{
+                            x.checked = false;
+                        }
+                        return x;
+                        
+                    });
                 }
-                else{
-                    x.checked = false;
-                }
-                return x;
-            });
+
+                $rootScope.subjects = $scope.subjects;
                 $rootScope.user = $scope.user; 
             });      
         }
@@ -581,7 +588,7 @@
                 email: "info@carsbir.ru",
                 username: "Партнер",
                 subject: 'Появилась новая заявка',
-                html: "Тип заявки: "+request.type+"; Автомобиль: "+auto.mark
+                html: "Тип заявки: "+request.type+"; Автомобиль: "+auto.mark+"Email: "+$scope.user.email
             });
             $scope.allitems = 1;
             $scope.loading = false;

@@ -199,6 +199,7 @@ angular.module("sportsStoreAdmin")
           function parseModel() {
             scope.items.length = 0;
             var model = parsedResult.source(originalScope);
+            console.log(model);
             for (var i = 0; i < model.length; i++) {
               var local = {};
               local[parsedResult.itemName] = model[i];

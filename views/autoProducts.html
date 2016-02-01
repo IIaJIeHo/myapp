@@ -34,7 +34,7 @@
             </th>
         </tr>
         <tr ng-repeat="item in products | filter:query |orderBy:predicate:reverse" ng-click="viewItem(item)">
-            <td><span class="fa__type" ng-class="{'to': item.type == 'Заявка на ТО', 'kuzov': item.type == 'Кузовные работы', 'remont': item.type == 'Заявка на Ремонт'}"></span>{{item.type}}</td>
+            <td><span class="fa__type" ng-class="{'to': item.type == 'Заявка на ТО', 'kuzov': item.type == 'Кузовные работы', 'remont': item.type == 'Заявка на Ремонт','tuning': item.type == 'Заявка на тюнинг'}"></span>{{item.type}}</td>
             <td>{{item.name}}</td>
             <td>{{item.auto.mark}}</td>
             <td class="details">{{item.details.comment}}</td>
