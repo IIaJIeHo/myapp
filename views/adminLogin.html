@@ -15,6 +15,11 @@
         <strong>Поздравляем! </strong>
         Вы успешно прошли регистрацию, а теперь войдите в личный кабинет
     </div>
+    <div class="alert alert-success" id="a-user-email" style="position:fixed;bottom:0;right:0;display:none;">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong>Поздравляем! </strong>
+        На указанную вами почту отправлен пароль.
+    </div>
 
     <form name="authForm" novalidate>
         <div class="form-group" ng-class="{'has-error':authForm.email.$invalid && validation.email}">

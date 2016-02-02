@@ -1,5 +1,5 @@
 ﻿angular.module("sportsStoreAdmin")
-.controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, autoRegUrl, respondUrl, userRegUrl, autoUrl, Autos, Users, Autoservices, Responds, Requests, Functions, Data) {
+.controller("productCtrl", function ($scope, $rootScope, $resource, $filter, $location, productUrl, autoRegUrl, respondUrl, userRegUrl, autoUrl, Autos, Users, Autoservices, Responds, Requests, Functions, Data) {
 
     $scope.productsResource = $resource(productUrl + ":id", { id: "@id" });
     $scope.RegResource = $resource(autoRegUrl + ":id", { id: "@id" });
@@ -166,6 +166,10 @@
         product.$remove().then(function () {
             $scope.products.splice($scope.products.indexOf(product), 1);
         });
+    }
+
+    $scope.filterbySubject = function (subject) {
+        return ($scope.autoservice.subjects.indexOf(subject.id) !== -1);
     }
 	
 	$scope.checknegative = function(array,name) {

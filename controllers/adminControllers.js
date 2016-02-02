@@ -7,6 +7,10 @@
     if ($location.search()['user'] == 'new'){
         Functions.alertAnimate($("#a-user-new"));
     }
+    if ($location.search()['email'] != undefined){
+        Functions.alertAnimate($("#a-user-email"));
+        $scope.email = $location.search()['email'];
+    }
     $scope.authenticate = function (mail, pass) {
         console.log(mail+" "+pass);
         $scope.candidat = Users.query({email: mail}).then(function(user){
@@ -38,6 +42,7 @@
         }
       };
     $scope.listProducts();
+
     $scope.restorepassword = function(mail){
         var password='', user;
         Users.query({email: mail}).then(function(found){
@@ -55,7 +60,7 @@
                         subject: 'Наш пароль изменен в Carsbir',
                         html: "Ваш логин (email): " + user.email + " Ваш новый пароль: " + password,
                     });
-                    Functions.alertAnimate($("#a-user-email"));
+                    $location.url("/login?email="+mail);
                 });
 
             }
@@ -96,6 +101,7 @@
     $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
     $scope.routes = ["main", "auto", "leaverequest", "edit"];
     $scope.current = $scope.screens[0];
+    $scope.subjects = Data.getSubjects();
 
     $scope.setScreen = function (index) {
         $scope.current = $scope.screens[index];

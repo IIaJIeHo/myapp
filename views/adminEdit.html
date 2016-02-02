@@ -52,7 +52,9 @@
                         ng-model="user.subjects"
                         options="subject.label for subject in subjects.data"
                         change="selected()" ></multiselect>
+                
             </div>
+            <div><span ng-repeat="subject in subjects.data | filter:filterbySubject">{{subject.label}} ; </span></div>
 
             <div class="text-center">
                 <button type="submit" ng-click="editUser(user,false)"

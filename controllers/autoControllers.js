@@ -1,5 +1,9 @@
 ﻿angular.module("sportsStoreAdmin")
 .controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, autoRegUrl, Autoservices, Functions, Data) {
+    if ($location.search()['email'] != undefined){
+        Functions.alertAnimate($("#a-user-email"));
+        $scope.email = $location.search()['email'];
+    }
     $scope.RegResource = $resource(autoRegUrl + ":id", { id: "@id" });
     $scope.authenticate = function (mail, pass) {
         $scope.candidat = Autoservices.query({email: mail}).then(function(user){
@@ -56,7 +60,7 @@
                         subject: 'Наш пароль изменен в Carsbir',
                         html: "Ваш логин (email): " + user.email + " Ваш новый пароль: " + password,
                     });
-                    Functions.alertAnimate($("#a-user-email"));
+                    $location.url("/login?email="+mail);
                 });
             }
             else{

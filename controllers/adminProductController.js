@@ -1,6 +1,6 @@
-﻿angular.module("sportsStoreAdmin")
+angular.module("sportsStoreAdmin")
 
-.controller("productCtrl", function ($scope, $rootScope, $resource, $location, productUrl, Data, userRegUrl, respondUrl, serviceUrl, autoUrl, Autos, Users, Autoservices, Responds, Requests, Functions) {
+.controller("productCtrl", function ($scope, $rootScope, $resource, $location, $filter, productUrl, Data, userRegUrl, respondUrl, serviceUrl, autoUrl, Autos, Users, Autoservices, Responds, Requests, Functions) {
     $scope.productsResource = $resource(productUrl + ":id", { id: "@id" });
     $scope.RegResource = $resource(userRegUrl + ":id", { id: "@id" });
     $scope.RespondResource = $resource(respondUrl + ":id", { id: "@id" });
@@ -29,6 +29,7 @@
     $scope.requests = ['Заявка на ТО','Заявка на Ремонт','Кузовные работы','Заявка на тюнинг'];
     $scope.texts = Data.getWorkTypes();
     $scope.selectedCar = [];
+    $scope.subjects = Data.getSubjects();
 
     $('#navigation a').click(function (e) {
         e.preventDefault();
@@ -113,7 +114,6 @@
             });
             $rootScope.subjects = $scope.subjects;               
             }
-
             $rootScope.user = $scope.user; 
         });
         
@@ -388,6 +388,9 @@
             });
         });
     }
+    $scope.filterbySubject = function (subject) {
+        return ($scope.user.subjects.indexOf(subject.id) !== -1);
+    }
 
     $scope.cancelEdit = function () {
         $scope.editedProduct = null;
@@ -395,7 +398,7 @@
 
     $scope.listProducts();
 })
-.controller("autoCtrl", function ($scope, $rootScope, $location, $resource, userRegUrl, Data, autoUrl, Functions, productUrl, Autos, Users, Autoservices, Responds, Requests) {
+.controller("autoCtrl", function ($scope, $rootScope, $filter, $location, $resource, userRegUrl, Data, autoUrl, Functions, productUrl, Autos, Users, Autoservices, Responds, Requests) {
 
     $scope.loading = false;
     $scope.RegResource = $resource(userRegUrl + ":id", { id: "@id" });
@@ -410,6 +413,7 @@
     $scope.marks = Data.getMarks();
     $scope.texts = Data.getWorkTypes();
     $scope.array_auto = Data.getAuto();
+    $scope.subjects = Data.getSubjects();
 
     function requesttonull(){
         $scope.mainproduct = {};
@@ -588,7 +592,7 @@
                 email: "info@carsbir.ru",
                 username: "Партнер",
                 subject: 'Появилась новая заявка',
-                html: "Тип заявки: "+request.type+"; Автомобиль: "+auto.mark+"Email: "+$scope.user.email
+                html: "Тип заявки: "+request.type+"; Автомобиль: "+auto.mark+" Email: "+$scope.user.email
             });
             $scope.allitems = 1;
             $scope.loading = false;
@@ -596,6 +600,11 @@
         $scope.user.$update().then(function(user){
             $rootScope.user = $scope.user;
         });         
+    }
+
+    $scope.filterbySubject = function (subject) {
+        console.log(subject.id);
+        return ($scope.user.subjects.indexOf(subject.id) !== -1);
     }
 
 
