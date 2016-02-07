@@ -96,7 +96,29 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope, $rootScope, $location,Responds, Requests, Users, Data) {
+.controller("mainCtrl", function ($scope, $route, $rootScope, $location,Responds, Requests, Users, Data) {
+    $scope.$on('$routeChangeSuccess',function () {
+        var path = $location.path();
+        $scope.mainView = false;
+        $scope.editView = false;
+        $scope.requestView = false;
+        $scope.autoView = false;
+        console.log("path ="+path);
+        switch(path){
+            case '/auto':
+                $scope.autoView = true;
+                break;
+            case '/leaverequest':
+                $scope.requestView = true;
+                break;
+            case '/edit':
+                $scope.editView = true;
+                break;
+            default:
+                $scope.mainView = true;
+                break;
+        }
+    })
 
     $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
     $scope.routes = ["main", "auto", "leaverequest", "edit"];

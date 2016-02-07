@@ -5,15 +5,14 @@
 <div class="well" ng-controller="authCtrl">
 
     <form name="authForm" novalidate>
-        <div class="form-group" ng-class="{'has-error':(isused || (validation.username && authForm.username.$invalid))}">
-            <label class="la-16">Логин</label>
-            <input name="username" class="form-control" ng-model="user.username" ng-blur="validation.username = true" ng-pattern="/^[a-zA-Z0-9]*$/" ng-change="isused = false;" required  />
-            <div ng-show="isused">
-                <span class="help-block">Такой пользователь уже зарегистрирован</span>
-            </div>
-            <div ng-show="validation.username">
-                <span class="help-block" ng-show="authForm.username.$error.pattern && !authForm.username.$error.required">Только английские символы без пробела</span>
-                <span class="help-block" ng-show="authForm.username.$error.required">Введите логин</span>
+        <div class="form-group" ng-class="{'has-error':((authForm.email.$invalid && validation.email) || isusedmail )}">
+            <label class="la-16">Email</label>
+            <input type="email" name="email"  class="form-control"
+                   ng-model="user.email" ng-blur="validation.email = true" ng-change="isusedmail = false;" required />
+            <div ng-show="validation.email">
+                <span class="help-block" ng-show="isusedmail">Такой email уже используется</span>
+                <span class="help-block" ng-show="authForm.email.$error.required">Укажите свой Email</span>
+                <span class="help-block" ng-show="authForm.email.$error.email">Email должен быть другим</span>
             </div>
         </div>
         <div class="form-group" ng-class="{'has-error':(user.password != repeatpassword)&&validation.password && validation.repeatpassword}">
@@ -36,16 +35,6 @@
             <div ng-show="validation.phone">
                 <span class="help-block" ng-show="authForm.phone.$error.required || authForm.phone.$error.minlength">Введите телефон</span>
                 <span class="help-block" ng-show="authForm.phone.$error.pattern && !authForm.phone.$error.required && !authForm.phone.$error.minlength">Телефон длинной 11 символов и состоит из цифр</span>
-            </div>
-        </div>
-        <div class="form-group" ng-class="{'has-error':((authForm.email.$invalid && validation.email) || isusedmail )}">
-            <label class="la-16">Email</label>
-            <input type="email" name="email"  class="form-control"
-                   ng-model="user.email" ng-blur="validation.email = true" ng-change="isusedmail = false;" required />
-            <div ng-show="validation.email">
-                <span class="help-block" ng-show="isusedmail">Такой email уже используется</span>
-                <span class="help-block" ng-show="authForm.email.$error.required">Укажите свой Email</span>
-                <span class="help-block" ng-show="authForm.email.$error.email">Email должен быть другим</span>
             </div>
         </div>
         <div class="text-center">

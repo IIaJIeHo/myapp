@@ -50,10 +50,8 @@
             if (found[0] != undefined){
                 user = found[0];
                 password = (Date.now() + Functions.getRandomInt(1000000,10000000)*100000).toString(36);
-                console.log(password);
                 user.password = window.md5(password);
                 user.$update().then(function(newuser){
-                    console.log(newuser);
                     Functions.sendMail({
                         email: user.email,
                         username: user.username,
@@ -127,7 +125,6 @@
                     });
                     if ($scope.autoservice.subjects != undefined){
                         data = data.filter(function(product){
-                            console.log(product);
                             return ((product.subjects == undefined) || (product.subjects.some(function (subject) {
                                return $scope.autoservice.subjects.indexOf(subject) >= 0
                             })));
@@ -142,6 +139,17 @@
                                     value.auto=value_auto;
                                 }
                             });
+                        });
+                        Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ 
+                            $scope.myresponds = responds_data;
+                            angular.forEach($scope.products, function(value, key) {
+                                angular.forEach($scope.myresponds, function(value_res, key_res) {
+                                    if(value._id.$oid == value_res.productid){
+                                        value_res.auto = value.auto;
+                                    }
+                                });
+                            });
+                            $rootScope.myresponds = $scope.myresponds;
                         });
                         $rootScope.autos = $scope.autos;
                     });

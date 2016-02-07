@@ -163,30 +163,44 @@ angular.module("sportsStoreAdmin")
         }
         $scope.user.$saveOrUpdate().then(function(editeduser){
             $rootScope.user = $scope.user;
-            if (user.name == undefined){
-                user.name = '';
+            var htmlmail = '';
+            if (user.name){
+                htmlmail +="Имя = " + user.name + ";</br>";
             }
-            if (user.surname == undefined){
-                user.surname = '';
+            if (user.surname){
+                htmlmail +="Фамилия = " + user.surname + ";</br>";
             }
-            if (user.phone == undefined){
-                user.phone = '';
+            if (user.phone){
+                htmlmail +="Телефон = " + user.phone + ";</br>";
             }
             if (passchange){
                 Functions.sendMail({
                     email: user.email,
-                    username: user.username,
-                    subject: user.username + ': данные пользователя изменены',
-                    html: "Добро пожаловать в Carsbir. Ваш логин: " + user.username + " Ваш пароль: " + password,
+                    username: user.name,
+                    subject: user.name + ': данные пользователя изменены',
+                    html: "Добро пожаловать в Carsbir. Ваш логин: " + user.email + " Ваш пароль: " + password,
                 });
                 Functions.alertAnimate($("#a-user-edit-profile"));            
             }
             else{
+                var subjects = "";
+                angular.forEach($scope.subjects.data, function (value, key) {
+                    if (user.subjects.indexOf(value.id) >= 0){
+                        subjects += value.label+" ;";
+                    }
+                });
+                if (subjects){
+                    htmlmail +="Регионы = " + subjects + ";</br>";
+                }
+                angular.forEach($scope.products, function(value, key){
+                    value.subjects = user.subjects;
+                    value.$update();
+                });
                 Functions.sendMail({
                     email: user.email,
-                    username: user.username,
-                    subject: user.username + ': данные пользователя изменены',
-                    html: "Имя = " + user.name + "; Фамилия = " + user.surname + "; Телефон = "+user.phone,
+                    username: user.name,
+                    subject: user.name + ': данные пользователя изменены',
+                    html: htmlmail,
                     });
                 Functions.alertAnimate($("#a-user-edit-profile"));         
             }
@@ -292,7 +306,6 @@ angular.module("sportsStoreAdmin")
 
     $scope.completeItem = function(request,type,auto,responds){
         $scope.updatedRequest = request;
-        request.date = Date.now();
         request.completed = !request.completed;
         request.auto = [];
         request.responds = [];
@@ -380,16 +393,27 @@ angular.module("sportsStoreAdmin")
             });
             item.autoservice = autoservice;
             $scope.activeresponds[$scope.activeresponds.indexOf(item)] = item;
-            Functions.sendMail({
-                email: partner.email,
-                username: partner.username,
-                subject: 'Вашу заявку № ' + item.name + ' подтвердили',
-                html: $scope.user.username + " подтвердил заявку № " + item.name + ", телефон: " + $scope.user.phone +", стоимость ремонта " + item.cost + "руб. ", 
-            });
+            if (partner.name == undefined){
+                partner = 'Партнер';
+            }
+            if (item.approved){
+                Functions.sendMail({
+                    email: partner.email,
+                    username: partner.name,
+                    subject: 'Вашу заявку № ' + item.name + ' подтвердили',
+                    html: $scope.user.name + " подтвердил заявку № " + item.name + ", телефон: " + $scope.user.phone +", стоимость ремонта " + item.cost + "руб. ", 
+                });        
+            }
+
         });
     }
     $scope.filterbySubject = function (subject) {
-        return ($scope.user.subjects.indexOf(subject.id) !== -1);
+        if ($scope.user){
+            return ($scope.user.subjects.indexOf(subject.id) !== -1);
+        }
+        else{
+            return false;
+        }
     }
 
     $scope.cancelEdit = function () {
@@ -586,7 +610,6 @@ angular.module("sportsStoreAdmin")
             newrequest.auto = auto;
             requesttonull();
             $rootScope.products.push(newrequest);
-            $scope.setScreen(0);
             Functions.alertAnimate($("#a-request-new"));
             Functions.sendMail({
                 email: "info@carsbir.ru",
@@ -596,6 +619,7 @@ angular.module("sportsStoreAdmin")
             });
             $scope.allitems = 1;
             $scope.loading = false;
+            $scope.setScreen(0);
         });
         $scope.user.$update().then(function(user){
             $rootScope.user = $scope.user;
@@ -684,7 +708,6 @@ angular.module("sportsStoreAdmin")
         xhr.open('POST', 'delete.php', true);
         xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
         var params = "filename="+image.slice(1);
-        console.log(params);
         var json = JSON.stringify({'filename' : image});
         xhr.send(params);
         xhr.onload = function () {

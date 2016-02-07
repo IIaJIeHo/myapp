@@ -102,10 +102,9 @@
                         data = data.filter(function(product){
                             return product.date > temp_time;
                         });
-                        if ($scope.autoservice.subjects != undefined){
+                        if ($scope.autoservice.subjects&&$scope.autoservice.subjects[0]){
                             data = data.filter(function(product){
-                                console.log(product);
-                                return ((product.subjects == undefined) || (product.subjects.some(function (subject) {
+                                return ((!product.subjects||!product.subjects[0]) || (product.subjects.some(function (subject) {
                                    return $scope.autoservice.subjects.indexOf(subject) >= 0
                                 })));
                             });
@@ -120,6 +119,17 @@
                                     value.auto=value_auto;
                                 }
                             });
+                            });
+                            Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ 
+                                $scope.myresponds = responds_data;
+                                angular.forEach($scope.products, function(value, key) {
+                                    angular.forEach($scope.myresponds, function(value_res, key_res) {
+                                        if(value._id.$oid == value_res.productid){
+                                            value_res.auto = value.auto;
+                                        }
+                                    });
+                                });
+                                $rootScope.myresponds = $scope.myresponds;
                             });
                             $rootScope.autos = $scope.autos;
                         });
@@ -140,7 +150,7 @@
                     });
             });
 
-            Responds.query({ autoserviceid : $rootScope.userid }).then(function(responds_data){ $scope.myresponds = responds_data; $rootScope.myresponds = $scope.myresponds;}); /* ответы только на мою заявку сделать (добавить user_id и по нему выбирать)*/
+
             Users.query().then(function(users_data){ 
             $scope.users = users_data; $rootScope.users = $scope.users;}); 
 
@@ -218,33 +228,52 @@
         }
         $scope.autoservice.$saveOrUpdate().then(function(editeduser){
             $rootScope.user = $scope.user;
-            if (user.name == undefined){
-                user.name = '';
+            var htmlmail='';
+            if (user.name){
+                htmlmail +="Название = " + user.name + ";</br>";     
             }
-            if (user.surname == undefined){
-                user.surname = '';
+            if (user.description){
+                htmlmail +="Описание = " + user.description + ";</br>";    
             }
-            if (user.phone == undefined){
-                user.phone = '';
+            if (user.phone){
+                htmlmail +="Телефон = " + user.phone + ";</br>";
             }
-            if (user.town == undefined){
-                user.town = '';
+            if (user.town){
+                htmlmail +="Город = " + user.town + ";</br>";
+            }
+            if (user.adress){
+                htmlmail +="Адрес = " + user.adress + ";</br>";
+            }
+            if (user.site){
+                htmlmail +="Сайт = " + user.site + ";</br>";
+            }
+            if (user.link){
+                htmlmail +="Ссылка на профиль = " + user.link + ";</br>";
             }
             if (passchange){
                 Functions.sendMail({
                     email: user.email,
-                    username: user.username,
-                    subject: user.username + ': данные организации изменены',
-                    html: "Добро пожаловать в Carsbir. Ваш логин: " + user.username + " Ваш пароль: " + password,
+                    username: user.email,
+                    subject: 'Данные организации изменены',
+                    html: "Добро пожаловать в Carsbir. Ваш логин: " + user.email + " Ваш пароль: " + password,
                 });
                 Functions.alertAnimate($("#a-user-edit-profile"));            
             }
             else{
+                var subjects = "";
+                angular.forEach($scope.subjects.data, function (value, key) {
+                    if (user.subjects.indexOf(value.id) >= 0){
+                        subjects += value.label+" ;";
+                    }
+                });
+                if (subjects){
+                    htmlmail +="Регионы = " + subjects + ";</br>";
+                }
                 Functions.sendMail({
                     email: user.email,
-                    username: user.username,
-                    subject: user.username + ': данные организации изменены',
-                    html: "Имя = " + user.name + "; Описание = " + user.description + "; Телефон = "+user.phone + "; Город = "+user.town,
+                    username: user.email,
+                    subject: 'Данные организации изменены',
+                    html: htmlmail,
                     });
                 Functions.alertAnimate($("#a-user-edit-profile"));         
             }
@@ -425,7 +454,6 @@
                 if (($scope.answered == false) && (value.autoserviceid == $scope.autoservice._id.$oid)){
                     $scope.answered = true;
                 }
-                console.log(value);
                 $scope.activeresponds.push(value);
                 $scope.toogleAutoservice.push(false);
               }
