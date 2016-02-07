@@ -106,29 +106,37 @@
         console.log("path ="+path);
         switch(path){
             case '/auto':
+                $scope.current = '/auto';
                 $scope.autoView = true;
                 break;
             case '/leaverequest':
+                $scope.current = '/leaverequest';
                 $scope.requestView = true;
                 break;
             case '/edit':
+                $scope.current = '/edit';
                 $scope.editView = true;
                 break;
             default:
+                $scope.current = '/main';
                 $scope.mainView = true;
                 break;
         }
     })
 
     $scope.screens = ["Мои заявки","Автомобили","Оставить заявку","Редактирование профиля"];
-    $scope.routes = ["main", "auto", "leaverequest", "edit"];
-    $scope.current = $scope.screens[0];
+    $scope.routes = [
+    {path:"/main", name:"Мои заявки"},
+    {path:"/auto", name:"Автомобили"},
+    {path:"/leaverequest", name:"Оставить заявку"},
+    {path:"/edit", name:"Редактирование профиля"}];
     $scope.subjects = Data.getSubjects();
 
     $scope.setScreen = function (index) {
-        $scope.current = $scope.screens[index];
+        $location.path($scope.routes[index].path);
         Requests.query({userid: $rootScope.userid}).then(function(data){
             $scope.products = data;
+            console.log("attack");
             Responds.query().then(function(responds_data){
                 $scope.responds = responds_data;
                 angular.forEach($scope.products, function(value, key) {

@@ -354,4 +354,11 @@ angular.module("sportsStoreAdmin")
         }
       }
     }
-  }]);
+  }])
+  .directive('ngSpinner',function () {
+      return{
+        restrict: 'E',
+        replace: true,
+        template: '<div id="loader-wrapper" ng-if="loading"><div id="loader"></div></div>'
+      }
+  });
