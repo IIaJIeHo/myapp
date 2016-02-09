@@ -4,67 +4,10 @@
     <b>Вход для пользователя:</b> Введите ваш логин и пароль чтобы войти в систему
 </div>
 <div class="well" ng-controller="authCtrl">
-
-    <div class="alert alert-danger" ng-show="authenticationError">
-        <span ng-if="authenticationError.status == 401">Неправильный логин или пароль. Попробуйте снова.</span>
-        <span ng-if="authenticationError.status != 401">Не вышло войти в систему ({{authenticationError.status}}). Попробуйте снова.</span>
-    </div>
-
-    <div class="alert alert-success" id="regsuccess" style="position:fixed;bottom:0;right:0;display:none;">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>Поздравляем! </strong>
-        Вы успешно прошли регистрацию, а теперь войдите в личный кабинет
-    </div>
-    <div class="alert alert-success" id="a-user-email" style="position:fixed;bottom:0;right:0;display:none;">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>Поздравляем! </strong>
-        На указанную вами почту отправлен пароль.
-    </div>
-
-    <form name="authForm" novalidate>
-        <div class="form-group" ng-class="{'has-error':authForm.email.$invalid && validation.email}">
-            <label class="la-16">Email</label>
-            <input type="email" name="email"  class="form-control"
-                   ng-model="email" ng-blur="validation.email = true" required />
-            <div ng-show="validation.email">
-                <span class="help-block" ng-show="authForm.email.$error.required">Укажите свой Email</span>
-                <span class="help-block" ng-show="authForm.email.$error.email">Email должен быть другим</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="la-16">Пароль</label>
-            <input name="password" type="password" class="form-control"
-                   ng-model="password" required />
-        </div>
-        <div class="text-center">
-            <button ng-click="authenticate(email, password)"
-                    ng-disabled="authForm.$invalid"
-                    class="btn btn-primary ma-r-20">
-                Войти
-            </button>
-            <a href="#/registration" class="reg-link">Зарегистрироваться</a>
-            <a href="#/forgetpassword" class="reg-link">Забыли пароль</a>
-        </div>
-    </form>
+    <login-form email="email" password="password" authenticate="authenticate(email,password)"></login-form>
 </div>
-        <div class="alert alert-success" id="a-user-new" style="position:fixed;bottom:0;right:0;display:none;">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong>Поздравляем! </strong>
-            Вы зарегистрировались, теперь введите логин и пароль.
-        </div>
-            <div class="alert alert-success" id="a-user-new" style="position:fixed;bottom:0;right:0;display:none;">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>Поздравляем! </strong>
-        Вы зарегистрировались, теперь введите логин и пароль.
-    </div>
-    <div class="alert alert-danger" id="a-user-password" style="position:fixed;bottom:0;right:0;display:none;">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>Пароль! </strong>
-        Неправильный, неправильный пароль!
-    </div>
-    <div class="alert alert-danger" id="a-user-user" style="position:fixed;bottom:0;right:0;display:none;">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>Пользователь! </strong>
-        Нет такого пользователя!
-    </div>
+    <ng-alert type="success" pointer="a-user-email" strong="Поздравляем тебя!" text="На указанную вами почту отправлен пароль."> </ng-alert>
+    <ng-alert type="success" pointer="a-user-new" strong="Поздравляем!" text="Вы зарегистрировались, теперь введите логин и пароль."> </ng-alert>
+    <ng-alert type="danger" pointer="a-user-password" strong="Пароль!" text="Неправильный, неправильный пароль!"> </ng-alert>
+    <ng-alert type="danger" pointer="a-user-user" strong="Пользователь!" text="Нет такого пользователя!"> </ng-alert>
 </div>

@@ -22,7 +22,6 @@ angular.module("sportsStoreAdmin")
                 link: function(scope, element, attributes, controller) {
                     element.bind("change", function(changeEvent) {
                         var files = [];
-                        //scope.model = [];
                         scope.error = null;
                         if ((scope.model.length + element[0].files.length) > 4){
                             scope.error="Toomuch";
@@ -361,4 +360,35 @@ angular.module("sportsStoreAdmin")
         replace: true,
         template: '<div id="loader-wrapper" ng-if="loading"><div id="loader"></div></div>'
       }
-  });
+  })
+  .directive('ngAlert',function () {
+      return{
+        restrict: 'E',
+        replace: true,
+        scope:
+          {
+            type: '@',
+            pointer: '@pointer',
+            strong: '@strong',
+            text: '@text'
+          },
+        template: '<div class="alert" id="{{pointer}}"><button type="button" class="close" data-dismiss="alert">x</button><strong>{{strong}}</strong>{{text}}</div>',
+        link: function (scope,element,attrs) {
+          var el1 = angular.element(element[0]);
+          el1.addClass('alert-'+attrs.type);
+        }
+      }
+  })
+  .directive('loginForm',function () {
+      return{
+        restrict: 'E',
+        replace: true,
+        scope:
+          {
+            email: '=',
+            password: '=',
+            authenticate: '&'
+          },
+        templateUrl: 'modules/login.tmpl.html'
+      }
+  })

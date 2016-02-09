@@ -1,5 +1,5 @@
 ﻿angular.module("sportsStoreAdmin")
-.controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, userRegUrl, autoUrl, Users, Functions) {
+.controller("authCtrl", function ($scope, $http, $location, $rootScope, $resource, userRegUrl, autoUrl, Users, Functions, $timeout) {
     $scope.error = null;
     $scope.isused = false;
     $scope.isusedmail = false;
@@ -8,7 +8,9 @@
         Functions.alertAnimate($("#a-user-new"));
     }
     if ($location.search()['email'] != undefined){
-        Functions.alertAnimate($("#a-user-email"));
+        $timeout(function(){
+            Functions.alertAnimate($("#a-user-email"));
+        },1000);
         $scope.email = $location.search()['email'];
     }
     $scope.authenticate = function (mail, pass) {

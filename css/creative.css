@@ -1497,3 +1497,9 @@ ul.checkbox-grid{
                 height: 100px;
                 margin: 6px 0 0 6px;
             }
+.alert{
+  position:fixed;bottom:0;right:0;display:none;
+}
+.alert strong{
+  margin-right: 8px;
+}
