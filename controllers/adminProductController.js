@@ -1,5 +1,4 @@
 angular.module("sportsStoreAdmin")
-
 .controller("productCtrl", function ($scope, $rootScope, $resource, $location, $filter, productUrl, Data, userRegUrl, respondUrl, serviceUrl, autoUrl, Autos, Users, Autoservices, Responds, Requests, Functions) {
     $scope.productsResource = $resource(productUrl + ":id", { id: "@id" });
     $scope.RegResource = $resource(userRegUrl + ":id", { id: "@id" });
@@ -30,6 +29,7 @@ angular.module("sportsStoreAdmin")
     $scope.texts = Data.getWorkTypes();
     $scope.selectedCar = [];
     $scope.subjects = Data.getSubjects();
+
 
     $('#navigation a').click(function (e) {
         e.preventDefault();
@@ -423,7 +423,6 @@ angular.module("sportsStoreAdmin")
     $scope.listProducts();
 })
 .controller("autoCtrl", function ($scope, $rootScope, $filter, $location, $resource, userRegUrl, Data, autoUrl, Functions, productUrl, Autos, Users, Autoservices, Responds, Requests) {
-
     $scope.loading = false;
     $scope.RegResource = $resource(userRegUrl + ":id", { id: "@id" });
     $scope.AutoResource = $resource(autoUrl + ":id", { id: "@id" });
@@ -438,6 +437,11 @@ angular.module("sportsStoreAdmin")
     $scope.texts = Data.getWorkTypes();
     $scope.array_auto = Data.getAuto();
     $scope.subjects = Data.getSubjects();
+    $scope.chosenRequest = 1;
+
+    $scope.changeRequest = function () {
+        $scope.viewItem($scope.mainproduct, $scope.chosenRequest);
+    }
 
     function requesttonull(){
         $scope.mainproduct = {};

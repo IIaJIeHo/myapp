@@ -15,7 +15,7 @@
         <strong>Ого! </strong>
         Вы удалили {{updatedAuto.name}}
     </div>
-    <table id="autoTable" class="table table-hover" ng-if="allitems == 1"> 
+    <table id="autoTable" class="table table-hover hidden-xs" ng-if="allitems == 1"> 
     <!-- просмотр всех автомобилей -->                
         <tr class="sort-names">
             <th><a href="" ng-click="order('mark')">Марка <i class="fa" ng-show="predicate === 'mark'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'mark'" ></i></a></th>
@@ -47,6 +47,27 @@
             </td>
         </tr>
     </table>
+    <h4 class="mobile-request text-center" ng-if="allitems == 1">Мои автомобили</h4>
+    <div class="mobile-request visible-xs" ng-repeat="item in autos" ng-if="allitems == 1">
+        <div class="clearfix" ng-click="viewItem(item,2)">
+            <div class="pull-left"><span class="mobile-request__name">{{item.mark}} : {{item.model}}</span>
+            </div>
+            <div class="pull-right">
+                <span class="mobile-request__name">{{item.year}}</span>
+            </div>
+        </div>
+        <div class="clearfix active-buttons">
+                <button ng-click="viewItem(item,2)" class="btn" data-toggle="tooltip" title="Посмотреть">
+                    <i class="eye"></i>
+                </button>
+                <button ng-click="editItem(item,3)" ng-disabled="item.replied" class="btn" data-toggle="tooltip" title="Изменить">
+                    <i class="edit"></i>
+                </button>
+                <button ng-click="isdeleteAuto(item)" class="btn" data-toggle="tooltip" title="Удалить">
+                    <i class="del"></i>
+                </button>
+        </div>
+    </div>
     <div class="add-auto" ng-if="allitems == 1">
     <button ng-click="viewItem(null,3);" class="btn btn-sm btn-primary ">
         <i class="fa fa-plus fa-2x"></i> 
@@ -60,18 +81,18 @@
                 <h2 class="panel-title"><i class="big-car"></i>Данные автомобиля</h2>
               </div>
               <div class="row autodescription container-fluid">
-                <div class="col-md-4"><label>Марка</label><div>{{$parent.mainproduct.mark || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Модель</label><div>{{$parent.mainproduct.model || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Поколение</label><div>{{$parent.mainproduct.generation || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Год</label><div>{{$parent.mainproduct.year || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Тип двигателя</label><div>{{$parent.mainproduct.engine || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Коробка</label><div>{{$parent.mainproduct.box || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Мощность</label><div>{{$parent.mainproduct.body || '0'}} л.с.</div> </div>
-                <div class="col-md-4"><label>Объем двигателя</label><div>{{$parent.mainproduct.volume || '0'}} л.</div> </div>
-                <div class="col-md-4"><label>Цвет</label><div>{{$parent.mainproduct.color || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Тип Кузова</label><div>{{$parent.mainproduct.drive || 'нет'}}</div> </div>
-                <div class="col-md-4"><label>Пробег</label><div>{{$parent.mainproduct.mileage || '0'}} км</div> </div>
-                <div class="col-md-4"><label>Vin</label><div>{{$parent.mainproduct.vin || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Марка</label><div>{{$parent.mainproduct.mark || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Модель</label><div>{{$parent.mainproduct.model || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Поколение</label><div>{{$parent.mainproduct.generation || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Год</label><div>{{$parent.mainproduct.year || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Тип двигателя</label><div>{{$parent.mainproduct.engine || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Коробка</label><div>{{$parent.mainproduct.box || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Мощность</label><div>{{$parent.mainproduct.body || '0'}} л.с.</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Объем двигателя</label><div>{{$parent.mainproduct.volume || '0'}} л.</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Цвет</label><div>{{$parent.mainproduct.color || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Тип Кузова</label><div>{{$parent.mainproduct.drive || 'нет'}}</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Пробег</label><div>{{$parent.mainproduct.mileage || '0'}} км</div> </div>
+                <div class="col-md-4 col-sm-4"><label>Vin</label><div>{{$parent.mainproduct.vin || 'нет'}}</div> </div>
                 </div>
                 <div class="row photo-cube">
                     <div class="col-md-3" ng-repeat="i in $parent.mainproduct.picture">

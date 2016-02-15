@@ -131,8 +131,25 @@
     {path:"/leaverequest", name:"Оставить заявку"},
     {path:"/edit", name:"Редактирование профиля"}];
     $scope.subjects = Data.getSubjects();
+    if ($(window).width() < 768){
+        $scope.shownav = false;
+    }
+    else{
+        $scope.shownav = true;
+    }
+
+    
+    $scope.ToggleNav = function () {
+        if ($scope.shownav){
+            $scope.shownav = false;
+        }
+        else{
+            $scope.shownav = true;
+        }
+    }
 
     $scope.setScreen = function (index) {
+        $scope.ToggleNav();
         $location.path($scope.routes[index].path);
         Requests.query({userid: $rootScope.userid}).then(function(data){
             $scope.products = data;

@@ -98,8 +98,18 @@
 
     $scope.screens = ["Заявки", "Мои ответы","Редактирование профиля"];
     $scope.current = $scope.screens[0];
+    $scope.shownav = true;
+    $scope.ToggleNav = function () {
+        if ($scope.shownav){
+            $scope.shownav = false;
+        }
+        else{
+            $scope.shownav = true;
+        }
+    }
 
     $scope.setScreen = function (index) {
+        $scope.shownav = false;
         $scope.current = $scope.screens[index];
         Autoservices.getById($rootScope.userid).then(function(autoservice){
             $scope.autoservice = autoservice;

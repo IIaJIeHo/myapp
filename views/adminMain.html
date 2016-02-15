@@ -20,8 +20,9 @@
 <div class="container" ng-controller="mainCtrl">
 <div class="panel row main-panel user-class">
     <div class="panel-body">
+      <div class="toggle-menu" ng-click="ToggleNav()">Меню</div>
       <ul class="nav nav-tabs" id="navigation" role="tablist">
-  	    <li role="presentation" ng-repeat="item in routes" ng-class="{'active': (item.path == current) }">
+  	    <li ng-show="shownav" role="presentation" ng-repeat="item in routes" ng-class="{'active': (item.path == current) }">
         <a href="" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-green': ($index == 1), 'itab-orange': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa__text" ng-class="{'zayavka': ($index == 0) , 'avto-user': ($index == 1), 'dobavit-user': ($index == 2), 'redakt-profile': ($index == 3) }"></i>{{item.name}}</a></li>
 	  	</ul>
 	   <div class="tab-content">
