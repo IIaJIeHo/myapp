@@ -29,7 +29,7 @@ angular.module("sportsStoreAdmin")
     $scope.texts = Data.getWorkTypes();
     $scope.selectedCar = [];
     $scope.subjects = Data.getSubjects();
-
+    $rootScope.subjects = $scope.subjects;
 
     $('#navigation a').click(function (e) {
         e.preventDefault();
@@ -408,7 +408,7 @@ angular.module("sportsStoreAdmin")
         });
     }
     $scope.filterbySubject = function (subject) {
-        if ($scope.user){
+        if ($scope.user&&$scope.user.subjects){
             return ($scope.user.subjects.indexOf(subject.id) !== -1);
         }
         else{
@@ -437,6 +437,7 @@ angular.module("sportsStoreAdmin")
     $scope.texts = Data.getWorkTypes();
     $scope.array_auto = Data.getAuto();
     $scope.subjects = Data.getSubjects();
+    $rootScope.subjects = $scope.subjects;
     $scope.chosenRequest = 1;
 
     $scope.changeRequest = function () {
@@ -631,8 +632,13 @@ angular.module("sportsStoreAdmin")
     }
 
     $scope.filterbySubject = function (subject) {
-        console.log(subject.id);
-        return ($scope.user.subjects.indexOf(subject.id) !== -1);
+        if ($scope.user&&$scope.user.subjects){
+            return ($scope.user.subjects.indexOf(subject.id) !== -1);
+        }
+        else{
+            return false;
+        }
+        
     }
 
 

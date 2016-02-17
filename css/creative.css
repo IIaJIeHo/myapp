@@ -1494,7 +1494,7 @@ ul.checkbox-grid{
                 height: 100px;
                 margin: 6px 0 0 6px;
             }
-<<<<<<< HEAD
+
 .toggle-menu{
   display: none;
 }
@@ -1610,6 +1610,9 @@ ul.checkbox-grid{
         background: #1d75bd;
         color:white;
     }
+    .mynav img{
+      margin-left:12px;
+    }
     .nav-tabs > li > a{
       margin:0;
     }
@@ -1619,6 +1622,13 @@ ul.checkbox-grid{
     }
     .checkbox-grid li{
       width:33.3%;
+    }
+    .user-class > .panel-body{
+      padding: 0;
+      overflow: hidden;
+    }
+    #navigation + .tab-content{
+      border:none;
     }
 }
 @media (max-width: 568px) { 

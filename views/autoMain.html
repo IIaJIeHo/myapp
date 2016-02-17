@@ -19,10 +19,10 @@
       </div>
     </nav>
 <div class="container" ng-controller="mainCtrl">
-<div class="panel panel-default row">
+<div class="panel panel-default row user-class">
     <div class="panel-body">
         <div class="toggle-menu" ng-click="ToggleNav()">Меню</div>
-        <ul class="nav nav-tabs" id="navigation" role="tablist">
+        <ul ng-show="shownav" class="nav nav-tabs" id="navigation" role="tablist">
         <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-orange': ($index == 1), 'itab-grey': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa__text" ng-class="{'zayavka': ($index == 0) , 'big-otvet': ($index == 1), 'redakt-profile': ($index == 2) }"></i>{{item}}</a></li>
         </ul>
        <div class="tab-content">

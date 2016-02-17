@@ -98,7 +98,7 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope, $route, $rootScope, $location,Responds, Requests, Users, Data) {
+.controller("mainCtrl", function ($scope, $route, $rootScope, $location,Responds, Requests, Users, Data, Autos) {
     $scope.$on('$routeChangeSuccess',function () {
         var path = $location.path();
         $scope.mainView = false;
@@ -155,7 +155,17 @@
         $location.path($scope.routes[index].path);
         Requests.query({userid: $rootScope.userid}).then(function(data){
             $scope.products = data;
-            console.log("attack");
+            Autos.query({userid: $rootScope.userid}).then(function(auto_data){
+                $scope.autos = auto_data;
+                angular.forEach($scope.products, function(value, key) {
+                angular.forEach($scope.autos, function(value_auto, key_auto) {
+                    if (value.autoid == value_auto._id.$oid){
+                        value.auto=value_auto;
+                    }
+                });
+                });
+                $rootScope.autos = $scope.autos; 
+            });
             Responds.query().then(function(responds_data){
                 $scope.responds = responds_data;
                 angular.forEach($scope.products, function(value, key) {
