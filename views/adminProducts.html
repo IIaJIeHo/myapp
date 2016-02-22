@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="clearfix mobile-request__details" ng-click="viewItem(item)">
-            {{item.details.comment}}
+            {{item.details.comment  || 'Без комментариев'}}
         </div>
         <div class="clearfix active-buttons">
             <div class="pull-left">
@@ -191,7 +191,7 @@
                 </div>
             </div>
             <div class="clearfix mobile-request__details">
-                {{item.description}}
+                {{item.description || 'Без комментариев'}}
             </div>
             <div class="clearfix">
                 <div class="pull-left toogle-action" >

@@ -15,7 +15,7 @@
         <strong>Ого! </strong>
         Вы удалили {{updatedAuto.name}}
     </div>
-    <table id="autoTable" class="table table-hover hidden-xs" ng-if="allitems == 1"> 
+    <table id="autoTable" class="table table-hover mobile-request-hide" ng-if="allitems == 1"> 
     <!-- просмотр всех автомобилей -->                
         <tr class="sort-names">
             <th><a href="" ng-click="order('mark')">Марка <i class="fa" ng-show="predicate === 'mark'" ng-class="{'fa-sort-asc':!reverse, 'fa-sort-desc':reverse}"></i><i class="fa fa-sort" ng-show="predicate != 'mark'" ></i></a></th>
@@ -48,7 +48,7 @@
         </tr>
     </table>
     <h4 class="mobile-request text-center" ng-if="allitems == 1">Мои автомобили</h4>
-    <div class="mobile-request visible-xs" ng-repeat="item in autos" ng-if="allitems == 1">
+    <div class="mobile-request" ng-repeat="item in autos" ng-if="allitems == 1">
         <div class="clearfix" ng-click="viewItem(item,2)">
             <div class="pull-left"><span class="mobile-request__name">{{item.mark}} : {{item.model}}</span>
             </div>
@@ -99,7 +99,7 @@
                         <a target="_blank" href="{{baseurl}}{{i}}"><img style="max-width:100%; border: 1px solid;" ng-src="{{baseurl}}{{i}}" /></a>
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="text-center ma-b-10">
                     <button ng-click="editItem($parent.mainproduct,3)" class="btn btn-primary">
                         Редактировать
                     </button>

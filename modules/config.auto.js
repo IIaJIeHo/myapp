@@ -13,6 +13,14 @@ angular.module("sportsStoreAdmin", ["ngRoute", "ngResource"])
                     templateUrl: "views/autoMain.html"
                 });
 
+                $routeProvider.when("/edit", {
+                    templateUrl: "views/autoMain.html"
+                });
+
+                $routeProvider.when("/responds", {
+                    templateUrl: "views/autoMain.html"
+                });
+
                 $routeProvider.when("/forgetpassword", {
                     templateUrl: "views/autoForgetPassword.html"
                 });

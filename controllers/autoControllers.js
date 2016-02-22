@@ -94,11 +94,42 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope,$rootScope,Autoservices,Requests,Autos,Responds,Users,Autoservices,Data) {
+.controller("mainCtrl", function ($scope,$route, $rootScope, $location, Autoservices,Requests,Autos,Responds,Users,Autoservices,Data) {
+
+    $scope.$on('$routeChangeSuccess',function () {
+        var path = $location.path();
+        $scope.mainView = false;
+        $scope.editView = false;
+        $scope.respondsView = false;
+        console.log("path ="+path);
+        switch(path){
+            case '/responds':
+                $scope.current = '/responds';
+                $scope.respondsView = true;
+                break;
+            case '/edit':
+                $scope.current = '/edit';
+                $scope.editView = true;
+                break;
+            default:
+                $scope.current = '/main';
+                $scope.mainView = true;
+                break;
+        }
+    })
 
     $scope.screens = ["Заявки", "Мои ответы","Редактирование профиля"];
-    $scope.current = $scope.screens[0];
+    $scope.routes = [
+    {path:"/main", name:"Заявки"},
+    {path:"/responds", name:"Мои ответы"},
+    {path:"/edit", name:"Редактирование профиля"}];
     $scope.shownav = true;
+    if ($(window).width() < 768){
+        $scope.shownav = false;
+    }
+    else{
+        $scope.shownav = true;
+    }
     $scope.ToggleNav = function () {
         if ($scope.shownav){
             $scope.shownav = false;
@@ -109,8 +140,10 @@
     }
 
     $scope.setScreen = function (index) {
-        $scope.shownav = false;
-        $scope.current = $scope.screens[index];
+        if ($(window).width() < 768){
+            $scope.ToggleNav();
+        }
+        $location.path($scope.routes[index].path);
         Autoservices.getById($rootScope.userid).then(function(autoservice){
             $scope.autoservice = autoservice;
             $scope.autoservice.id = $scope.autoservice._id.$oid;

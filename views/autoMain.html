@@ -2,15 +2,9 @@
 <nav class="navbar mynav" >
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
           <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        <div id="navbar" class="navbar-collapse" >
           <div class="link-backtosite"><a href="http://carsbir.ru/" target="_blank">Вернуться на сайт</a></div>
           <ul class="nav navbar-nav navbar-right">
             <li ng-controller="productCtrl">Привет, {{autoservice.name}}! <span class="btn-link" ng-click="logout();" style="cursor:pointer;">Выход</span></li>
@@ -19,14 +13,19 @@
       </div>
     </nav>
 <div class="container" ng-controller="mainCtrl">
-<div class="panel panel-default row user-class">
+<div class="panel panel-default row">
     <div class="panel-body">
         <div class="toggle-menu" ng-click="ToggleNav()">Меню</div>
         <ul ng-show="shownav" class="nav nav-tabs" id="navigation" role="tablist">
-        <li role="presentation" ng-repeat="item in screens" ng-class="{'active': item == current }"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-orange': ($index == 1), 'itab-grey': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa__text" ng-class="{'zayavka': ($index == 0) , 'big-otvet': ($index == 1), 'redakt-profile': ($index == 2) }"></i>{{item}}</a></li>
+        <li role="presentation" ng-repeat="item in routes" ng-class="{'active': (item.path == current) }">
+        <a href="" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-orange': ($index == 1), 'itab-grey': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa__text" ng-class="{'zayavka': ($index == 0) , 'big-otvet': ($index == 1), 'redakt-profile': ($index == 2) }"></i>{{item.name}}</a></li>
         </ul>
        <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home"><div ng-include="getScreen()" /></div>
+        <div role="tabpanel" class="tab-pane active" id="home">  
+          <div ng-include="'views/autoProducts.html'" ng-show="mainView"/></div>
+          <div ng-include="'views/autoResponds.html'" ng-show="respondsView"/></div>
+          <div ng-include="'views/autoEdit.html'" ng-show="editView"/></div>
+       </div>
       </div>
     </div>
 </div>

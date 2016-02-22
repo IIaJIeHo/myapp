@@ -180,7 +180,13 @@
     }
 
     $scope.filterbySubject = function (subject) {
-        return ($scope.autoservice.subjects.indexOf(subject.id) !== -1);
+
+        if ($scope.autoservice&&$scope.autoservice.subjects){
+            return ($scope.autoservice.subjects.indexOf(subject.id) !== -1);
+        }
+        else{
+            return false;
+        }
     }
 	
 	$scope.checknegative = function(array,name) {

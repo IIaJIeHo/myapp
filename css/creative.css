@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,100&subset=latin,cyrillic);
 #productTable { width: auto; }
 #productTable td { max-width: 150px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
 #productTable td input { max-width: 125px; }
@@ -13,12 +12,12 @@
 }
 a.reg-link{
   color: #00A79D;
-  padding: 0 8px;
+  padding: 8px;
 }
 .top-hat{
   background:#dce5ee;
   text-align: center;
-  padding:5px 0;
+  padding:5px;
   font-size: 16px;
   color:#333;
   margin: 0px auto;
@@ -58,7 +57,7 @@ label.la-16{
 }
 .leave-request #request1, .leave-request #request2, .leave-request #request3, .leave-request #request4{
   float:left;
-  margin-top:-156px;
+  margin-top:0;
   min-width: 768px;
 }
 .panel-default>.panel-heading{
@@ -80,6 +79,9 @@ label.la-16{
 }
 .caret.ma10{
   margin-top:10px;
+}
+.ma-b-10{
+  margin-bottom: 10px;
 }
 .btn.width100{
   width:100%;
@@ -179,7 +181,7 @@ button.close{
   width: 14px;
 }
 
-.robot, .u2, .u3, .u1, .u4, 
+/*.robot, .u2, .u3, .u1, .u4, 
 .eye2, .big-kuzov, .edit, .eye, .kuzov-work, 
 .play, .del, .stop, .otv-na-zayavku, .lock, 
 .strelka1, .strelka2, .strelka3, .add-car, .big-car, 
@@ -223,6 +225,223 @@ button.close{
 .zayavka { background-position: -151px -277px; width: 13px; height: 19px; }
 .metro { background-position: -154px -220px; width: 12px; height: 13px; margin-right:2px; margin-bottom:-2px; }
 .redakt-profile { background-position: -151px -297px; width: 12px; height: 12px; }
+*/
+
+.robot, .u2, .u3, .u1, .u4, 
+.eye2, .big-kuzov, .edit, .eye, .kuzov-work, 
+.play, .del, .stop, .otv-na-zayavku, .lock, 
+.strelka1, .strelka2, .strelka3, .add-car, .big-car, 
+.dannie-auto, .vibor-auto, .kuzov, .remont, .to, 
+.tuning, .big-otvet, .l-robot, .avto-user, .dobavit-user, 
+.moi-otveti, .zayavka-user, .zayavka, .metro, .redakt-profile {
+  display: inline-block; overflow: hidden; text-indent: -9999px; text-align: left;
+  background: url('../images/sprites.png') no-repeat; 
+}
+
+@media (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
+.robot, .u2, .u3, .u1, .u4, 
+.eye2, .big-kuzov, .edit, .eye, .kuzov-work, 
+.play, .del, .stop, .otv-na-zayavku, .lock, 
+.strelka1, .strelka2, .strelka3, .add-car, .big-car, 
+.dannie-auto, .vibor-auto, .kuzov, .remont, .to, 
+.tuning, .big-otvet, .l-robot, .avto-user, .dobavit-user, 
+.moi-otveti, .zayavka-user, .zayavka, .metro, .redakt-profile {
+     background-image: url('../images/sprites_retina.png');
+     background-size: 1176px 118px;
+  }
+}
+
+.big-otvet {
+  width: 17px;
+  height: 17px;
+  background-position: 0 0;
+}
+
+.del {
+  width: 29px;
+  height: 29px;
+  background-position: -17px 0;
+}
+
+.dobavit-user {
+  width: 16px;
+  height: 15px;
+  background-position: -46px 0;
+}
+
+.edit {
+  width: 30px;
+  height: 30px;
+  background-position: -62px 0;
+}
+
+.eye {
+  width: 30.1px;
+  height: 30px;
+  background-position: -92px 0;
+}
+
+.eye2 {
+  width: 30px;
+  height: 30px;
+  background-position: -122px 0;
+}
+
+.kuzov {
+  width: 21px;
+  height: 21px;
+  background-position: -152px 0;
+}
+
+.kuzov-work {
+  width: 30px;
+  height: 30px;
+  background-position: -173px 0;
+}
+
+.l-robot {
+  width: 18px;
+  height: 21px;
+  background-position: -203px 0;
+}
+
+.lock {
+  width: 27px;
+  height: 34px;
+  background-position: -221px 0;
+}
+
+.metro {
+  width: 12px;
+  height: 12px;
+  background-position: -248px 0;
+}
+
+.moi-otveti {
+  width: 17px;
+  height: 17px;
+  background-position: -260px 0;
+}
+
+.otv-na-zayavku {
+  width: 28px;
+  height: 24px;
+  background-position: -277px 0;
+}
+
+.play {
+  width: 30px;
+  height: 30px;
+  background-position: -305px 0;
+}
+
+.redakt-profile {
+  width: 12px;
+  height: 12px;
+  background-position: -335px 0;
+}
+
+.remont {
+  width: 21px;
+  height: 22px;
+  background-position: -347px 0;
+}
+
+.robot {
+  width: 84px;
+  height: 100px;
+  background-position: -368px 0;
+}
+
+.stop {
+  width: 30px;
+  height: 30px;
+  background-position: -452px 0;
+}
+
+.strelka1 {
+  width: 26px;
+  height: 13px;
+  background-position: -482px 0;
+}
+
+.strelka2 {
+  width: 26px;
+  height: 13px;
+  background-position: -508px 0;
+}
+
+.to {
+  width: 21px;
+  height: 21px;
+  background-position: -534px 0;
+}
+
+.tuning {
+  width: 21px;
+  height: 22px;
+  background-position: -555px 0;
+}
+
+.u1 {
+  width: 117px;
+  height: 118px;
+  background-position: -576px 0;
+}
+
+.u2 {
+  width: 118px;
+  height: 118px;
+  background-position: -693px 0;
+}
+
+.u3 {
+  width: 118px;
+  height: 118px;
+  background-position: -811px 0;
+}
+
+.u4 {
+  width: 117px;
+  height: 118px;
+  background-position: -929px 0;
+}
+
+.vibor-auto {
+  width: 24px;
+  height: 20px;
+  background-position: -1046px 0;
+}
+
+.zayavka {
+  width: 13px;
+  height: 19px;
+  background-position: -1070px 0;
+}
+
+.add-car {
+  width: 24px;
+  height: 23px;
+  background-position: -1083px 0;
+}
+
+.avto-user {
+  width: 15px;
+  height: 11px;
+  background-position: -1107px 0;
+}
+
+.big-car {
+  width: 24px;
+  height: 20px;
+  background-position: -1122px 0;
+}
+
+.big-kuzov {
+  width: 30px;
+  height: 30px;
+  background-position: -1146px 0;
+}
 
 #loader-wrapper {
     position: fixed;
@@ -299,6 +518,32 @@ button.close{
         -ms-transform: rotate(360deg);  /* IE 9 */
         transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
     }
+}
+
+
+/* Additional approximation for sptires */
+.big-car {
+  margin-bottom: -4px; margin-right: 6px;
+}
+
+.kuzov-work {
+  margin-bottom: -9px; margin-right: 6px; margin-top: -4px;
+}
+
+.metro {
+  margin-right:2px; margin-bottom:-2px;
+}
+
+.otv-na-zayavku {
+  margin-top: -13px; margin-bottom: -4px; margin-right:5px;
+}
+
+.strelka1 {
+  float:right; margin-top:5px;
+}
+
+.strelka2 {
+  float:right; margin-top:5px;
 }
 
     .relative-wrap{
@@ -972,7 +1217,7 @@ button.close{
       margin-left: -12px;
     }
     .user-class .amount-responds:after{
-      top:7px;
+      top:12px;
     }
     .comment-area{
       background: #3DB5D8;
@@ -1526,6 +1771,9 @@ ul.checkbox-grid{
   left: 4px;
 }
 
+.navbar-nav{
+  float:right;
+}
 .mobile-request .clearfix{
   padding:5px;
 }
@@ -1540,6 +1788,9 @@ ul.checkbox-grid{
 .mobile-request .date{
   font-size: 13px;
   padding-top: 7px;
+}
+.navbar-collapse.collapse{
+  display:block !important;
 }
 @media (max-width: 1210px) { 
   .information{
@@ -1585,6 +1836,10 @@ ul.checkbox-grid{
   }
   .container > .navbar-header{
     float:left;
+  }
+  .mobile-request .amount-responds:after{
+    top: -2px;
+    left: 4px;
   }
 }
 @media (max-width: 992px) { 

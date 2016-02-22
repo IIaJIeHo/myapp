@@ -98,7 +98,7 @@
         });
     }
 })
-.controller("mainCtrl", function ($scope, $route, $rootScope, $location,Responds, Requests, Users, Data, Autos) {
+.controller("mainCtrl", function ($scope, $route, $rootScope, $location,Responds, Requests, Users, Data, Autos,$window) {
     $scope.$on('$routeChangeSuccess',function () {
         var path = $location.path();
         $scope.mainView = false;
@@ -133,6 +133,7 @@
     {path:"/leaverequest", name:"Оставить заявку"},
     {path:"/edit", name:"Редактирование профиля"}];
     $scope.subjects = Data.getSubjects();
+    var w = angular.element($window);
     if ($(window).width() < 768){
         $scope.shownav = false;
     }
@@ -150,8 +151,22 @@
         }
     }
 
+   
+    w.bind('resize', function () {
+      if ($(window).width() > 768){
+        $scope.shownav = true;
+        $scope.$apply();
+      }
+      else{
+        $scope.shownav = false;
+        $scope.$apply();
+      }
+    });
+
     $scope.setScreen = function (index) {
+    if ($(window).width() < 768){
         $scope.ToggleNav();
+    }
         $location.path($scope.routes[index].path);
         Requests.query({userid: $rootScope.userid}).then(function(data){
             $scope.products = data;

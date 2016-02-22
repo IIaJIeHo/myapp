@@ -1,15 +1,9 @@
 ﻿<nav class="navbar mynav" ng-controller="mainCtrl">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
           <a class="navbar-brand" href="#"><img src="images/logo.png"></a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse" >
+        <div id="navbar" class="navbar-collapse" >
           <div class="link-backtosite"><a href="http://carsbir.ru/" target="_blank">Вернуться на сайт</a></div>
           <ul class="nav navbar-nav navbar-right">
             <li ng-controller="productCtrl">Привет, {{user.name}}! <span class="btn-link" ng-click="logout();" style="cursor:pointer;">Выход</span></li>
@@ -22,7 +16,7 @@
     <div class="panel-body">
       <div class="toggle-menu" ng-click="ToggleNav()">Меню</div>
       <ul class="nav nav-tabs" id="navigation" role="tablist">
-  	    <li ng-show="shownav" role="presentation" ng-repeat="item in routes" ng-class="{'active': (item.path == current) }">
+  	    <li ng-show="$parent.shownav" role="presentation" ng-repeat="item in routes" ng-class="{'active': (item.path == current) }">
         <a href="" aria-controls="home" role="tab" data-toggle="tab" ng-click="setScreen($index)" ng-class="{'itab-blue': ($index == 0) , 'itab-green': ($index == 1), 'itab-orange': ($index == 2), 'itab-grey': ($index == 3) }"><i class="fa__text" ng-class="{'zayavka': ($index == 0) , 'avto-user': ($index == 1), 'dobavit-user': ($index == 2), 'redakt-profile': ($index == 3) }"></i>{{item.name}}</a></li>
 	  	</ul>
 	   <div class="tab-content">
@@ -31,7 +25,7 @@
         <div ng-include="'views/adminAutos.html'" ng-show="autoView"/></div>
         <div ng-include="'views/adminRequests.html'" ng-show="requestView"/></div>
         <div ng-include="'views/adminEdit.html'" ng-show="editView"/></div>
-	  </div>
+	   </div>
     </div>
 </div>
   </div>

@@ -100,63 +100,63 @@
         </div>
     </div>
     <div class="container-fluid" ng-if="respondview == 2">
-    <button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed" ng-if="respondview == 2">
-        <i class="fa fa-arrow-left"></i>
-    </button>
-    <div class="panel panel-warning">
-              <div class="panel-heading">
-                <h2 class="panel-title">Данные ответа на заявку</h2>
-              </div>
-              <div class="panel-body panel-xs">
-                    <table class="table table-bordered matop15 mobile-request-hide">
-                    	<tr>
-                        <th>Номер заявки</th>
-                        <th>Имя</th>
-                        <th>Телефон</th>
-                        <th>Стоимость</th>
-                        <th>Дата</th>
-                        <th>Статус</th>
+        <button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed" ng-if="respondview == 2">
+            <i class="fa fa-arrow-left"></i>
+        </button>
+        <div class="panel panel-warning">
+                  <div class="panel-heading">
+                    <h2 class="panel-title">Данные ответа на заявку</h2>
+                  </div>
+                  <div class="panel-body panel-xs">
+                        <table class="table table-bordered matop15 mobile-request-hide">
+                        	<tr>
+                            <th>Номер заявки</th>
+                            <th>Имя</th>
+                            <th>Телефон</th>
+                            <th>Стоимость</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            </tr>
+                        <tr>
+                            <td>{{mainrespond.name}}</td>
+                            <td>{{mainrespond.username}}</td>
+                            <td><span ng-if="mainrespond.approved">{{mainrespond.phone}}</span></td>
+                            <td>{{mainrespond.cost | currency}}</td>
+                            <td>{{formatDate(mainrespond.date)}}</td>
+                            <td class="respond-status">            
+    	                        <span ng-if="mainrespond.approved" class="success-status">Одобрено</span>
+    	            			<span ng-if="!mainrespond.approved && mainrespond.viewed" class="viewed-status">Просмотрено</span>
+    	            			<span ng-if="!mainrespond.viewed && !mainrespond.approved" class="pending-status">Ожидает</span>
+                			</td>
                         </tr>
-                    <tr>
-                        <td>{{mainrespond.name}}</td>
-                        <td>{{mainrespond.username}}</td>
-                        <td><span ng-if="mainrespond.approved">{{mainrespond.phone}}</span></td>
-                        <td>{{mainrespond.cost | currency}}</td>
-                        <td>{{formatDate(mainrespond.date)}}</td>
-                        <td class="respond-status">            
-	                        <span ng-if="mainrespond.approved" class="success-status">Одобрено</span>
-	            			<span ng-if="!mainrespond.approved && mainrespond.viewed" class="viewed-status">Просмотрено</span>
-	            			<span ng-if="!mainrespond.viewed && !mainrespond.approved" class="pending-status">Ожидает</span>
-            			</td>
-                    </tr>
-                    </table>
-                    <div class="mobile-request ma0" >
-                        <div class="clearfix text-center">
-                            <div class="pull-left">Имя: {{mainrespond.username}}</div>
-                            <div class="pull-right" ng-if="mainrespond.approved">Телефон: {{mainrespond.phone}}</div>
-                        </div>
-                        <div class="clearfix">
-                            <div class="pull-left"><span class="fa__type" ng-class="{'to': mainrespond.type == 'Заявка на ТО', 'kuzov': item.type == 'Кузовные работы', 'remont': item.type == 'Заявка на Ремонт','tuning': mainrespond.type == 'Заявка на тюнинг'}"></span><span class="mobile-request__name">{{mainrespond.name}}</span>
-                            <div class="mobile-request__type">{{mainrespond.type}}</div>
+                        </table>
+                        <div class="mobile-request ma0" >
+                            <div class="clearfix text-center">
+                                <div class="pull-left">Имя: {{mainrespond.username}}</div>
+                                <div class="pull-right" ng-if="mainrespond.approved">Телефон: {{mainrespond.phone}}</div>
                             </div>
-                            <div class="pull-right">
-                                <span class="mobile-request__name">{{mainrespond.auto.mark}}</span>
+                            <div class="clearfix">
+                                <div class="pull-left"><span class="fa__type" ng-class="{'to': mainrespond.type == 'Заявка на ТО', 'kuzov': item.type == 'Кузовные работы', 'remont': item.type == 'Заявка на Ремонт','tuning': mainrespond.type == 'Заявка на тюнинг'}"></span><span class="mobile-request__name">{{mainrespond.name}}</span>
+                                <div class="mobile-request__type">{{mainrespond.type}}</div>
+                                </div>
+                                <div class="pull-right">
+                                    <span class="mobile-request__name">{{mainrespond.auto.mark}}</span>
+                                </div>
+                            </div>
+                            <div class="clearfix">
+                                <div class="pull-left date">
+                                    {{formatDate(mainrespond.date)}}
+                                </div>
+                                <div class="pull-right">
+                                    <span>{{mainrespond.cost | currency}}</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="clearfix">
-                            <div class="pull-left date">
-                                {{formatDate(mainrespond.date)}}
-                            </div>
-                            <div class="pull-right">
-                                <span>{{mainrespond.cost | currency}}</span>
-                            </div>
+                        <div class="bordered">
+                        	<h3>Ваши комментарии и дополнения</h3>
+                        	<textarea class="form-control" rows="5" ng-disabled="true">{{mainrespond.description}}</textarea>
                         </div>
                     </div>
-                    <div class="bordered">
-                    	<h3>Ваши комментарии и дополнения</h3>
-                    	<textarea class="form-control" rows="5" ng-disabled="true">{{mainrespond.description}}</textarea>
-                    </div>
-                </div>
         </div>
 
         <div class="container-fluid" ng-if="mainproduct.type == 'Заявка на ТО' && respondview == 2">
@@ -557,9 +557,7 @@
               </div>
             </div>
         </div>
-    </div>
     <div id="addTable"  ng-if="respondview == 3">
-    <!-- добавление одного автомобиля -->
     <button ng-click="viewRespond(mainrespond, 1)" class="btn btn-xs btn-primary btn-icons btn-fixed"><i class="fa fa-arrow-left"></i></button>
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -588,4 +586,6 @@
         </div>
         </div>
     </div>
+    </div>
+
 </div>

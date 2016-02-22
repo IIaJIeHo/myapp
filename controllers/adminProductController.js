@@ -455,7 +455,7 @@ angular.module("sportsStoreAdmin")
         $scope.mainproduct.details.addi = [];
         $scope.mainproduct.details.diagnos = [];
         $scope.mainproduct.details.work = [];
-        $scope.mainproduct.details.destructions = [[],[],[],[],[],[],[],[],[]];
+        $scope.mainproduct.details.destructions = [[],[],[],[],[],[],[],[],[],[],[]];
         $scope.mainproduct.details.image = [];
         $scope.modelinput = false;
         $scope.markinput = false;
